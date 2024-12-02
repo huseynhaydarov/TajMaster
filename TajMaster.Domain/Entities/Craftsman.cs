@@ -13,4 +13,7 @@ public class Craftsman : BaseEntity
     public bool IsAvialable { get; set; }
     public int UserId { get; set; }
     public User User { get; set; } = null!;
+    public List<Order> Orders { get; set; } = [];
+    public List<Service> Services { get; set; } = []; 
+    public List<Review> Reviews { get; set; } = [];
 }
