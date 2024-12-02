@@ -1,0 +1,6 @@
+﻿services:
+  tajmaster:
+    image: tajmaster
+    build:
+      context: .
+      dockerfile: TajMaster/Dockerfile
