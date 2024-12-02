@@ -1,9 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using TajMaster.Infrastructure;
+using TajMaster.Infrastructure.Persistence.Databases;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services
+    .AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -16,5 +23,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+var applicationDbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+await applicationDbContext.Database.MigrateAsync();
 app.Run();
