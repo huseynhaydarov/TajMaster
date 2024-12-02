@@ -18,4 +18,10 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TajMaster.Application\TajMaster.Application.csproj" />
+      <ProjectReference Include="..\TajMaster.Domain\TajMaster.Domain.csproj" />
+      <ProjectReference Include="..\TajMaster.Infrastructure\TajMaster.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
