@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Infrastructure;
-using TajMaster.Infrastructure.Persistence.Databases;
+using TajMaster.Infrastructure.Persistence.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

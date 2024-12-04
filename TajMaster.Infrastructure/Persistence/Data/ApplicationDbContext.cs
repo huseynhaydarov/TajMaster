@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Domain.Abstractions;
 using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enums;
 
-namespace TajMaster.Infrastructure.Persistence.Databases;
+namespace TajMaster.Infrastructure.Persistence.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {
