@@ -20,16 +20,28 @@ public class CrafstmanConfiguration : IEntityTypeConfiguration<Craftsman>
         builder.Property(c => c.Rating)
             .IsRequired();
         builder.Property(c => c.Description)
-            .HasMaxLength(500)
+            .HasMaxLength(500);
+        builder.Property(c => c.ProfilePicture)
+            .HasMaxLength(150);
+        builder.Property(c => c.IsAvialable)
             .IsRequired();
-        builder.Property(c => c.Address)
-            .HasMaxLength(100)
+        builder.Property(c => c.ProfileVerified)
             .IsRequired();
         builder.HasOne(c => c.User)
             .WithOne(c => c.Craftsman)
             .HasForeignKey<Craftsman>(c => c.UserId)
-            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
-
+        builder.HasMany(c=>c.Services)
+            .WithOne(c => c.Craftsman)
+            .HasForeignKey(c => c.CraftsmanId)
+            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(c => c.Orders)
+            .WithOne(c => c.Craftsman)
+            .HasForeignKey(c => c.CraftsmanId)
+            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(c => c.Reviews)
+            .WithOne(c => c.Craftsman)
+            .HasForeignKey(c => c.CraftsmanId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

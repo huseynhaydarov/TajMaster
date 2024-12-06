@@ -15,6 +15,9 @@ public class UnitOfWork(DbContext context, IServiceProvider serviceProvider) : I
     public IOrderRepository OrderRepository => serviceProvider.GetService<IOrderRepository>()!;
     public ICraftsmanRepository CraftsmanRepository => serviceProvider.GetService<ICraftsmanRepository>()!;
     public ICategoryRepository CategoryRepository => serviceProvider.GetService<ICategoryRepository>()!;
+    public IOrderItemRepository OrderItemRepository => serviceProvider.GetService<IOrderItemRepository>()!;
+    public ICartRepository CartRepository => serviceProvider.GetService<ICartRepository>()!;
+    public ICartItemRepository CartItemRepository => serviceProvider.GetService<ICartItemRepository>()!;
     
 
     public async Task<int> CompleteAsync(CancellationToken cancellationToken = default)

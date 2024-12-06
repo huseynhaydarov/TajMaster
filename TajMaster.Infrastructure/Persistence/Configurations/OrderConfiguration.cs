@@ -19,20 +19,26 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .WithMany(o => o.Orders)
             .HasForeignKey(o => o.CraftsmanId)
             .IsRequired();
-        builder.Property(o => o.OrderDate)
+        builder.Property(o => o.AppointmentDate)
             .IsRequired();
-        builder.Property(o => o.CompletionDate)
+        builder.Property(o => o.Address)
+            .HasMaxLength(150)
             .IsRequired();
-        builder.HasMany(o => o.Services)
-            .WithMany(s => s.Orders)
-            .UsingEntity("OrderServices");
+        builder.HasMany(o => o.Reviews)
+            .WithOne(o => o.Order)
+            .HasForeignKey(o => o.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(o => o.OrderItems)
+            .WithOne(oi => oi.Order)
+            .HasForeignKey(oi => oi.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
         builder.Property(o => o.Status)
             .HasConversion(
                 o => o.ToString(),
                 o => (OrderStatus)Enum.Parse(typeof(OrderStatus), o))
             .IsRequired();
         builder.Property(o => o.TotalPrice)
-            .HasPrecision(12, 2)
+            .HasPrecision(14, 2)
             .IsRequired();
     }
 }

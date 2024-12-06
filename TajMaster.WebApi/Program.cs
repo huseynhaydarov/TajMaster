@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application;
+using TajMaster.Application.Mappers;
 using TajMaster.Infrastructure;
 using TajMaster.Infrastructure.Persistence.Data;
 
@@ -9,10 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration).Assembly);
+
 builder.Services
+    .AddApplicationServices(builder.Configuration)   
     .AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

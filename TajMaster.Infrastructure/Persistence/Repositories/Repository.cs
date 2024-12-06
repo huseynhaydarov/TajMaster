@@ -23,9 +23,10 @@ public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
     {
         return await _context.Set<TEntity>().FindAsync(id, cancellationToken);
     }
-    public virtual async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public virtual async Task<TEntity> CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await _dbSet.AddAsync(entity, cancellationToken);
+        return entity; 
     }
 
     public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)

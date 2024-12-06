@@ -13,15 +13,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.FullName)
             .IsRequired();
-        builder.Property(x => x.Email)
-            .HasMaxLength(50)
-            .IsRequired(false);
+        builder.HasIndex(x => x.Email)
+            .IsUnique();
         builder.Property(x => x.HashedPassword)
             .HasMaxLength(50)
             .IsRequired();
         builder.Property(x => x.Phone)
             .HasMaxLength(9)
-            .IsRequired();
+            .IsRequired(false);
+        builder.Property(x => x.Address)
+            .HasMaxLength(100)
+            .IsRequired(false);
         builder.Property(x => x.Roles)
             .HasConversion(
                 x => x.ToString(),
@@ -29,12 +31,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
         builder.Property(x => x.RegisteredDate)
             .IsRequired();
-        builder.Property(x=> x.ProfilePicture)
-            .IsRequired(false)
-            .HasMaxLength(100);
         builder.Property(x => x.IsActive)
             .IsRequired();
-        builder.Property(x => x.IsVerified)
-            .IsRequired();
+        builder.HasOne(x => x.Craftsman)
+            .WithOne(x => x.User)
+            .HasForeignKey<Craftsman>(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
