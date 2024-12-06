@@ -25,5 +25,7 @@ public class CartConfiguration : IEntityTypeConfiguration<Cart>
                 t => t.ToString(),
                 t => (CartStatus)Enum.Parse(typeof(CartStatus), t))
             .IsRequired();
+            builder.Ignore(c => c.Subtotal);
+            
     }
 }
