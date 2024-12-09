@@ -10,7 +10,6 @@ public class Craftsman : BaseEntity
     public int Rating { get; set; }
     public string? Description { get; set; }
     public string? ProfilePicture { get; set; }
-   
     public bool IsAvialable { get; set; }
     public bool ProfileVerified { get; set; }
     public int UserId { get; set; }

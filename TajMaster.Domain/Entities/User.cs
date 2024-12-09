@@ -18,6 +18,4 @@ public class User : BaseEntity
     public Cart Cart { get; set; } = null!;
     public List<Review> Reviews { get; set; } = [];
     public List<Order> Orders { get; set; } = [];
-    
-
 }
