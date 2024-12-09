@@ -17,7 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="UseCases\DTO\" />
       <Folder Include="UseCases\Users\Queries\" />
     </ItemGroup>
 
