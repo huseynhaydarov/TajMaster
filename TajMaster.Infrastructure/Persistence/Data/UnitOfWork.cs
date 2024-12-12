@@ -5,21 +5,28 @@ using TajMaster.Application.Common.Interfaces.Repositories;
 
 namespace TajMaster.Infrastructure.Persistence.Data;
 
-public class UnitOfWork(DbContext context, IServiceProvider serviceProvider) : IUnitOfWork, IDisposable
+public class UnitOfWork(ApplicationDbContext context,
+    IUserRepository userRepository,
+    IServiceRepository serviceRepository,
+    IReviewRepository reviewRepository,
+    IOrderRepository orderRepository,
+    ICraftsmanRepository craftsmanRepository,
+    ICategoryRepository categoryRepository,
+    IOrderItemRepository orderItemRepository,
+    ICartRepository cartRepository,
+    ICartItemRepository cartItemRepository) : IUnitOfWork, IDisposable
 {
     private bool _disposed = false;
 
-    public IUserRepository UserRepository => serviceProvider.GetService<IUserRepository>()!;
-    public IServiceRepository ServiceRepository => serviceProvider.GetService<IServiceRepository>()!;
-    public IReviewRepository ReviewRepository => serviceProvider.GetService<IReviewRepository>()!;
-    public IOrderRepository OrderRepository => serviceProvider.GetService<IOrderRepository>()!;
-    public ICraftsmanRepository CraftsmanRepository => serviceProvider.GetService<ICraftsmanRepository>()!;
-    public ICategoryRepository CategoryRepository => serviceProvider.GetService<ICategoryRepository>()!;
-    public IOrderItemRepository OrderItemRepository => serviceProvider.GetService<IOrderItemRepository>()!;
-    public ICartRepository CartRepository => serviceProvider.GetService<ICartRepository>()!;
-    public ICartItemRepository CartItemRepository => serviceProvider.GetService<ICartItemRepository>()!;
-    
-
+    public IUserRepository UserRepository => userRepository;
+    public IServiceRepository ServiceRepository => serviceRepository;
+    public IReviewRepository ReviewRepository => reviewRepository;
+    public IOrderRepository OrderRepository => orderRepository;
+    public ICraftsmanRepository CraftsmanRepository => craftsmanRepository;
+    public ICategoryRepository CategoryRepository => categoryRepository;
+    public IOrderItemRepository OrderItemRepository => orderItemRepository;
+    public ICartRepository CartRepository => cartRepository;
+    public ICartItemRepository CartItemRepository => cartItemRepository; 
     public async Task<int> CompleteAsync(CancellationToken cancellationToken = default)
     {
         return await context.SaveChangesAsync(cancellationToken);
