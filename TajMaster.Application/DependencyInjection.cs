@@ -2,6 +2,7 @@ using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TajMaster.Application.Mappers;
+using TajMaster.Application.UseCases.Users.Commands.Create;
 
 
 namespace TajMaster.Application;
