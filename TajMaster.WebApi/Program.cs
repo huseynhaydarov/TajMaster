@@ -6,10 +6,15 @@ using TajMaster.Infrastructure.Persistence.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
+builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpContextAccessor();
 
 //builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration).Assembly);
 
@@ -17,8 +22,11 @@ builder.Services
     .AddApplicationServices(builder.Configuration)   
     .AddInfrastructureServices(builder.Configuration);
 
+
+
 var app = builder.Build();
 
+app.UseRouting();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -28,6 +36,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 var applicationDbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
 await applicationDbContext.Database.MigrateAsync();

@@ -1,5 +1,6 @@
 using MediatR;
 using TajMaster.Application.Common.Interfaces.CQRS;
+using TajMaster.Application.UseCases.DTO;
 using TajMaster.Domain.Entities;
 using TajMaster.Domain.Enums;
 
@@ -15,6 +16,6 @@ public record CreateUserCommand(
     string? ProfilePicture,
     bool IsVerified,
     bool IsActive,
-    List<Review> Reviews,
-    List<Order> Orders) 
+    List<ReviewDto> Reviews,
+    List<OrderDto> Orders) 
     : IRequest<int>, ICommand<int>;
