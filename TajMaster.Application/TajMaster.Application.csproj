@@ -7,17 +7,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TajMaster.Domain\TajMaster.Domain.csproj" />
+        <ProjectReference Include="..\TajMaster.Domain\TajMaster.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="13.0.1" />
-      <PackageReference Include="MediatR" Version="12.4.1" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+        <PackageReference Include="FluentValidation" Version="11.11.0"/>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0"/>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0"/>
+        <PackageReference Include="MediatR" Version="12.4.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="UseCases\Users\Queries\" />
+        <Folder Include="UseCases\Reviews\Commands\" />
+        <Folder Include="UseCases\Reviews\Queries\" />
+        <Folder Include="UseCases\Reviews\Validations\" />
+        <Folder Include="UseCases\Users\Queries\GetUsers\"/>
     </ItemGroup>
 
 </Project>

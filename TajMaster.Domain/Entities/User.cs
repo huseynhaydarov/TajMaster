@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using TajMaster.Domain.Abstractions;
+﻿using TajMaster.Domain.Abstractions;
 using TajMaster.Domain.Enums;
 
 namespace TajMaster.Domain.Entities;
@@ -12,7 +11,7 @@ public class User : BaseEntity
     public string? Phone { get; set; }
     public string? Address { get; set; }
     public Role Roles { get; set; }
-    public DateTime RegisteredDate { get; set; } = DateTime.Now;
+    public DateTime RegisteredDate { get; set; } = DateTime.UtcNow;
     public bool IsActive { get; set; }
     public Craftsman Craftsman { get; set; } = null!;
     public Cart Cart { get; set; } = null!;

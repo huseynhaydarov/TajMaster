@@ -7,7 +7,7 @@ public class CartItem : BaseEntity
     public int CartId { get; set; }
     public int ServiceId { get; set; }
     public int Quantity { get; set; }
-    public Decimal Price { get; set; }
+    public decimal Price { get; set; }
     public Cart Cart { get; set; } = null!;
     public Service Service { get; set; } = null!;
 }

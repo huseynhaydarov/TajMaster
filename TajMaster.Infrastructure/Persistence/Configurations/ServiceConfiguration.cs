@@ -29,11 +29,11 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
                 "CategoryServices",
                 j => j.HasOne<Category>()
                     .WithMany()
-                    .HasForeignKey("CategoryId") 
+                    .HasForeignKey("CategoryId")
                     .OnDelete(DeleteBehavior.Cascade),
                 j => j.HasOne<Service>()
                     .WithMany()
-                    .HasForeignKey("ServiceId") 
+                    .HasForeignKey("ServiceId")
                     .OnDelete(DeleteBehavior.Cascade));
         builder.HasMany(s => s.OrderItems)
             .WithOne(c => c.Service)
