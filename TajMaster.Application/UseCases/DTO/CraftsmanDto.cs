@@ -1,5 +1,3 @@
-using TajMaster.Domain.Enums;
-
 namespace TajMaster.Application.UseCases.DTO;
 
 public record CraftsmanDto(

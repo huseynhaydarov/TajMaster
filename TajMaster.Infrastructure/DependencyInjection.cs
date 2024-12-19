@@ -15,11 +15,8 @@ public static class DependencyInjection
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        services.AddDbContext<ApplicationDbContext>((db, options) =>
-        {
-            options.UseNpgsql(connectionString);
-        });
-        
+        services.AddDbContext<ApplicationDbContext>((db, options) => { options.UseNpgsql(connectionString); });
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IServiceRepository, ServiceRepository>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
@@ -30,7 +27,7 @@ public static class DependencyInjection
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ICartItemRepository, CartItemRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        
+
         return services;
     }
 }

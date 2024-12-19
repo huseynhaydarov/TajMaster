@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Repositories;
 using TajMaster.Domain.Entities;
 using TajMaster.Infrastructure.Persistence.Data;

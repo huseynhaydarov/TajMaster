@@ -1,11 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Interfaces.Repositories;
 
 namespace TajMaster.Infrastructure.Persistence.Data;
 
-public class UnitOfWork(ApplicationDbContext context,
+public class UnitOfWork(
+    ApplicationDbContext context,
     IUserRepository userRepository,
     IServiceRepository serviceRepository,
     IReviewRepository reviewRepository,
@@ -16,7 +15,10 @@ public class UnitOfWork(ApplicationDbContext context,
     ICartRepository cartRepository,
     ICartItemRepository cartItemRepository) : IUnitOfWork, IDisposable
 {
-    private bool _disposed = false;
+    private bool _disposed;
+    public IOrderItemRepository OrderItemRepository => orderItemRepository;
+    public ICartRepository CartRepository => cartRepository;
+    public ICartItemRepository CartItemRepository => cartItemRepository;
 
     public IUserRepository UserRepository => userRepository;
     public IServiceRepository ServiceRepository => serviceRepository;
@@ -24,29 +26,24 @@ public class UnitOfWork(ApplicationDbContext context,
     public IOrderRepository OrderRepository => orderRepository;
     public ICraftsmanRepository CraftsmanRepository => craftsmanRepository;
     public ICategoryRepository CategoryRepository => categoryRepository;
-    public IOrderItemRepository OrderItemRepository => orderItemRepository;
-    public ICartRepository CartRepository => cartRepository;
-    public ICartItemRepository CartItemRepository => cartItemRepository; 
+
     public async Task<int> CompleteAsync(CancellationToken cancellationToken = default)
     {
         return await context.SaveChangesAsync(cancellationToken);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposed)
-        {
-            if (disposing)
-            {
-                context.Dispose();
-            }
-        }
-        _disposed = true;
     }
 
     public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+            if (disposing)
+                context.Dispose();
+
+        _disposed = true;
     }
 }

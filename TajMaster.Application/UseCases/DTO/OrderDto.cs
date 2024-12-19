@@ -1,6 +1,3 @@
-using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enums;
-
 namespace TajMaster.Application.UseCases.DTO;
 
 public record OrderDto(
