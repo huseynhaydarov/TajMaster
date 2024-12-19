@@ -21,11 +21,11 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
                 "CategoryServices",
                 j => j.HasOne<Service>()
                     .WithMany()
-                    .HasForeignKey("ServiceId") 
+                    .HasForeignKey("ServiceId")
                     .OnDelete(DeleteBehavior.Cascade),
                 j => j.HasOne<Category>()
                     .WithMany()
-                    .HasForeignKey("CategoryId") 
+                    .HasForeignKey("CategoryId")
                     .OnDelete(DeleteBehavior.Cascade));
     }
 }

@@ -31,7 +31,7 @@ public class CrafstmanConfiguration : IEntityTypeConfiguration<Craftsman>
             .WithOne(c => c.Craftsman)
             .HasForeignKey<Craftsman>(c => c.UserId)
             .IsRequired();
-        builder.HasMany(c=>c.Services)
+        builder.HasMany(c => c.Services)
             .WithOne(c => c.Craftsman)
             .HasForeignKey(c => c.CraftsmanId)
             .OnDelete(DeleteBehavior.Cascade);
