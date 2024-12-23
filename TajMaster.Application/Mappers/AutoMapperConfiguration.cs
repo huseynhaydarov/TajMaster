@@ -1,5 +1,9 @@
 using AutoMapper;
 using TajMaster.Application.UseCases.DTO;
+using TajMaster.Application.UseCases.Orders;
+using TajMaster.Application.UseCases.Orders.Create;
+using TajMaster.Application.UseCases.Reviews.Commands.Create;
+using TajMaster.Application.UseCases.Reviews.Commands.Update;
 using TajMaster.Application.UseCases.Services.Commands.Create;
 using TajMaster.Application.UseCases.Services.Commands.Update;
 using TajMaster.Application.UseCases.Users.Commands.Create;
@@ -28,12 +32,15 @@ public class AutoMapperConfiguration : Profile
             .ForMember(dest => dest.ServiceId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.Categories));
 
+       CreateMap<CreateReviewCommand, Review>();
+       CreateMap<UpdateReviewCommand, Review>();
         CreateMap<Review, ReviewDto>()
             .ForMember(dest => dest.ReviewId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.ReviewDate));
 
         CreateMap<OrderItem, OrderItemDto>();
 
+        CreateMap<CreateOrderCommand, Order>();
         CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.Status.ToString()))

@@ -20,11 +20,4 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="UseCases\Reviews\Commands\" />
-        <Folder Include="UseCases\Reviews\Queries\" />
-        <Folder Include="UseCases\Reviews\Validations\" />
-        <Folder Include="UseCases\Users\Queries\GetUsers\"/>
-    </ItemGroup>
-
 </Project>

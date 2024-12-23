@@ -3,7 +3,7 @@ using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
 using TajMaster.Application.UseCases.DTO;
 
-namespace TajMaster.Application.UseCases.Users.Queries;
+namespace TajMaster.Application.UseCases.Users.Queries.GetUsers;
 
 public class GetUsersQueryHandler(IUnitOfWork unitOfWork) : IQueryHandler<GetUsersQuery, PaginatedResult<UserDto>>
 {

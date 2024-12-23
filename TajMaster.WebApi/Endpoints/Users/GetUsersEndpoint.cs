@@ -3,6 +3,7 @@ using MediatR;
 using TajMaster.Application.Common.Pagination;
 using TajMaster.Application.UseCases.DTO;
 using TajMaster.Application.UseCases.Users.Queries;
+using TajMaster.Application.UseCases.Users.Queries.GetUsers;
 
 namespace TajMaster.WebApi.Endpoints.Users;
 

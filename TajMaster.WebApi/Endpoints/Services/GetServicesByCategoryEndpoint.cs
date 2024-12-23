@@ -25,7 +25,7 @@ public class GetServicesByCategoryEndpoint : ICarterModule
 
                     return Results.Ok(serviceDto);
                 })
-            .WithName("GetServicesByCategory")
+            .WithName("GetServicesByCategoryEndpoint")
             .Produces<IEnumerable<ServiceDto>>();
     }
 }
