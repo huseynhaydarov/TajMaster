@@ -5,4 +5,4 @@ public record ServiceDto(
     string Title,
     string Description,
     decimal BasePrice,
-    List<CategoryDto> Categories);
+    List<CategoryDto>? Categories);

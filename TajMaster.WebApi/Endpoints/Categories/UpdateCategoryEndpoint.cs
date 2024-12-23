@@ -1,0 +1,21 @@
+using Carter;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using TajMaster.Application.UseCases.Categories.Commands.Update;
+using TajMaster.Application.UseCases.Users.Commands.Update;
+
+namespace TajMaster.WebApi.Endpoints.Categories;
+
+public class UpdateCategoryEndpoint : ICarterModule
+{
+    public void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapPut("/categories/{id}", async (ISender mediator, int id, [FromBody] UpdateCategoryCommand command) =>
+            {
+                if (id != command.CategoryId) return Results.BadRequest();
+                var result = await mediator.Send(command);
+                return result ? Results.NoContent() : Results.NotFound();
+            })
+            .WithName("UpdateCategoryEndpoint");
+    }
+}

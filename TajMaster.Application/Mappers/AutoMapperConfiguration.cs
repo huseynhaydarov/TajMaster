@@ -1,4 +1,7 @@
 using AutoMapper;
+using TajMaster.Application.UseCases.Categories.Commands;
+using TajMaster.Application.UseCases.Categories.Commands.Create;
+using TajMaster.Application.UseCases.Categories.Commands.Update;
 using TajMaster.Application.UseCases.DTO;
 using TajMaster.Application.UseCases.Orders;
 using TajMaster.Application.UseCases.Orders.Create;
@@ -26,7 +29,6 @@ public class AutoMapperConfiguration : Profile
 
         CreateMap<CreateServiceCommand, Service>()
             .ForMember(dest => dest.Categories, opt => opt.Ignore());
-        ;
         CreateMap<UpdateServiceCommand, Service>();
         CreateMap<Service, ServiceDto>()
             .ForMember(dest => dest.ServiceId, opt => opt.MapFrom(src => src.Id))
@@ -55,6 +57,8 @@ public class AutoMapperConfiguration : Profile
             .ForMember(dest => dest.Services, opt => opt.MapFrom(src => src.Services))
             .ForMember(dest => dest.ReviewsCraftsman, opt => opt.MapFrom(src => src.Reviews));
 
+        CreateMap<CreateCategoryCommand, Category>();
+        CreateMap<UpdateCategoryCommand, Category>();
         CreateMap<Category, CategoryDto>()
             .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Services, opt => opt.MapFrom(src => src.Services));

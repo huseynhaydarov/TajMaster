@@ -13,8 +13,7 @@ public class GetUserByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<G
 
         if (user == null)
             throw new UserNotFoundException($"User with ID {request.UserId} not found.");
-
-
+        
         return user;
     }
 }
