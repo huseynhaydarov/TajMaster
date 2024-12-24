@@ -1,7 +1,7 @@
 using Carter;
 using MediatR;
 using TajMaster.Application.UseCases.DTO;
-using TajMaster.Application.UseCases.Reviews.Queries.GetReviewsByOrderCraftsman;
+using TajMaster.Application.UseCases.Reviews.Queries.GetReviewsByCraftsman;
 
 namespace TajMaster.WebApi.Endpoints.Reviews;
 

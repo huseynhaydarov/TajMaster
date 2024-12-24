@@ -8,7 +8,5 @@ public record CraftsmanDto(
     string? Description,
     string? ProfilePicture,
     bool Avialable,
-    bool ProfileVerified,
-    List<OrderDto> Orders,
-    List<ServiceDto> Services,
-    List<ReviewDto> ReviewsCraftsman);
+    bool ProfileVerified
+    );

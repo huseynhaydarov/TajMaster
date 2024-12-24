@@ -2,6 +2,7 @@ using AutoMapper;
 using TajMaster.Application.UseCases.Categories.Commands;
 using TajMaster.Application.UseCases.Categories.Commands.Create;
 using TajMaster.Application.UseCases.Categories.Commands.Update;
+using TajMaster.Application.UseCases.Craftsmen.Commands.Create;
 using TajMaster.Application.UseCases.DTO;
 using TajMaster.Application.UseCases.Orders;
 using TajMaster.Application.UseCases.Orders.Create;
@@ -49,13 +50,11 @@ public class AutoMapperConfiguration : Profile
             .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.Reviews))
             .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems));
 
+        CreateMap<CreateCraftsmanCommand, Craftsman>();
         CreateMap<Craftsman, CraftsmanDto>()
             .ForMember(dest => dest.CraftsmanId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Specialization, opt => opt.MapFrom(src => src.Specialization.ToString()))
-            .ForMember(dest => dest.Avialable, opt => opt.MapFrom(src => src.IsAvialable))
-            .ForMember(dest => dest.Orders, opt => opt.MapFrom(src => src.Orders))
-            .ForMember(dest => dest.Services, opt => opt.MapFrom(src => src.Services))
-            .ForMember(dest => dest.ReviewsCraftsman, opt => opt.MapFrom(src => src.Reviews));
+            .ForMember(dest => dest.Avialable, opt => opt.MapFrom(src => src.IsAvialable));
 
         CreateMap<CreateCategoryCommand, Category>();
         CreateMap<UpdateCategoryCommand, Category>();

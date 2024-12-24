@@ -4,7 +4,7 @@ using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.DTO;
 using TajMaster.Domain.Entities;
 
-namespace TajMaster.Application.UseCases.Reviews.Queries.GetReviewsByOrderCraftsman;
+namespace TajMaster.Application.UseCases.Reviews.Queries.GetReviewsByCraftsman;
 
 public class GetReviewsByCraftsmanIdQueryHandler(IUnitOfWork unitOfWork) : IQueryHandler<GetReviewsByCraftsmanIdQuery, IEnumerable<ReviewDto>>
 {
