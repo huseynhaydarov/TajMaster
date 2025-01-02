@@ -7,11 +7,7 @@ public record UpdateUserCommand(
     int UserId,
     string FullName,
     string? Email,
-    string HashedPassword,
     string Phone,
-    Role Roles,
-    DateTime RegisterDate,
-    string? ProfilePicture,
-    bool IsVerified,
-    bool IsActive)
+    string? Address,
+    string? ProfilePicture)
     : IRequest<bool>;

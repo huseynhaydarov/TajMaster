@@ -1,17 +1,20 @@
 using AutoMapper;
-using TajMaster.Application.UseCases.Categories.Commands;
+using TajMaster.Application.UseCases.Cart.Commands;
 using TajMaster.Application.UseCases.Categories.Commands.Create;
 using TajMaster.Application.UseCases.Categories.Commands.Update;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Create;
 using TajMaster.Application.UseCases.DTO;
-using TajMaster.Application.UseCases.Orders;
+using TajMaster.Application.UseCases.DTOs;
+using TajMaster.Application.UseCases.OrderItems;
 using TajMaster.Application.UseCases.Orders.Create;
+using TajMaster.Application.UseCases.Orders.OrderDtos;
 using TajMaster.Application.UseCases.Reviews.Commands.Create;
 using TajMaster.Application.UseCases.Reviews.Commands.Update;
 using TajMaster.Application.UseCases.Services.Commands.Create;
 using TajMaster.Application.UseCases.Services.Commands.Update;
 using TajMaster.Application.UseCases.Users.Commands.Create;
 using TajMaster.Application.UseCases.Users.Commands.Update;
+using TajMaster.Application.UseCases.Users.UserDtos;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.Mappers;
@@ -22,12 +25,7 @@ public class AutoMapperConfiguration : Profile
     {
         CreateMap<CreateUserCommand, User>();
         CreateMap<UpdateUserCommand, User>();
-        CreateMap<User, UserDto>()
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.RegisterDate, opt => opt.MapFrom(src => src.RegisteredDate))
-            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Roles.ToString()));
-
-
+       
         CreateMap<CreateServiceCommand, Service>()
             .ForMember(dest => dest.Categories, opt => opt.Ignore());
         CreateMap<UpdateServiceCommand, Service>();
@@ -44,11 +42,9 @@ public class AutoMapperConfiguration : Profile
         CreateMap<OrderItem, OrderItemDto>();
 
         CreateMap<CreateOrderCommand, Order>();
-        CreateMap<Order, OrderDto>()
+        /*CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.Status.ToString()))
-            .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.Reviews))
-            .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems));
+            .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.Status.ToString()));*/
 
         CreateMap<CreateCraftsmanCommand, Craftsman>();
         CreateMap<Craftsman, CraftsmanDto>()
@@ -66,6 +62,7 @@ public class AutoMapperConfiguration : Profile
             .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.Price * src.Quantity))
             .ForMember(dest => dest.ServiceName, opt => opt.MapFrom(src => src.Service.Title));
 
+        CreateMap<CreateCartCommand, Cart>();
         CreateMap<Cart, CartDto>()
             .ForMember(dest => dest.CartId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.CartStatus, opt => opt.MapFrom(src => src.CartStatus.ToString()))

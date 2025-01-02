@@ -1,6 +1,4 @@
-using TajMaster.Domain.Enums;
-
-namespace TajMaster.Application.UseCases.DTO;
+namespace TajMaster.Application.UseCases.Users.UserDtos;
 
 public record UserDto(
     int UserId,
@@ -8,6 +6,5 @@ public record UserDto(
     string? Email,
     string? PhoneNumber,
     string? Address,
-    Role Role,
     DateTime RegisterDate,
     bool IsActive);

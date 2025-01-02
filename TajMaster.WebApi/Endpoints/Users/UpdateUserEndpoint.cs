@@ -9,12 +9,13 @@ public class UpdateUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/users/{id}", async (ISender mediator, int id, [FromBody] UpdateUserCommand command) =>
+        app.MapPut("/api/users/{id}", async (ISender mediator, int id, [FromBody] UpdateUserCommand command) =>
             {
                 if (id != command.UserId) return Results.BadRequest();
                 var result = await mediator.Send(command);
                 return result ? Results.NoContent() : Results.NotFound();
             })
-            .WithName("UpdateUserEndpoint");
+            .WithName("UpdateUserEndpoint")
+            .WithTags("Users");
     }
 }

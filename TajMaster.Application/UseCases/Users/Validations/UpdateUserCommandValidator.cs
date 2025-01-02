@@ -18,7 +18,5 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
         RuleFor(x => x.Phone)
             .NotEmpty().WithMessage("Phone number is required.")
             .Matches(@"^\+?\d{10,15}$").WithMessage("Invalid phone number format.");
-        RuleFor(x => x.IsActive)
-            .NotNull().WithMessage("Active status must be specified.");
     }
 }

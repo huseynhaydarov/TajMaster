@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TajMaster.Domain.Entities;
+using TajMaster.Domain.Enumerations;
 using TajMaster.Domain.Enums;
 
 namespace TajMaster.Infrastructure.Persistence.Configurations;
@@ -23,10 +24,12 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Address)
             .HasMaxLength(100)
             .IsRequired(false);
+        Role result;
         builder.Property(x => x.Roles)
             .HasConversion(
                 x => x.ToString(),
-                x => (Role)Enum.Parse(typeof(Role), x))
+                x => Enum.TryParse(x, out result) ? result : Role.Guest 
+            )
             .IsRequired();
         builder.Property(x => x.RegisteredDate)
             .IsRequired();
