@@ -1,7 +1,11 @@
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
+using TajMaster.Application.UseCases.Categories.CategoryDto;
 using TajMaster.Application.UseCases.DTO;
+using TajMaster.Application.UseCases.DTOs;
+using TajMaster.Application.UseCases.Services.ServiceDtos;
+using TajMaster.Application.UseCases.Services.ServiceExtensions;
 
 namespace TajMaster.Application.UseCases.Services.Queries.GetServices;
 
@@ -17,14 +21,7 @@ public class GetServicesQueryHandler(IUnitOfWork unitOfWork)
         var totalCount = paginatedServices.Count();
 
         var serviceDtos = paginatedServices
-            .Select(service => new ServiceDto(
-                service.Id,
-                service.Title,
-                service.Description,
-                service.BasePrice,
-                service.Categories.Select(c => new CategoryDto(c.Id, c.Name, c.Description, null!)).ToList()
-            ))
-            .ToList();
+            .MapToServiceDtoList();
 
         var paginatedResult = new PaginatedResult<ServiceDto>(
             (int)pagingParams.PageNumber!,

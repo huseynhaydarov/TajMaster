@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Repositories;
+using TajMaster.Application.Common.Pagination;
 using TajMaster.Domain.Entities;
 using TajMaster.Infrastructure.Persistence.Data;
 
@@ -14,6 +15,26 @@ public class ServiceRepository(ApplicationDbContext context) : Repository<Servic
             .AsNoTracking()
             .Include(service => service.Categories)
             .Where(service => service.Categories.Any(category => category.Id == categoryId))
+            .ToListAsync(cancellationToken);
+    }
+    
+    public override async Task<List<Service>> GetAllAsync(PagingParameters pagingParameters, CancellationToken cancellationToken = default)
+    {
+        var query = context.Services
+            .Include(u => u.Categories) 
+            .AsQueryable();
+
+        if(pagingParameters.OrderByDescending == true)
+        {
+            query = query.OrderByDescending(o => o.Id);
+        }
+        else
+        {
+            query = query.OrderBy(o => o.Id);
+        }
+        return await query
+            .Skip(pagingParameters.Skip)
+            .Take(pagingParameters.Take)
             .ToListAsync(cancellationToken);
     }
 }

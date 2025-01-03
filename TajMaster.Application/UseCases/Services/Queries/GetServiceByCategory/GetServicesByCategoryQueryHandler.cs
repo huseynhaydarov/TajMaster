@@ -1,7 +1,10 @@
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
+using TajMaster.Application.UseCases.Categories.CategoryDto;
 using TajMaster.Application.UseCases.DTO;
+using TajMaster.Application.UseCases.DTOs;
+using TajMaster.Application.UseCases.Services.ServiceDtos;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Services.Queries.GetServiceByCategory;
@@ -28,15 +31,8 @@ public class GetServicesByCategoryQueryHandler(IUnitOfWork unitOfWork)
             service.Categories.Select(category => new CategoryDto(
                 category.Id,
                 category.Name,
-                category.Description,
-                category.Services.Select(relatedService => new ServiceDto(
-                    relatedService.Id,
-                    relatedService.Title,
-                    relatedService.Description,
-                    relatedService.BasePrice,
-                    null!
+                category.Description
                 )).ToList()
-            )).ToList()
-        ));
+            )).ToList();
     }
 }

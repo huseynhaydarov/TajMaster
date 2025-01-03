@@ -9,11 +9,12 @@ public class CreateServiceEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/services", async (ISender mediator, [FromBody] CreateServiceCommand command) =>
+        app.MapPost("/api/services", async (ISender mediator, [FromBody] CreateServiceCommand command) =>
             {
                 var serviceId = await mediator.Send(command);
                 return Results.Created($"/services/{serviceId}", new { Id = serviceId });
             })
-            .WithName("CreateServiceEndpoint");
+            .WithName("CreateServiceEndpoint")
+            .WithTags("Services");
     }
 }

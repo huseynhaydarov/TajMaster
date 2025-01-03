@@ -9,11 +9,12 @@ public class DeleteServiceEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/services/{id}", async (ISender mediator, [FromRoute] int id) =>
+        app.MapDelete("/api/services/{id}", async (ISender mediator, [FromRoute] int id) =>
             {
                 var result = await mediator.Send(new DeleteServiceCommand(id));
                 return result ? Results.NoContent() : Results.NotFound();
             })
-            .WithName("DeleteServiceEndpoint");
+            .WithName("DeleteServiceEndpoint")
+            .WithTags("Services");
     }
 }

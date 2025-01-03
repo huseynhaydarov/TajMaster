@@ -2,8 +2,7 @@ using AutoMapper;
 using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
-using TajMaster.Application.UseCases.Users.Exceptions;
-using TajMaster.Domain.Entities;
+
 
 namespace TajMaster.Application.UseCases.Services.Commands.Update;
 
@@ -15,7 +14,7 @@ public class UpdateServiceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         var service = await unitOfWork.ServiceRepository.GetByIdAsync(command.ServiceId, cancellationToken);
 
         if (service == null)
-            throw new ServiceNotFoundException($"Service with ID {command.ServiceId} was not found");
+            throw new NotFoundException($"Service with ID {command.ServiceId} was not found");
 
         mapper.Map(command, service);
 

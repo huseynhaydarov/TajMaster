@@ -2,7 +2,9 @@ using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using TajMaster.Application.UseCases.DTO;
+using TajMaster.Application.UseCases.DTOs;
 using TajMaster.Application.UseCases.Services.Queries.GetServiceByCategory;
+using TajMaster.Application.UseCases.Services.ServiceDtos;
 
 namespace TajMaster.WebApi.Endpoints.Services;
 
@@ -10,7 +12,7 @@ public class GetServicesByCategoryEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/services/category/{Id}", async (int categoryId, ISender sender) =>
+        app.MapGet("/api/services/category/{Id}", async (int categoryId, ISender sender) =>
                 {
                     if (categoryId <= 0)
                         return Results.BadRequest(new { Message = "CategoryId must be a positive integer." });
@@ -26,6 +28,7 @@ public class GetServicesByCategoryEndpoint : ICarterModule
                     return Results.Ok(serviceDto);
                 })
             .WithName("GetServicesByCategoryEndpoint")
+            .WithTags("Services")
             .Produces<IEnumerable<ServiceDto>>();
     }
 }
