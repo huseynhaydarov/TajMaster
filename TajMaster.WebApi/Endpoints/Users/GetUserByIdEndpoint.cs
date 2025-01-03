@@ -17,6 +17,6 @@ public class GetUserByIdEndpoint : ICarterModule
             })
             .WithName("GetUserByIdEndpoint")
             .WithTags("Users")
-            .Produces<UserDto>();
+            .Produces<UserSummaryDto>();
     }
 }

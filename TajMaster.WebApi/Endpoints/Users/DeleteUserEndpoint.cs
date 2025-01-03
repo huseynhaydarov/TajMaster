@@ -9,11 +9,12 @@ public class DeleteUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/users/{id}", async (ISender mediator, [FromRoute] int id) =>
+        app.MapDelete("/api/users/{id}", async (ISender mediator, [FromRoute] int id) =>
             {
                 var result = await mediator.Send(new DeleteUserCommand(id));
                 return result ? Results.NoContent() : Results.NotFound();
             })
-            .WithName("DeleteUserEndpoint");
+            .WithName("DeleteUserEndpoint")
+            .WithTags("Users");
     }
 }

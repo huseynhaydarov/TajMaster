@@ -1,6 +1,6 @@
 namespace TajMaster.Application.UseCases.Users.UserDtos;
 
-public record UserDto(
+public record UserSummaryDto(
     int UserId,
     string FullName,
     string? Email,

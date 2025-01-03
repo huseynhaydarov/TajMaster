@@ -5,4 +5,4 @@ using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Users.Queries.GetUser;
 
-public record GetUserByIdQuery(int UserId) : IQuery<UserDto>;
+public record GetUserByIdQuery(int UserId) : IQuery<UserDetailDto>;
