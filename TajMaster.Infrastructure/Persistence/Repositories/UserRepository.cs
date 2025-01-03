@@ -28,4 +28,10 @@ public class UserRepository(ApplicationDbContext context) : Repository<User>(con
             .Take(pagingParameters.Take)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<User?> FindByEmailAsync(string email, CancellationToken cancellationToken)
+    {
+        return await context.Users
+            .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+    }
 }

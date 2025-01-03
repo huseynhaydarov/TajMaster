@@ -8,6 +8,5 @@ public record UpdateUserCommand(
     string FullName,
     string? Email,
     string Phone,
-    string? Address,
-    string? ProfilePicture)
+    string? Address)
     : IRequest<bool>;
