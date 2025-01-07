@@ -3,7 +3,6 @@ using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
-
 namespace TajMaster.Application.UseCases.Services.Commands.Update;
 
 public class UpdateServiceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)

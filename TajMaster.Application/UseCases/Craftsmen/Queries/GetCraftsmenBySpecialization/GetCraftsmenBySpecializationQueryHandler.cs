@@ -6,12 +6,15 @@ using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmenBySpecialization;
 
-public class GetCraftsmenBySpecializationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : IQueryHandler<GetCraftsmenBySpecializationQuery, List<CraftsmanDto>>
+public class GetCraftsmenBySpecializationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    : IQueryHandler<GetCraftsmenBySpecializationQuery, List<CraftsmanDto>>
 {
-    public async Task<List<CraftsmanDto>> Handle(GetCraftsmenBySpecializationQuery request, CancellationToken cancellationToken)
+    public async Task<List<CraftsmanDto>> Handle(GetCraftsmenBySpecializationQuery request,
+        CancellationToken cancellationToken)
     {
-        var craftsmen = await unitOfWork.CraftsmanRepository.GetBySpecializationAsync(request.Specialization, cancellationToken);
-        
+        var craftsmen =
+            await unitOfWork.CraftsmanRepository.GetBySpecializationAsync(request.Specialization, cancellationToken);
+
         return craftsmen.CraftsmanDtos().ToList();
     }
 }

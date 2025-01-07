@@ -4,7 +4,6 @@ using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Users.UserDtos;
 using TajMaster.Application.UseCases.Users.UserExtensions;
 
-
 namespace TajMaster.Application.UseCases.Users.Queries.GetUser;
 
 public class GetUserByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetUserByIdQuery, UserDetailDto>
@@ -15,7 +14,7 @@ public class GetUserByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<G
 
         if (user == null)
             throw new NotFoundException($"User with ID {request.UserId} not found.");
-        
+
         return user.MapToUser();
     }
 }

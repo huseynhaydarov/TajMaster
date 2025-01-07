@@ -1,7 +1,4 @@
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
-using TajMaster.Application.UseCases.OrderItems;
-using TajMaster.Application.UseCases.Orders.OrderDtos;
-using TajMaster.Application.UseCases.Users.UserDtos;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
@@ -16,12 +13,12 @@ public static class CraftsmenMappingExtensions
             craftsman.Experience,
             craftsman.Rating,
             craftsman.Description,
-            craftsman.ProfilePicture, 
-            craftsman.IsAvialable, 
-            craftsman.ProfileVerified  
+            craftsman.ProfilePicture,
+            craftsman.IsAvialable,
+            craftsman.ProfileVerified
         );
     }
-    
+
     public static IEnumerable<CraftsmanDto> CraftsmanDtos(this IEnumerable<Craftsman> craftsmen)
     {
         return craftsmen.Select(user => user.MapToCraftsmanDto());

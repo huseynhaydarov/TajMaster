@@ -24,6 +24,5 @@ public class GetCraftsmenBySpecializationEndpoint : ICarterModule
             .WithTags("Craftsmen")
             .Produces<List<CraftsmanDto>>()
             .WithTags("Craftsmen");
-
     }
 }

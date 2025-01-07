@@ -1,14 +1,14 @@
 using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
-using TajMaster.Application.UseCases.Services.ServiceDtos;
 
 namespace TajMaster.Application.UseCases.Categories.Queries.GetCategories;
 
 public class GetCategoriesQueryHandler(IUnitOfWork unitOfWork)
     : IRequestHandler<GetCategoriesQuery, PaginatedResult<CategoryDto.CategoryDto>>
 {
-    public async Task<PaginatedResult<CategoryDto.CategoryDto>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResult<CategoryDto.CategoryDto>> Handle(GetCategoriesQuery request,
+        CancellationToken cancellationToken)
     {
         var pagingParams = request.PagingParameters;
 
@@ -22,7 +22,7 @@ public class GetCategoriesQueryHandler(IUnitOfWork unitOfWork)
                 category.Name,
                 category.Description))
             .ToList();
-        
+
         var paginatedResult = new PaginatedResult<CategoryDto.CategoryDto>(
             (int)pagingParams.PageNumber!,
             (int)pagingParams.PageSize!,
@@ -33,4 +33,3 @@ public class GetCategoriesQueryHandler(IUnitOfWork unitOfWork)
         return paginatedResult;
     }
 }
-

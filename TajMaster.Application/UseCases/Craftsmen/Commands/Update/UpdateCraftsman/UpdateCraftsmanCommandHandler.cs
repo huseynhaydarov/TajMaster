@@ -5,7 +5,8 @@ using TajMaster.Application.Exceptions;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsman;
 
-public class UpdateCraftsmanCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<UpdateCraftsmanCommand, bool>
+public class UpdateCraftsmanCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    : IRequestHandler<UpdateCraftsmanCommand, bool>
 {
     public async Task<bool> Handle(UpdateCraftsmanCommand command, CancellationToken cancellationToken)
     {

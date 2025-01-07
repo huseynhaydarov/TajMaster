@@ -1,7 +1,6 @@
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
-using TajMaster.Application.UseCases.Categories.CategoryDto;
 using TajMaster.Application.UseCases.Services.ServiceDtos;
 using TajMaster.Application.UseCases.Services.ServiceExtensions;
 
@@ -10,7 +9,8 @@ namespace TajMaster.Application.UseCases.Services.Queries.GetServices;
 public class GetServicesQueryHandler(IUnitOfWork unitOfWork)
     : IQueryHandler<GetServicesQuery, PaginatedResult<ServiceSummaryDto>>
 {
-    public async Task<PaginatedResult<ServiceSummaryDto>> Handle(GetServicesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResult<ServiceSummaryDto>> Handle(GetServicesQuery request,
+        CancellationToken cancellationToken)
     {
         var pagingParams = request.PagingParameters;
 

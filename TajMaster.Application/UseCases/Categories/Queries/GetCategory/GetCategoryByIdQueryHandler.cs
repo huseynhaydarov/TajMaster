@@ -13,7 +13,7 @@ public class GetCategoryByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
 
         if (category == null)
             throw new NotFoundException($"Category with ID {request.CategoryId} not found.");
-        
+
         return category;
     }
 }

@@ -5,7 +5,6 @@ using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Infrastructure.Persistence.Configurations;
 
-
 public class CraftsmanConfiguration : IEntityTypeConfiguration<Craftsman>
 {
     public void Configure(EntityTypeBuilder<Craftsman> builder)

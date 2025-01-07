@@ -1,9 +1,9 @@
-namespace TajMaster.WebApi;
-
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-public  class SwaggerFileOperationFilter : IOperationFilter
+namespace TajMaster.WebApi;
+
+public class SwaggerFileOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
@@ -14,14 +14,14 @@ public  class SwaggerFileOperationFilter : IOperationFilter
         {
             var content = new Dictionary<string, OpenApiMediaType>
             {
-                ["multipart/form-data"] = new OpenApiMediaType
+                ["multipart/form-data"] = new()
                 {
                     Schema = new OpenApiSchema
                     {
                         Type = "object",
                         Properties = new Dictionary<string, OpenApiSchema>
                         {
-                            ["file"] = new OpenApiSchema
+                            ["file"] = new()
                             {
                                 Type = "string",
                                 Format = "binary"

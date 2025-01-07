@@ -9,4 +9,4 @@ public record CraftsmanDto(
     string? ProfilePicture,
     bool Avialable,
     bool ProfileVerified
-    );
+);

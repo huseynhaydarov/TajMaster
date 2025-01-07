@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Migrations\20241226112718_UpdateRoleConversion.Designer.cs" />
+        <Compile Remove="Migrations\20241226112718_UpdateRoleConversion.Designer.cs"/>
     </ItemGroup>
 
 </Project>

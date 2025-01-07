@@ -2,7 +2,6 @@ using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TajMaster.Application.UseCases.Categories.Commands.Update;
-using TajMaster.Application.UseCases.Users.Commands.Update;
 
 namespace TajMaster.WebApi.Endpoints.Categories;
 

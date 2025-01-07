@@ -5,7 +5,8 @@ using TajMaster.Application.Exceptions;
 
 namespace TajMaster.Application.UseCases.Categories.Commands.Update;
 
-public class UpdateCategoryCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<UpdateCategoryCommand, bool>
+public class UpdateCategoryCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    : IRequestHandler<UpdateCategoryCommand, bool>
 {
     public async Task<bool> Handle(UpdateCategoryCommand command, CancellationToken cancellationToken)
     {

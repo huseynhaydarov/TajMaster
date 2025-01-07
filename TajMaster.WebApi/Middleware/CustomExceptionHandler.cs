@@ -16,7 +16,7 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
             exception.Message, DateTime.UtcNow);
 
         (string Detail, string Title, int StatusCode) details = exception switch
-        { 
+        {
             InternalServerException =>
             (
                 exception.Message,

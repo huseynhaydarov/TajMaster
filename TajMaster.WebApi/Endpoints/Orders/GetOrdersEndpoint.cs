@@ -4,7 +4,6 @@ using TajMaster.Application.Common.Pagination;
 using TajMaster.Application.UseCases.Orders.OrderDtos;
 using TajMaster.Application.UseCases.Orders.Queries.GetOrders;
 
-
 namespace TajMaster.WebApi.Endpoints.Orders;
 
 public class GetOrdersEndpoint : ICarterModule

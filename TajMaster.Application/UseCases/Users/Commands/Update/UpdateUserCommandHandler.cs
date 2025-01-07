@@ -12,10 +12,7 @@ public class UpdateUserCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) :
     {
         var user = await unitOfWork.UserRepository.GetByIdAsync(command.UserId, cancellationToken);
 
-        if (user?.Email == command.Email)
-        {
-            throw new ConflictException("Email already exists");
-        }
+        if (user?.Email == command.Email) throw new ConflictException("Email already exists");
         if (user == null)
             throw new NotFoundException($"User with ID {command.UserId} not found.");
 

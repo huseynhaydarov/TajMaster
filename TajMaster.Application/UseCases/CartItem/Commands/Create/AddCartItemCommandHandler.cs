@@ -11,7 +11,7 @@ public class AddCartItemCommandHandler(IUnitOfWork unitOfWork)
         var cart = await unitOfWork.CartRepository.GetByIdAsync(request.CartId, cancellationToken);
         if (cart == null)
             throw new InvalidOperationException("Cart not found.");
-        
+
         var existingItem = cart.CartItems.FirstOrDefault(ci => ci.ServiceId == request.ServiceId);
         if (existingItem != null)
         {
@@ -32,9 +32,9 @@ public class AddCartItemCommandHandler(IUnitOfWork unitOfWork)
 
             await unitOfWork.CartItemRepository.CreateAsync(newCartItem, cancellationToken);
         }
-        
+
         await unitOfWork.CompleteAsync(cancellationToken);
-        
+
         return existingItem?.Id ?? cart.CartItems.Last().Id;
     }
 }

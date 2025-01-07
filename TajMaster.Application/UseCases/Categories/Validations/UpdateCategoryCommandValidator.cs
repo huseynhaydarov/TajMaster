@@ -10,13 +10,13 @@ public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCo
         RuleFor(c => c.CategoryId)
             .NotEmpty()
             .WithMessage("Category ID cannot be empty");
-        
+
         RuleFor(command => command.Name)
             .NotEmpty()
             .WithMessage("Name is required.")
             .MaximumLength(100)
             .WithMessage("Name cannot exceed 100 characters.");
-        
+
         RuleFor(command => command.Description)
             .NotEmpty()
             .WithMessage("Description is required.")

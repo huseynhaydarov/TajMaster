@@ -1,7 +1,6 @@
 using Carter;
 using MediatR;
 using TajMaster.Application.Common.Pagination;
-using TajMaster.Application.UseCases.Services.Queries;
 using TajMaster.Application.UseCases.Services.Queries.GetServices;
 using TajMaster.Application.UseCases.Services.ServiceDtos;
 

@@ -3,7 +3,6 @@ using MediatR;
 using TajMaster.Application.Common.Pagination;
 using TajMaster.Application.UseCases.Categories.CategoryDto;
 using TajMaster.Application.UseCases.Categories.Queries.GetCategories;
-using TajMaster.Application.UseCases.Users.Queries.GetUsers;
 
 namespace TajMaster.WebApi.Endpoints.Categories;
 

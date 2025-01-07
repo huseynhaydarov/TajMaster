@@ -5,9 +5,11 @@ using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmen;
 
-public class GetCraftsmenQueryHandler(IUnitOfWork unitOfWork) : IQueryHandler<GetCraftsmenQuery, PaginatedResult<CraftsmanDto>>
+public class GetCraftsmenQueryHandler(IUnitOfWork unitOfWork)
+    : IQueryHandler<GetCraftsmenQuery, PaginatedResult<CraftsmanDto>>
 {
-    public async Task<PaginatedResult<CraftsmanDto>> Handle(GetCraftsmenQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResult<CraftsmanDto>> Handle(GetCraftsmenQuery request,
+        CancellationToken cancellationToken)
     {
         var pagingParams = request.PagingParameters;
 
@@ -26,8 +28,8 @@ public class GetCraftsmenQueryHandler(IUnitOfWork unitOfWork) : IQueryHandler<Ge
                 craftsman.IsAvialable,
                 craftsman.ProfileVerified
             )).ToList();
-       
-        var paginatedResult =  new PaginatedResult<CraftsmanDto>(
+
+        var paginatedResult = new PaginatedResult<CraftsmanDto>(
             pagingParams.PageNumber!.Value,
             pagingParams.PageSize!.Value,
             totalCount,

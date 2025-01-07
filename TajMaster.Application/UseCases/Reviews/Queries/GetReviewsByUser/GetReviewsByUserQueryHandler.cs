@@ -15,7 +15,7 @@ public class GetReviewsByUserQueryHandler(IUnitOfWork unitOfWork)
     {
         var reviews =
             await unitOfWork.ReviewRepository.GetReviewsByUserIdAsNoTrackingAsync(request.UserId, cancellationToken);
-        
+
         var enumerable = reviews as Review[] ?? reviews.ToArray();
         if (reviews == null || !enumerable.Any())
             throw new NotFoundException($"No reviews found for user with ID: {request.UserId}");

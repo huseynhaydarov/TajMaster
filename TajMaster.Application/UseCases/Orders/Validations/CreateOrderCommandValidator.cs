@@ -29,5 +29,5 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     private bool BeInTheFuture(DateTime date)
     {
         return date > DateTime.UtcNow;
-    }   
+    }
 }

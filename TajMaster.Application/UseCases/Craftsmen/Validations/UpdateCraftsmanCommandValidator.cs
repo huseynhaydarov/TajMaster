@@ -1,5 +1,4 @@
 using FluentValidation;
-using TajMaster.Application.UseCases.Craftsmen.Commands.Update;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsman;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Validations;

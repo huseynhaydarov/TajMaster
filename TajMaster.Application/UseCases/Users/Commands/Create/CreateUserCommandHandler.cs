@@ -16,22 +16,18 @@ public class CreateUserCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IM
         if (command.Email != null)
         {
             var existingUser = await unitOfWork.UserRepository.FindByEmailAsync(command.Email, cancellationToken);
-            if (existingUser != null)
-            {
-                throw new ConflictException("The email address is already in use.");
-            }
+            if (existingUser != null) throw new ConflictException("The email address is already in use.");
         }
 
         var user = mapper.Map<User>(command);
-            
+
         user = await unitOfWork.UserRepository.CreateAsync(user, cancellationToken);
-        
+
         await unitOfWork.CompleteAsync(cancellationToken);
-        
+
         var createCartCommand = new CreateCartCommand(user.Id);
         await mediator.Send(createCartCommand, cancellationToken);
-        
+
         return user.Id;
     }
-
 }

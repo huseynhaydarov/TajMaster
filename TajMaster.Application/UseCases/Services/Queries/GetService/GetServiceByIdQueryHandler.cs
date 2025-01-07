@@ -3,7 +3,6 @@ using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Services.ServiceDtos;
 using TajMaster.Application.UseCases.Services.ServiceExtensions;
-using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Services.Queries.GetService;
 

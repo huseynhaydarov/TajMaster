@@ -3,7 +3,6 @@ using MediatR;
 using TajMaster.Application.Common.Pagination;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
 using TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmen;
-using TajMaster.Application.UseCases.Users.Queries.GetUsers;
 
 namespace TajMaster.WebApi.Endpoints.Craftsmen;
 

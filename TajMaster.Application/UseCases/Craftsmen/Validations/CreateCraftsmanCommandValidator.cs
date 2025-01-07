@@ -24,9 +24,11 @@ public class CreateCraftsmanCommandValidator : AbstractValidator<CreateCraftsman
             .WithMessage("Description cannot exceed 500 characters.");
 
         RuleFor(x => x.ProfilePicture)
-            .Must(file => file == null || file.Length <= 5 * 1024 * 1024)  // File size validation only if file exists
+            .Must(file => file == null || file.Length <= 5 * 1024 * 1024) // File size validation only if file exists
             .WithMessage("Profile picture size must not exceed 5 MB.")
-            .Must(file => file == null || new[] { ".jpg", ".jpeg", ".png" }.Contains(Path.GetExtension(file?.FileName)?.ToLower()))
+            .Must(file =>
+                file == null ||
+                new[] { ".jpg", ".jpeg", ".png" }.Contains(Path.GetExtension(file?.FileName)?.ToLower()))
             .WithMessage("Only .jpg, .jpeg, or .png files are allowed.");
     }
 }

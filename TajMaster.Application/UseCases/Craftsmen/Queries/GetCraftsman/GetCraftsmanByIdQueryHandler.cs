@@ -13,7 +13,7 @@ public class GetCraftsmanByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHand
 
         if (craftsman == null)
             throw new NotFoundException($"Craftsman with ID {request.CraftsmanId} not found.");
-        
+
         return craftsman;
     }
 }

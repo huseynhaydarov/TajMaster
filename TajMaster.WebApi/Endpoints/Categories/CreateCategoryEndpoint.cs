@@ -1,9 +1,7 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TajMaster.Application.UseCases.Categories.Commands;
 using TajMaster.Application.UseCases.Categories.Commands.Create;
-using TajMaster.Application.UseCases.Users.Commands.Create;
 
 namespace TajMaster.WebApi.Endpoints.Categories;
 

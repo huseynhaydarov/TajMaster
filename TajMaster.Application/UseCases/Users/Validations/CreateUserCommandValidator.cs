@@ -18,7 +18,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
         RuleFor(x => x.HashedPassword)
             .NotEmpty().WithMessage("Password is required.")
             .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
-        
+
         RuleFor(x => x.Address)
             .MaximumLength(300).WithMessage("Address must not exceed 300 characters.")
             .When(x => !string.IsNullOrEmpty(x.Address));

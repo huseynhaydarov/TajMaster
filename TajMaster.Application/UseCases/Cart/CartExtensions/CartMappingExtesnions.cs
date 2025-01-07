@@ -9,11 +9,11 @@ public static class CartMappingExtensions
     public static CartDto ToCartDto(this Domain.Entities.Cart cart)
     {
         return new CartDto(
-            CartId: cart.Id,
-            UserId: cart.UserId,
-            CartStatus: cart.CartStatus.ToString(),
-            SubTotal: cart.Subtotal,
-            CartItems: cart.CartItems?.Select(ci => ci.ToCartItemDto()).ToList() ?? new List<CartItemDto>()
+            cart.Id,
+            cart.UserId,
+            cart.CartStatus.ToString(),
+            cart.Subtotal,
+            cart.CartItems?.Select(ci => ci.ToCartItemDto()).ToList() ?? new List<CartItemDto>()
         );
     }
 

@@ -6,7 +6,6 @@ namespace TajMaster.Application.UseCases.Orders.OrderExtensions;
 
 public static class OrderMappingExtensions
 {
-
     public static IEnumerable<OrderSummaryDto> ToOrderSummaryDtoList(this IEnumerable<Order> orders)
     {
         return orders.Select(order => order.ToOrderSummaryDto());
@@ -15,31 +14,31 @@ public static class OrderMappingExtensions
     private static OrderSummaryDto ToOrderSummaryDto(this Order order)
     {
         return new OrderSummaryDto(
-            OrderId: order.Id,
-            UserId: order.UserId,
-            CraftsmanId: order.CraftsmanId,
-            AppointmentDate: order.AppointmentDate,
-            Address: order.Address,
-            OrderStatus: order.Status.ToString(),
-            TotalPrice: order.TotalPrice
+            order.Id,
+            order.UserId,
+            order.CraftsmanId,
+            order.AppointmentDate,
+            order.Address,
+            order.Status.ToString(),
+            order.TotalPrice
         );
     }
-    
+
     public static OrderDetailDto MapToOrder(this Order order)
     {
         return new OrderDetailDto(
-            OrderId: order.Id,
-            UserId: order.UserId,
-            CraftsmanId: order.CraftsmanId,
-            AppointmentDate: order.AppointmentDate,
-            Address: order.Address,
-            OrderStatus: order.Status.ToString(),
-            TotalPrice: order.TotalPrice,
-            OrderItems: order.OrderItems.Select(oi => new OrderItemDto(
-                OrderId: oi.OrderId,
-                ServiceId: oi.ServiceId,
-                Quantity: oi.Quantity,
-                Price: oi.Price
+            order.Id,
+            order.UserId,
+            order.CraftsmanId,
+            order.AppointmentDate,
+            order.Address,
+            order.Status.ToString(),
+            order.TotalPrice,
+            order.OrderItems.Select(oi => new OrderItemDto(
+                oi.OrderId,
+                oi.ServiceId,
+                oi.Quantity,
+                oi.Price
             )).ToList()
         );
     }

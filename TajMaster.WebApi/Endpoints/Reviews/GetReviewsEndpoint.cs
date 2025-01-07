@@ -3,7 +3,6 @@ using MediatR;
 using TajMaster.Application.Common.Pagination;
 using TajMaster.Application.UseCases.Reviews.Queries.GetReviews;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
-using TajMaster.Application.UseCases.Services.Queries;
 
 namespace TajMaster.WebApi.Endpoints.Reviews;
 

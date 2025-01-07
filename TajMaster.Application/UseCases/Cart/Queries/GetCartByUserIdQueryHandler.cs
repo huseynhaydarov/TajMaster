@@ -6,7 +6,7 @@ using TajMaster.Application.UseCases.CartExtensions;
 
 namespace TajMaster.Application.UseCases.Cart.Queries;
 
-public class GetCartByUserIdQueryHandler(IUnitOfWork unitOfWork) 
+public class GetCartByUserIdQueryHandler(IUnitOfWork unitOfWork)
     : IRequestHandler<GetCartByUserIdQuery, CartDto>
 {
     public async Task<CartDto> Handle(GetCartByUserIdQuery request, CancellationToken cancellationToken)

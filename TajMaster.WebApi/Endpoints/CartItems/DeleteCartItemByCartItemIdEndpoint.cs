@@ -1,7 +1,6 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TajMaster.Application.UseCases.CartItem.Commands.Delete;
 using TajMaster.Application.UseCases.CartItem.Commands.Delete.DeleteByCartItem;
 
 namespace TajMaster.WebApi.Endpoints.CartItems;

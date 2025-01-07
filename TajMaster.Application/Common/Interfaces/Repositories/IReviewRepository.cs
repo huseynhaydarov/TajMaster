@@ -6,7 +6,7 @@ public interface IReviewRepository : IRepository<Review>
 {
     Task<IEnumerable<Review>> GetReviewsByUserIdAsNoTrackingAsync(int userId,
         CancellationToken cancellationToken = default);
-    
-    Task<IEnumerable<Review>> GetReviewsByCraftsmanIdAsNoTracking(int craftsmanId, 
+
+    Task<IEnumerable<Review>> GetReviewsByCraftsmanIdAsNoTracking(int craftsmanId,
         CancellationToken cancellationToken = default);
 }

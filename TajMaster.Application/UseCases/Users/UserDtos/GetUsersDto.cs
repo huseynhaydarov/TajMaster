@@ -1,6 +1,5 @@
 using TajMaster.Application.UseCases.Orders.OrderDtos;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
-using TajMaster.Domain.Enums;
 
 namespace TajMaster.Application.UseCases.Users.UserDtos;
 

@@ -15,7 +15,8 @@ public class OrderRepository(ApplicationDbContext context) : Repository<Order>(c
         return order;
     }
 
-    public async Task<IEnumerable<Order>> GetOrdersByUserIdAsNoTracking(int userId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Order>> GetOrdersByUserIdAsNoTracking(int userId,
+        CancellationToken cancellationToken = default)
     {
         return await context.Orders
             .AsNoTracking()
@@ -23,20 +24,18 @@ public class OrderRepository(ApplicationDbContext context) : Repository<Order>(c
             .Where(review => review.UserId == userId)
             .ToListAsync(cancellationToken);
     }
-    public override async Task<List<Order>> GetAllAsync(PagingParameters pagingParameters, CancellationToken cancellationToken = default)
+
+    public override async Task<List<Order>> GetAllAsync(PagingParameters pagingParameters,
+        CancellationToken cancellationToken = default)
     {
         var query = context.Orders
             .Include(o => o.OrderItems)
             .Include(o => o.Reviews).AsQueryable();
 
-        if(pagingParameters.OrderByDescending == true)
-        {
+        if (pagingParameters.OrderByDescending == true)
             query = query.OrderByDescending(o => o.Id);
-        }
         else
-        {
             query = query.OrderBy(o => o.Id);
-        }
         return await query
             .Skip(pagingParameters.Skip)
             .Take(pagingParameters.Take)

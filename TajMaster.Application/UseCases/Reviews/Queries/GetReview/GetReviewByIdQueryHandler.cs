@@ -3,7 +3,6 @@ using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 using TajMaster.Application.UseCases.Reviews.ReviewExtensions;
-using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Reviews.Queries.GetReview;
 
@@ -15,7 +14,7 @@ public class GetReviewByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler
 
         if (review == null)
             throw new NotFoundException($"Review with ID {request.ReviewId} not found.");
-        
+
         return review.ToReviewDto();
     }
 }

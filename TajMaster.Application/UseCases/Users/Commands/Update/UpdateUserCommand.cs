@@ -1,5 +1,4 @@
 using MediatR;
-using TajMaster.Domain.Enums;
 
 namespace TajMaster.Application.UseCases.Users.Commands.Update;
 

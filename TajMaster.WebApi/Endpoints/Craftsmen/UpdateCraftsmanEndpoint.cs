@@ -1,9 +1,7 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TajMaster.Application.UseCases.Craftsmen.Commands.Update;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsman;
-using TajMaster.Application.UseCases.Users.Commands.Update;
 
 namespace TajMaster.WebApi.Endpoints.Craftsmen;
 

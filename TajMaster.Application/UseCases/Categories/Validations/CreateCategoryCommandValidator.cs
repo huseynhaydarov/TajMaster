@@ -1,5 +1,4 @@
 using FluentValidation;
-using TajMaster.Application.UseCases.Categories.Commands;
 using TajMaster.Application.UseCases.Categories.Commands.Create;
 
 namespace TajMaster.Application.UseCases.Categories.Validations;
@@ -13,7 +12,7 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
             .WithMessage("Name is required.")
             .MaximumLength(100)
             .WithMessage("Name cannot exceed 100 characters.");
-        
+
         RuleFor(c => c.Description)
             .NotEmpty()
             .WithMessage("Description is required.")

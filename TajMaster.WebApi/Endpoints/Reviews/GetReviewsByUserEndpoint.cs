@@ -2,7 +2,6 @@ using Carter;
 using MediatR;
 using TajMaster.Application.UseCases.Reviews.Queries.GetReviewsByUser;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
-using TajMaster.Application.UseCases.Services.Queries.GetServiceByCategory;
 
 namespace TajMaster.WebApi.Endpoints.Reviews;
 

@@ -1,8 +1,6 @@
 using Carter;
 using MediatR;
-using TajMaster.Application.UseCases.Categories.Queries;
 using TajMaster.Application.UseCases.Categories.Queries.GetCategory;
-using TajMaster.Application.UseCases.Users.Queries.GetUser;
 
 namespace TajMaster.WebApi.Endpoints.Categories;
 

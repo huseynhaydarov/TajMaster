@@ -10,7 +10,7 @@ public class DeleteCategoryQueryHandler(IUnitOfWork unitOfWork) : IRequestHandle
     {
         var category = await unitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId, cancellationToken);
 
-        if (category == null) 
+        if (category == null)
             throw new NotFoundException($"Category with ID {request.CategoryId} not found");
 
         await unitOfWork.CategoryRepository.DeleteAsync(category, cancellationToken);

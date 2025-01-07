@@ -21,26 +21,23 @@ public class ServiceRepository(ApplicationDbContext context) : Repository<Servic
     public override async Task<Service?> GetByIdAsync(int serviceId, CancellationToken cancellationToken = default)
     {
         var service = await context.Services
-            .Include(s => s.Categories)  // Ensuring categories are loaded
+            .Include(s => s.Categories) // Ensuring categories are loaded
             .FirstOrDefaultAsync(s => s.Id == serviceId, cancellationToken);
-        
+
         return service;
     }
-    
-    public override async Task<List<Service>> GetAllAsync(PagingParameters pagingParameters, CancellationToken cancellationToken = default)
+
+    public override async Task<List<Service>> GetAllAsync(PagingParameters pagingParameters,
+        CancellationToken cancellationToken = default)
     {
         var query = context.Services
-            .Include(u => u.Categories) 
+            .Include(u => u.Categories)
             .AsQueryable();
 
-        if(pagingParameters.OrderByDescending == true)
-        {
+        if (pagingParameters.OrderByDescending == true)
             query = query.OrderByDescending(o => o.Id);
-        }
         else
-        {
             query = query.OrderBy(o => o.Id);
-        }
         return await query
             .Skip(pagingParameters.Skip)
             .Take(pagingParameters.Take)

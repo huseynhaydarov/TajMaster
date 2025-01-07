@@ -1,25 +1,19 @@
 using AutoMapper;
-using TajMaster.Application.UseCases.Cart.CartDtos;
 using TajMaster.Application.UseCases.Cart.Commands;
 using TajMaster.Application.UseCases.CartItem.CartItemDTos;
-using TajMaster.Application.UseCases.Categories.CategoryDto;
 using TajMaster.Application.UseCases.Categories.Commands.Create;
 using TajMaster.Application.UseCases.Categories.Commands.Update;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Create;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsman;
-using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
 using TajMaster.Application.UseCases.OrderItems;
 using TajMaster.Application.UseCases.Orders.Create;
-using TajMaster.Application.UseCases.Orders.OrderDtos;
 using TajMaster.Application.UseCases.Reviews.Commands.Create;
 using TajMaster.Application.UseCases.Reviews.Commands.Update;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 using TajMaster.Application.UseCases.Services.Commands.Create;
 using TajMaster.Application.UseCases.Services.Commands.Update;
-using TajMaster.Application.UseCases.Services.ServiceDtos;
 using TajMaster.Application.UseCases.Users.Commands.Create;
 using TajMaster.Application.UseCases.Users.Commands.Update;
-using TajMaster.Application.UseCases.Users.UserDtos;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.Mappers;
@@ -46,16 +40,16 @@ public class AutoMapperConfiguration : Profile
 
         CreateMap<CreateOrderCommand, Order>();
 
-        
+
         CreateMap<CreateCraftsmanCommand, Craftsman>()
             .ForMember(c => c.Description, opt => opt.MapFrom(src => src.About))
-            .ForMember(c => c.Specialization , opt => opt.MapFrom(src => src.Specialization))
+            .ForMember(c => c.Specialization, opt => opt.MapFrom(src => src.Specialization))
             .ForMember(c => c.ProfilePicture, opt => opt.Ignore());
         CreateMap<UpdateCraftsmanCommand, Craftsman>();
 
         CreateMap<CreateCategoryCommand, Category>();
         CreateMap<UpdateCategoryCommand, Category>();
-     
+
         CreateMap<CartItem, CartItemDto>()
             .ForMember(dest => dest.ServiceName, opt => opt.MapFrom(src => src.Service.Title));
 

@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Domain.Enums;
@@ -20,5 +19,4 @@ public class CreateCartCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
 
         return newCart.Id;
     }
-
 }

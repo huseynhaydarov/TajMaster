@@ -2,7 +2,6 @@ using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TajMaster.Application.UseCases.Categories.Commands.Delete;
-using TajMaster.Application.UseCases.Users.Commands.Delete;
 
 namespace TajMaster.WebApi.Endpoints.Categories;
 

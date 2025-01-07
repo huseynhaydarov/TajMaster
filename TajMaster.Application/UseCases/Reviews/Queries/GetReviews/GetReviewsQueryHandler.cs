@@ -3,7 +3,6 @@ using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 using TajMaster.Application.UseCases.Reviews.ReviewExtensions;
-using TajMaster.Application.UseCases.Users.Queries.GetUsers;
 
 namespace TajMaster.Application.UseCases.Reviews.Queries.GetReviews;
 

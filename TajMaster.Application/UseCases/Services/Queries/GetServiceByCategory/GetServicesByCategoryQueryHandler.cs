@@ -1,7 +1,6 @@
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
-using TajMaster.Application.UseCases.Categories.CategoryDto;
 using TajMaster.Application.UseCases.Services.ServiceDtos;
 using TajMaster.Application.UseCases.Services.ServiceExtensions;
 using TajMaster.Domain.Entities;

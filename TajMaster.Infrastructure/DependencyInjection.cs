@@ -18,7 +18,7 @@ public static class DependencyInjection
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         var storageConnectionString = configuration.GetConnectionString("StorageAccount");
-        
+
         services.AddDbContext<ApplicationDbContext>((db, options) => { options.UseNpgsql(connectionString); });
 
         services.AddScoped<IUserRepository, UserRepository>();
@@ -31,11 +31,9 @@ public static class DependencyInjection
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ICartItemRepository, CartItemRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        
+
         if (string.IsNullOrEmpty(storageConnectionString))
-        {
-            throw new ArgumentNullException($"Storage account connection string cannot be null or empty.");
-        }
+            throw new ArgumentNullException("Storage account connection string cannot be null or empty.");
 
         services.AddSingleton(_ => new BlobServiceClient(storageConnectionString));
         services.AddScoped<IBlobService, BlobService>();

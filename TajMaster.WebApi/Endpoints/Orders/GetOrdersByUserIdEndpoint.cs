@@ -2,7 +2,6 @@ using Carter;
 using MediatR;
 using TajMaster.Application.UseCases.Orders.OrderDtos;
 using TajMaster.Application.UseCases.Orders.Queries.GetOrdersByUser;
-using TajMaster.Domain.Entities;
 
 namespace TajMaster.WebApi.Endpoints.Orders;
 

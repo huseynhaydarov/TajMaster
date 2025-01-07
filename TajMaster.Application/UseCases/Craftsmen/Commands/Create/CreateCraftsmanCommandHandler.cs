@@ -3,8 +3,8 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using TajMaster.Application.Common.Interfaces.BlobStorage;
 using TajMaster.Application.Common.Interfaces.Data;
-using TajMaster.Domain.Entities;
 using TajMaster.Application.Exceptions;
+using TajMaster.Domain.Entities;
 using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Commands.Create;
@@ -28,7 +28,7 @@ public class CreateCraftsmanCommandHandler(
             throw new InvalidOperationException("The user is not eligible to become a craftsman.");
 
         string? profilePictureUrl = null;
-        
+
         if (command.ProfilePicture != null)
         {
             logger.LogInformation(

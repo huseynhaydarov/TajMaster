@@ -6,5 +6,5 @@ public record CreateOrderCommand(
     int UserId,
     int CraftsmanId,
     DateTime AppointmentDate,
-    string Address) 
+    string Address)
     : ICommand<int>;

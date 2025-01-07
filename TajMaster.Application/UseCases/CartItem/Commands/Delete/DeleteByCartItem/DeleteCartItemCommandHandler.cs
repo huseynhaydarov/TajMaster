@@ -1,10 +1,8 @@
-using MediatR;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
 namespace TajMaster.Application.UseCases.CartItem.Commands.Delete.DeleteByCartItem;
-
 
 public class DeleteCartItemCommandHandler(IUnitOfWork unitOfWork)
     : ICommandHandler<DeleteCartItemCommand, bool>

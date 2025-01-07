@@ -1,6 +1,6 @@
 namespace TajMaster.Application.UseCases.Orders.OrderDtos;
 
-public  record OrderSummaryDto(
+public record OrderSummaryDto(
     int OrderId,
     int UserId,
     int CraftsmanId,

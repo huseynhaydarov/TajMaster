@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Repositories;
 using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enums;
 using TajMaster.Infrastructure.Persistence.Data;
 
 namespace TajMaster.Infrastructure.Persistence.Repositories;
@@ -14,7 +13,7 @@ public class CartRepository(ApplicationDbContext context) : Repository<Cart>(con
             .Include(c => c.CartItems)
             .ThenInclude(ci => ci.Service)
             .FirstOrDefaultAsync(c => c.UserId == userId))!;
-            /*.FirstOrDefaultAsync(c => c.UserId == userId && c.CartStatus == CartStatus.active) ?? throw new InvalidOperationException();*/
+        /*.FirstOrDefaultAsync(c => c.UserId == userId && c.CartStatus == CartStatus.active) ?? throw new InvalidOperationException();*/
     }
 
     public async Task UpdateAsync(Cart cart)

@@ -2,7 +2,6 @@ using Carter;
 using MediatR;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
 using TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmanByUser;
-using TajMaster.Application.UseCases.Reviews.Queries.GetReviewsByCraftsman;
 
 namespace TajMaster.WebApi.Endpoints.Craftsmen;
 

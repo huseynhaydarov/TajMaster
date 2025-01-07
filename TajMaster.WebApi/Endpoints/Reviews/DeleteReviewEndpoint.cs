@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TajMaster.Application.UseCases.Reviews.Commands.Delete;
 
-
 namespace TajMaster.WebApi.Endpoints.Reviews;
 
 public class DeleteReviewEndpoint : ICarterModule
