@@ -1,14 +1,14 @@
 using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
-using TajMaster.Application.UseCases.DTO;
+using TajMaster.Application.UseCases.Services.ServiceDtos;
 
 namespace TajMaster.Application.UseCases.Categories.Queries.GetCategories;
 
 public class GetCategoriesQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<GetCategoriesQuery, PaginatedResult<CategoryDto>>
+    : IRequestHandler<GetCategoriesQuery, PaginatedResult<CategoryDto.CategoryDto>>
 {
-    public async Task<PaginatedResult<CategoryDto>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResult<CategoryDto.CategoryDto>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
     {
         var pagingParams = request.PagingParameters;
 
@@ -17,20 +17,13 @@ public class GetCategoriesQueryHandler(IUnitOfWork unitOfWork)
         var totalCount = paginatedCategories.Count();
 
         var categoriesDto = paginatedCategories
-            .Select(category => new CategoryDto(
+            .Select(category => new CategoryDto.CategoryDto(
                 category.Id,
                 category.Name,
-                category.Description,
-                category.Services.Select(service => new ServiceDto(
-                    service.Id,
-                    service.Title,
-                    service.Description,
-                    service.BasePrice,
-                    null 
-                )).ToList()))
+                category.Description))
             .ToList();
         
-        var paginatedResult = new PaginatedResult<CategoryDto>(
+        var paginatedResult = new PaginatedResult<CategoryDto.CategoryDto>(
             (int)pagingParams.PageNumber!,
             (int)pagingParams.PageSize!,
             totalCount,
