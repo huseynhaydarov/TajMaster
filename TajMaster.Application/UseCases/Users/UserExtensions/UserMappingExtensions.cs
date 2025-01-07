@@ -1,4 +1,3 @@
-using TajMaster.Application.UseCases.DTOs;
 using TajMaster.Application.UseCases.OrderItems;
 using TajMaster.Application.UseCases.Orders.OrderDtos;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
@@ -9,7 +8,12 @@ namespace TajMaster.Application.UseCases.Users.UserExtensions;
 
 public static class UserMappingExtensions
 {
-    public static UserSummaryDto ToUsersListDto(this User user)
+    public static IEnumerable<UserSummaryDto> ToUserDtoList(this IEnumerable<User> users)
+    {
+        return users.Select(order => order.ToUserSummaryDto());
+    }
+    
+    private static UserSummaryDto ToUserSummaryDto(this User user)
     {
         return new UserSummaryDto(
             user.Id,

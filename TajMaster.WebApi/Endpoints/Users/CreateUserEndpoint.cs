@@ -9,11 +9,12 @@ public class CreateUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/users", async (ISender mediator, [FromBody] CreateUserCommand command) =>
+        app.MapPost("/api/users", async (ISender mediator, [FromBody] CreateUserCommand command) =>
             {
                 var userId = await mediator.Send(command);
                 return Results.Created($"/users/{userId}", new { Id = userId });
             })
-            .WithName("CreateUserEndpoint");
+            .WithName("CreateUserEndpoint")
+            .WithTags("Users");
     }
 }

@@ -8,9 +8,9 @@ using TajMaster.Application.UseCases.Users.UserExtensions;
 
 namespace TajMaster.Application.UseCases.Users.Queries.GetUsers;
 
-public class GetUsersQueryHandler(IUnitOfWork unitOfWork) : IQueryHandler<GetUsersQuery, PaginatedResult<GetUsersDto>>
+public class GetUsersQueryHandler(IUnitOfWork unitOfWork) : IQueryHandler<GetUsersQuery, PaginatedResult<UserSummaryDto>>
 {
-    public async Task<PaginatedResult<GetUsersDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResult<UserSummaryDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
         var pagingParams = request.PagingParameters;
 
@@ -18,10 +18,9 @@ public class GetUsersQueryHandler(IUnitOfWork unitOfWork) : IQueryHandler<GetUse
 
         var totalCount = paginatedUsers.Count;
         
-        var usersDto = paginatedUsers
-            .Select(user => user.ToUsersDto());
+        var usersDto = paginatedUsers.ToUserDtoList();
 
-        return new PaginatedResult<GetUsersDto>(
+        return new PaginatedResult<UserSummaryDto>(
             (int)pagingParams.PageNumber!,
             (int)pagingParams.PageSize!,
             totalCount,

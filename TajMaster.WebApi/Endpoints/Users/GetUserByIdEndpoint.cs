@@ -1,6 +1,5 @@
 using Carter;
 using MediatR;
-using TajMaster.Application.UseCases.DTOs;
 using TajMaster.Application.UseCases.Users.Queries.GetUser;
 using TajMaster.Application.UseCases.Users.UserDtos;
 

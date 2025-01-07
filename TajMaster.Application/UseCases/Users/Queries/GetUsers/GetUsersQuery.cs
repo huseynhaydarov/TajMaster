@@ -5,4 +5,4 @@ using TajMaster.Application.UseCases.Users.UserDtos;
 
 namespace TajMaster.Application.UseCases.Users.Queries.GetUsers;
 
-public record GetUsersQuery(PagingParameters PagingParameters) : IQuery<PaginatedResult<GetUsersDto>>;
+public record GetUsersQuery(PagingParameters PagingParameters) : IQuery<PaginatedResult<UserSummaryDto>>;

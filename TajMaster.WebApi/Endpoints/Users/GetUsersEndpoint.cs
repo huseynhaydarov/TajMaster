@@ -1,7 +1,6 @@
 using Carter;
 using MediatR;
 using TajMaster.Application.Common.Pagination;
-using TajMaster.Application.UseCases.DTO;
 using TajMaster.Application.UseCases.Users.Queries;
 using TajMaster.Application.UseCases.Users.Queries.GetUsers;
 using TajMaster.Application.UseCases.Users.UserDtos;
@@ -20,6 +19,6 @@ public class GetUsersEndpoint : ICarterModule
             })
             .WithName("GetUsersEndpoint")
             .WithTags("Users")
-            .Produces<PaginatedResult<GetUsersDto>>();
+            .Produces<PaginatedResult<UserDetailDto>>();
     }
 }

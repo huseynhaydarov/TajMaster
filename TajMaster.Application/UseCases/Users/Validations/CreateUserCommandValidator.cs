@@ -13,38 +13,18 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 
         RuleFor(x => x.Email)
             .EmailAddress().WithMessage("Invalid email format.")
-            .When(x => !string.IsNullOrEmpty(x.Email)); // Email is optional but must be valid if provided.
+            .When(x => !string.IsNullOrEmpty(x.Email));
 
         RuleFor(x => x.HashedPassword)
             .NotEmpty().WithMessage("Password is required.")
             .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
+        
+        RuleFor(x => x.Address)
+            .MaximumLength(300).WithMessage("Address must not exceed 300 characters.")
+            .When(x => !string.IsNullOrEmpty(x.Address));
 
         RuleFor(x => x.Phone)
             .NotEmpty().WithMessage("Phone number is required.")
             .Matches(@"^\+?[1-9]\d{1,14}$").WithMessage("Invalid phone number format.");
-
-        RuleFor(x => x.Roles)
-            .IsInEnum().WithMessage("Invalid role specified.");
-
-        RuleFor(x => x.RegisterDate)
-            .NotEmpty().WithMessage("Register date is required.")
-            .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("Register date cannot be in the future.");
-
-        RuleFor(x => x.ProfilePicture)
-            .Must(BeAValidUrl).WithMessage("Invalid URL format for profile picture.")
-            .When(x => !string.IsNullOrEmpty(x.ProfilePicture)); // Optional, but must be valid if provided.
-
-        RuleFor(x => x.IsVerified)
-            .NotNull().WithMessage("Verification status must be specified.");
-
-        RuleFor(x => x.IsActive)
-            .NotNull().WithMessage("Active status must be specified.");
-    }
-
-    // Custom URL validation
-    private bool BeAValidUrl(string? url)
-    {
-        return Uri.TryCreate(url, UriKind.Absolute, out var uriResult) &&
-               (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
     }
 }

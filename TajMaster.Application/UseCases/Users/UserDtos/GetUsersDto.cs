@@ -1,10 +1,10 @@
-using TajMaster.Application.UseCases.DTOs;
 using TajMaster.Application.UseCases.Orders.OrderDtos;
+using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 using TajMaster.Domain.Enums;
 
 namespace TajMaster.Application.UseCases.Users.UserDtos;
 
-public record GetUsersDto(
+public record UserDetailDto(
     int UserId,
     string FullName,
     string? Email,
@@ -13,5 +13,5 @@ public record GetUsersDto(
     string Role,
     DateTime RegisterDate,
     bool IsActive,
-    List<OrderDto>? Orders,
+    List<OrderSummaryDto>? Orders,
     List<ReviewDto>? Reviews);
