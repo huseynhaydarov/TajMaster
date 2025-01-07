@@ -7,7 +7,6 @@ namespace TajMaster.Infrastructure.Persistence.Repositories;
 public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
     where TEntity : class
 {
-    private readonly DbContext _context = context;
     private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
 
     public virtual async Task<List<TEntity>> GetAllAsync(PagingParameters pagingParameters,
@@ -22,18 +21,18 @@ public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
 
     public virtual async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        return await _context.Set<TEntity>()
+        return await context.Set<TEntity>()
             .FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id, cancellationToken);
     }
 
-    public async Task<IList<TEntity>> GetGetByIdsAsync(IEnumerable<int> ids,
+    public async Task<IList<TEntity>> GetByIdsAsync(IEnumerable<int> ids,
         CancellationToken cancellationToken = default)
     {
         var enumerable = ids.ToList();
         if (enumerable.Count.CompareTo(1) > 0)
             return new List<TEntity>();
 
-        return await _context.Set<TEntity>()
+        return await context.Set<TEntity>()
             .Where(e => enumerable.Contains(EF.Property<int>(e, "Id")))
             .ToListAsync(cancellationToken);
     }
@@ -56,8 +55,8 @@ public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
         await SaveAsync();
     }
 
-    public async Task SaveAsync()
+    private async Task SaveAsync()
     {
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 }
