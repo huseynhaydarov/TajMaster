@@ -11,11 +11,12 @@ public class CreateCategoryEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/categories", async (ISender mediator, [FromBody] CreateCategoryCommand command) =>
+        app.MapPost("/api/categories", async (ISender mediator, [FromBody] CreateCategoryCommand command) =>
             {
                 var categoryId = await mediator.Send(command);
                 return Results.Created($"/categories/{categoryId}", new { Id = categoryId });
             })
-            .WithName("CreateCategoryEndpoint");
+            .WithName("CreateCategoryEndpoint")
+            .WithTags("Categories");
     }
 }

@@ -1,20 +1,23 @@
 using FluentValidation;
-using TajMaster.Application.UseCases.Categories.Commands;
-using TajMaster.Application.UseCases.Categories.Commands.Create;
+using TajMaster.Application.UseCases.Categories.Commands.Update;
 
 namespace TajMaster.Application.UseCases.Categories.Validations;
 
-public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
+public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCommand>
 {
-    public CreateCategoryCommandValidator()
+    public UpdateCategoryCommandValidator()
     {
-        RuleFor(c => c.Name)
+        RuleFor(c => c.CategoryId)
+            .NotEmpty()
+            .WithMessage("Category ID cannot be empty");
+        
+        RuleFor(command => command.Name)
             .NotEmpty()
             .WithMessage("Name is required.")
             .MaximumLength(100)
             .WithMessage("Name cannot exceed 100 characters.");
         
-        RuleFor(c => c.Description)
+        RuleFor(command => command.Description)
             .NotEmpty()
             .WithMessage("Description is required.")
             .MaximumLength(500)

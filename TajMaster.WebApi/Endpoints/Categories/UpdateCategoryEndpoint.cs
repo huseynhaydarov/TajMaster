@@ -10,12 +10,13 @@ public class UpdateCategoryEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/categories/{id}", async (ISender mediator, int id, [FromBody] UpdateCategoryCommand command) =>
+        app.MapPut("/api/categories/{id}", async (ISender mediator, int id, [FromBody] UpdateCategoryCommand command) =>
             {
                 if (id != command.CategoryId) return Results.BadRequest();
                 var result = await mediator.Send(command);
                 return result ? Results.NoContent() : Results.NotFound();
             })
-            .WithName("UpdateCategoryEndpoint");
+            .WithName("UpdateCategoryEndpoint")
+            .WithTags("Categories");
     }
 }

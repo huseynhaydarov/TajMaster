@@ -1,8 +1,6 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using TajMaster.Application.UseCases.DTO;
-using TajMaster.Application.UseCases.DTOs;
 using TajMaster.Application.UseCases.Services.Queries.GetServiceByCategory;
 using TajMaster.Application.UseCases.Services.ServiceDtos;
 
@@ -21,7 +19,7 @@ public class GetServicesByCategoryEndpoint : ICarterModule
 
                     var services = await sender.Send(query);
 
-                    var serviceDto = services as ServiceDto[] ?? services.ToArray();
+                    var serviceDto = services as ServiceSummaryDto[] ?? services.ToArray();
                     if (!serviceDto.Any())
                         return Results.NotFound(new { Message = $"No services found for category ID {categoryId}." });
 
@@ -29,6 +27,6 @@ public class GetServicesByCategoryEndpoint : ICarterModule
                 })
             .WithName("GetServicesByCategoryEndpoint")
             .WithTags("Services")
-            .Produces<IEnumerable<ServiceDto>>();
+            .Produces<IEnumerable<ServiceDetailDto>>();
     }
 }
