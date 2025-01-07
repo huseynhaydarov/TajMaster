@@ -9,7 +9,7 @@ public static class DependencyInjection
     {
         services.AddCarter();
         services.AddExceptionHandler<CustomExceptionHandler>();
-
+        services.AddAntiforgery();
         return services;
     }
 
@@ -17,7 +17,7 @@ public static class DependencyInjection
     {
         app.MapCarter();
 
-        app.UseExceptionHandler(options => { });
+        app.UseExceptionHandler(_ => { });
 
         return app;
     }
