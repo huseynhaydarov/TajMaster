@@ -8,8 +8,12 @@ public interface IUnitOfWork
     IServiceRepository ServiceRepository { get; }
     IReviewRepository ReviewRepository { get; }
     IOrderRepository OrderRepository { get; }
+    IOrderItemRepository OrderItemRepository { get; }
     ICraftsmanRepository CraftsmanRepository { get; }
     ICategoryRepository CategoryRepository { get; }
+    ICartRepository CartRepository { get; }
+    ICartItemRepository CartItemRepository { get; }
+    
     Task<int> CompleteAsync(CancellationToken cancellationToken = default);
     void Dispose();
 }
