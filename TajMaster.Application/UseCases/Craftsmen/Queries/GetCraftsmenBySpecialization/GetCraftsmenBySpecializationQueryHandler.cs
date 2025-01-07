@@ -1,7 +1,8 @@
 using AutoMapper;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
-using TajMaster.Application.UseCases.DTO;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmenBySpecialization;
 
@@ -11,6 +12,6 @@ public class GetCraftsmenBySpecializationQueryHandler(IUnitOfWork unitOfWork, IM
     {
         var craftsmen = await unitOfWork.CraftsmanRepository.GetBySpecializationAsync(request.Specialization, cancellationToken);
         
-        return mapper.Map<List<CraftsmanDto>>(craftsmen);
+        return craftsmen.CraftsmanDtos().ToList();
     }
 }

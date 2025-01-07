@@ -1,7 +1,7 @@
 using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
-using TajMaster.Application.UseCases.DTO;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmanByUser;

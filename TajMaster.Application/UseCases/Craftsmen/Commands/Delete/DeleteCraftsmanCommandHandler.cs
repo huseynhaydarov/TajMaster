@@ -7,7 +7,7 @@ public class DeleteCraftsmanCommandHandler(IUnitOfWork unitOfWork) : IRequestHan
 {
     public async Task<bool> Handle(DeleteCraftsmanCommand request, CancellationToken cancellationToken)
     {
-        var craftsman = await unitOfWork.CraftsmanRepository.GetByIdAsync(request.CraftsmenId, cancellationToken);
+        var craftsman = await unitOfWork.CraftsmanRepository.GetByIdAsync(request.CraftsmanId, cancellationToken);
 
         if (craftsman == null) return await Task.FromResult(false);
 

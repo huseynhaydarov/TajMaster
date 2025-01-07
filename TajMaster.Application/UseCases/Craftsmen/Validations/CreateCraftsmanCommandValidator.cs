@@ -19,21 +19,14 @@ public class CreateCraftsmanCommandValidator : AbstractValidator<CreateCraftsman
             .GreaterThanOrEqualTo(0)
             .WithMessage("Experience cannot be negative.");
 
-        RuleFor(x => x.Description)
+        RuleFor(x => x.About)
             .MaximumLength(500)
             .WithMessage("Description cannot exceed 500 characters.");
 
         RuleFor(x => x.ProfilePicture)
-            .MaximumLength(255)
-            .When(x => !string.IsNullOrEmpty(x.ProfilePicture))
-            .WithMessage("Profile picture URL cannot exceed 255 characters.");
-
-        RuleFor(x => x.IsAvailable)
-            .NotNull()
-            .WithMessage("IsAvailable flag must be specified.");
-
-        RuleFor(x => x.ProfileVerified)
-            .NotNull()
-            .WithMessage("ProfileVerified flag must be specified.");
+            .Must(file => file == null || file.Length <= 5 * 1024 * 1024)  // File size validation only if file exists
+            .WithMessage("Profile picture size must not exceed 5 MB.")
+            .Must(file => file == null || new[] { ".jpg", ".jpeg", ".png" }.Contains(Path.GetExtension(file?.FileName)?.ToLower()))
+            .WithMessage("Only .jpg, .jpeg, or .png files are allowed.");
     }
 }

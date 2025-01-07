@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enums;
+using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Infrastructure.Persistence.Configurations;
 
-public class CrafstmanConfiguration : IEntityTypeConfiguration<Craftsman>
+
+public class CraftsmanConfiguration : IEntityTypeConfiguration<Craftsman>
 {
     public void Configure(EntityTypeBuilder<Craftsman> builder)
     {

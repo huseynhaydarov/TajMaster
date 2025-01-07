@@ -3,13 +3,13 @@ using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
-namespace TajMaster.Application.UseCases.Craftsmen.Commands.Update;
+namespace TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsman;
 
 public class UpdateCraftsmanCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<UpdateCraftsmanCommand, bool>
 {
     public async Task<bool> Handle(UpdateCraftsmanCommand command, CancellationToken cancellationToken)
     {
-        var craftsman = await unitOfWork.CraftsmanRepository.GetByIdAsync(command.UserId, cancellationToken);
+        var craftsman = await unitOfWork.CraftsmanRepository.GetByIdAsync(command.CraftsmanId, cancellationToken);
 
         if (craftsman == null)
             throw new NotFoundException($"Craftsman with ID {command.CraftsmanId} not found.");

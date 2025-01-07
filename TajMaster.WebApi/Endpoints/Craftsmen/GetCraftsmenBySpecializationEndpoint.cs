@@ -1,8 +1,8 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
 using TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmenBySpecialization;
-using TajMaster.Application.UseCases.DTO;
 
 namespace TajMaster.WebApi.Endpoints.Craftsmen;
 
