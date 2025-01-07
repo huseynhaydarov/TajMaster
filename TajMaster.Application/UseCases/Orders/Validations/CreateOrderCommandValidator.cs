@@ -24,18 +24,6 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
             .WithMessage("Address is required.")
             .MinimumLength(10)
             .WithMessage("Address must be at least 10 characters long.");
-
-        RuleFor(command => command.TotalPrice)
-            .GreaterThan(0)
-            .WithMessage("TotalPrice must be greater than zero.");
-
-        RuleFor(command => command.OrderItems)
-            .NotEmpty()
-            .WithMessage("OrderItems must contain at least one item.")
-            .ForEach(item =>
-            {
-                item.SetValidator(new OrderItemDtoValidator());
-            });
     }
 
     private bool BeInTheFuture(DateTime date)

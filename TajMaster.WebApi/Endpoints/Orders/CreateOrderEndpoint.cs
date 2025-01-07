@@ -9,11 +9,12 @@ public class CreateOrderEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/orders", async (ISender mediator, [FromBody] CreateOrderCommand command) =>
+        app.MapPost("/api/orders", async (ISender mediator, [FromBody] CreateOrderCommand command) =>
             {
                 var orderId = await mediator.Send(command);
-                return Results.Created($"/order/{orderId}", new { Id = orderId });
+                return Results.Created($"/orders/{orderId}", new { Id = orderId });
             })
-            .WithName("CreateOrderEndpoint");
+            .WithName("CreateOrderEndpoint")
+            .WithTags("Orders");
     }
 }

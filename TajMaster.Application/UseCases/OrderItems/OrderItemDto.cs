@@ -1,4 +1,4 @@
-namespace TajMaster.Application.UseCases.DTO;
+namespace TajMaster.Application.UseCases.OrderItems;
 
 public record OrderItemDto(
     int OrderId,

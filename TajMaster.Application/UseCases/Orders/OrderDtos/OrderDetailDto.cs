@@ -1,6 +1,8 @@
-namespace TajMaster.Application.UseCases.DTO;
+using TajMaster.Application.UseCases.OrderItems;
 
-public record OrderDto(
+namespace TajMaster.Application.UseCases.Orders.OrderDtos;
+
+public record OrderDetailDto(
     int OrderId,
     int UserId,
     int CraftsmanId,
@@ -8,5 +10,4 @@ public record OrderDto(
     string Address,
     string OrderStatus,
     decimal TotalPrice,
-    List<ReviewDto> Reviews,
     List<OrderItemDto> OrderItems);

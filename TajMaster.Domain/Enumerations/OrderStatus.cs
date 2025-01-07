@@ -1,4 +1,4 @@
-﻿namespace TajMaster.Domain.Enums;
+﻿namespace TajMaster.Domain.Enumerations;
 
 public enum OrderStatus
 {
