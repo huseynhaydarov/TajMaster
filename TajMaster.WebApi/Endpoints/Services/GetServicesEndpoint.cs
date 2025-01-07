@@ -1,8 +1,6 @@
 using Carter;
 using MediatR;
 using TajMaster.Application.Common.Pagination;
-using TajMaster.Application.UseCases.DTO;
-using TajMaster.Application.UseCases.DTOs;
 using TajMaster.Application.UseCases.Services.Queries;
 using TajMaster.Application.UseCases.Services.Queries.GetServices;
 using TajMaster.Application.UseCases.Services.ServiceDtos;
@@ -21,6 +19,6 @@ public class GetServicesEndpoint : ICarterModule
             })
             .WithName("GetServicesEndpoint")
             .WithTags("Services")
-            .Produces<PaginatedResult<ServiceDto>>();
+            .Produces<PaginatedResult<ServiceDetailDto>>();
     }
 }

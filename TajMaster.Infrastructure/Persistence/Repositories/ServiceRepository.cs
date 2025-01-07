@@ -17,6 +17,15 @@ public class ServiceRepository(ApplicationDbContext context) : Repository<Servic
             .Where(service => service.Categories.Any(category => category.Id == categoryId))
             .ToListAsync(cancellationToken);
     }
+
+    public override async Task<Service?> GetByIdAsync(int serviceId, CancellationToken cancellationToken = default)
+    {
+        var service = await context.Services
+            .Include(s => s.Categories)  // Ensuring categories are loaded
+            .FirstOrDefaultAsync(s => s.Id == serviceId, cancellationToken);
+        
+        return service;
+    }
     
     public override async Task<List<Service>> GetAllAsync(PagingParameters pagingParameters, CancellationToken cancellationToken = default)
     {

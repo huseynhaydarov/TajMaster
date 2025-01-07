@@ -1,9 +1,8 @@
 using TajMaster.Application.UseCases.Categories.CategoryDto;
-using TajMaster.Application.UseCases.DTO;
 
 namespace TajMaster.Application.UseCases.Services.ServiceDtos;
 
-public record ServiceDto(
+public record ServiceDetailDto(
     int ServiceId,
     string Title,
     string Description,
