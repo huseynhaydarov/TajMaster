@@ -4,4 +4,4 @@ using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Services.Queries.GetService;
 
-public record GetServiceByIdQuery(int ServiceId) : IQuery<ServiceDto>;
+public record GetServiceByIdQuery(int ServiceId) : IQuery<ServiceDetailDto>;
