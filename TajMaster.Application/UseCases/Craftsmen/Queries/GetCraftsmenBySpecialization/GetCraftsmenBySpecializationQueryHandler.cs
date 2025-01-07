@@ -6,7 +6,7 @@ using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmenBySpecialization;
 
-public class GetCraftsmenBySpecializationQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+public class GetCraftsmenBySpecializationQueryHandler(IUnitOfWork unitOfWork)
     : IQueryHandler<GetCraftsmenBySpecializationQuery, List<CraftsmanDto>>
 {
     public async Task<List<CraftsmanDto>> Handle(GetCraftsmenBySpecializationQuery request,
