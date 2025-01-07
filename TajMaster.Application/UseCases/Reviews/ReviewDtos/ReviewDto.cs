@@ -1,4 +1,4 @@
-namespace TajMaster.Application.UseCases.DTO;
+namespace TajMaster.Application.UseCases.Reviews.ReviewDtos;
 
 public record ReviewDto(
     int ReviewId,

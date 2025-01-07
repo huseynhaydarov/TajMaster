@@ -1,7 +1,7 @@
 using Carter;
 using MediatR;
-using TajMaster.Application.UseCases.DTO;
 using TajMaster.Application.UseCases.Reviews.Queries.GetReviewsByCraftsman;
+using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 
 namespace TajMaster.WebApi.Endpoints.Reviews;
 
@@ -9,7 +9,7 @@ public class GetReviewsByCraftsman : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/reviews/craftsman/{Id}", async (int craftsmanId, ISender sender) =>
+        app.MapGet("/api/reviews/craftsman/{Id}", async (int craftsmanId, ISender sender) =>
             {
                 if (craftsmanId <= 0)
                     return Results.BadRequest(new { Message = "CraftsmanId must be a positive integer." });
@@ -25,6 +25,7 @@ public class GetReviewsByCraftsman : ICarterModule
                 return Results.Ok(reviewDto);
             })
             .WithName("GetReviewsByCraftsmanEndpoint")
+            .WithTags("Reviews")
             .Produces<IEnumerable<ReviewDto>>();
     }
 }
