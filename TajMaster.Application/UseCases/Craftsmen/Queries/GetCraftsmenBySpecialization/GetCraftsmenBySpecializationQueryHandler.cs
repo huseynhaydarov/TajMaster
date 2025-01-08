@@ -1,4 +1,3 @@
-using AutoMapper;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
