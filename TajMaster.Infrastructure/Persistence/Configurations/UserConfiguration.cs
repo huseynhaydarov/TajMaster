@@ -15,7 +15,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(x => x.Email)
             .IsUnique();
         builder.Property(x => x.HashedPassword)
-            .HasMaxLength(50)
+            .HasMaxLength(256)
             .IsRequired();
         builder.Property(x => x.Phone)
             .HasMaxLength(9)
@@ -27,7 +27,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Roles)
             .HasConversion(
                 x => x.ToString(),
-                x => Enum.TryParse(x, out result) ? result : Role.Guest
+                x => Enum.TryParse(x, out result) ? result : Role.Customer
             )
             .IsRequired();
         builder.Property(x => x.RegisteredDate)

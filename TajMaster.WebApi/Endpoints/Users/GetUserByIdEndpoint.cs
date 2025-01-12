@@ -14,6 +14,7 @@ public class GetUserByIdEndpoint : ICarterModule
                 var user = await mediator.Send(new GetUserByIdQuery(id));
                 return Results.Ok(user);
             })
+            .RequireAuthorization("CustomerPolicy")  
             .WithName("GetUserByIdEndpoint")
             .WithTags("Users")
             .Produces<UserSummaryDto>();

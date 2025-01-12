@@ -31,4 +31,10 @@ public class UserRepository(ApplicationDbContext context) : Repository<User>(con
         return await context.Users
             .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
+
+    public async Task<User?> GetByEmailAsync(string email)
+    {
+        return await context.Users
+            .FirstOrDefaultAsync(u => u.Email == email);
+    }
 }

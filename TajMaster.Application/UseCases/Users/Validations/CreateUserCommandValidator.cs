@@ -15,7 +15,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
             .EmailAddress().WithMessage("Invalid email format.")
             .When(x => !string.IsNullOrEmpty(x.Email));
 
-        RuleFor(x => x.HashedPassword)
+        RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required.")
             .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
 

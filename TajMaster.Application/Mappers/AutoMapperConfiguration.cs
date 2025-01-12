@@ -22,7 +22,8 @@ public class AutoMapperConfiguration : Profile
 {
     public AutoMapperConfiguration()
     {
-        CreateMap<CreateUserCommand, User>();
+        CreateMap<CreateUserCommand, User>()
+            .ForMember(dest => dest.HashedPassword, opt => opt.MapFrom(src => src.Password));
         CreateMap<UpdateUserCommand, User>();
 
         CreateMap<CreateServiceCommand, Service>()
