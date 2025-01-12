@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TajMaster.Application.UseCases.Auth;
 
-namespace TajMaster.WebApi.Endpoints.Users;
+namespace TajMaster.WebApi.Endpoints.Auth;
 
 public class LoginAuthEndpoint : ICarterModule
 {
@@ -23,7 +23,7 @@ public class LoginAuthEndpoint : ICarterModule
                     HttpOnly = true,
                     Secure = true, 
                     SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddDays(7) 
+                    Expires = DateTime.UtcNow.AddDays(15) 
                 });
                 
                 return Results.Ok(new

@@ -64,7 +64,33 @@ public class TokenService(IOptions<JwtSettings> jwtSettings) : ITokenService
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out _);
-        return principal;
+        try
+        {
+            // Disable automatic claim mapping to preserve claim names like "sub"
+            tokenHandler.InboundClaimTypeMap.Clear();
+            
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
+
+            if (validatedToken is not JwtSecurityToken jwtToken ||
+                !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new SecurityTokenException("Invalid token");
+            }
+
+            // Log all claims for debugging
+            foreach (var claim in principal.Claims)
+            {
+                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+            }
+
+            return principal;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Token validation failed: {ex.Message}");
+            
+            return null;
+        }
     }
+
 }

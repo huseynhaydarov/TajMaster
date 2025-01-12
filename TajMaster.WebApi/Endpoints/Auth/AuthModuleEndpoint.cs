@@ -1,5 +1,4 @@
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Carter;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Interfaces.IdentityService;
@@ -20,25 +19,38 @@ public class AuthModuleEndpoint : ICarterModule
                     return Results.Unauthorized();
                 }
                 
-                var rawHeader = context.Request.Headers["Authorization"];
-                Console.WriteLine($"Raw Authorization Header: {rawHeader}");
-                var accessToken = rawHeader.ToString().Replace("Bearer ", string.Empty);
+                var rawHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+
+                if (string.IsNullOrEmpty(rawHeader) || !rawHeader.StartsWith("Bearer "))
+                {
+                    Console.WriteLine("Authorization header is missing or invalid.");
+                    return Results.Unauthorized();
+                }
+
+                var accessToken = rawHeader.Substring("Bearer ".Length).Trim(); // Extract the token
                 Console.WriteLine($"Parsed Access Token: {accessToken}");
+
                 
                 var tokenService = context.RequestServices.GetRequiredService<ITokenService>();
                 var unitOfWork = context.RequestServices.GetRequiredService<IUnitOfWork>();
                 
                 var principal = tokenService.GetPrincipalFromExpiredToken(accessToken);
+                
                 if (principal == null)
                 {
-                    Console.WriteLine("Failed to extract principal from expired token.");
+                    Console.WriteLine("Failed to extract claims.");
                     return Results.Unauthorized();
                 }
 
-              
-                var userIdString = principal.FindFirstValue(JwtRegisteredClaimNames.Sub);
-                if (!int.TryParse(userIdString, out var userId))
+                foreach (var claim in principal.Claims)
                 {
+                    Console.WriteLine($"Claim: {claim.Type} = {claim.Value}");
+                }
+                
+                var userIdString = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+                if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out var userId))
+                {
+                    Console.WriteLine("Invalid user ID in token");
                     return Results.Unauthorized();
                 }
                 
@@ -56,7 +68,7 @@ public class AuthModuleEndpoint : ICarterModule
                     HttpOnly = true,
                     Secure = true,
                     SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddDays(7)
+                    Expires = DateTime.UtcNow.AddDays(15)
                 });
                 
                 return Results.Ok(new
@@ -73,7 +85,6 @@ public class AuthModuleEndpoint : ICarterModule
                 return Results.Unauthorized();
             }
         })
-        .WithName("RefreshToken")
         .WithTags("Auth")
         .WithOpenApi();
     }
