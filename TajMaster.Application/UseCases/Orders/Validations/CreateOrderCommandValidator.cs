@@ -8,12 +8,13 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     public CreateOrderCommandValidator()
     {
         RuleFor(command => command.UserId)
-            .GreaterThan(0)
-            .WithMessage("UserId must be a positive integer.");
-
+            .NotEqual(Guid.Empty)
+            .WithMessage("User ID must be a valid GUID and cannot be empty.");
+        
         RuleFor(command => command.CraftsmanId)
-            .GreaterThan(0)
-            .WithMessage("CraftsmanId must be a positive integer.");
+            .NotEqual(Guid.Empty)
+            .WithMessage("CraftsmanId must be a valid GUID and cannot be empty.");
+            
 
         RuleFor(command => command.AppointmentDate)
             .Must(BeInTheFuture)

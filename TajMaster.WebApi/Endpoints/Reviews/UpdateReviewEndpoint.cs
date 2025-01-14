@@ -9,7 +9,7 @@ public class UpdateReviewEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/reviews/{id}", async (ISender mediator, int id, [FromBody] UpdateReviewCommand command) =>
+        app.MapPut("/api/reviews/{id}", async (ISender mediator, Guid id, [FromBody] UpdateReviewCommand command) =>
             {
                 if (id != command.ReviewId) return Results.BadRequest();
                 var result = await mediator.Send(command);

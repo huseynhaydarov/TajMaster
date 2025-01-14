@@ -4,9 +4,9 @@ using TajMaster.Application.Common.Interfaces.Data;
 namespace TajMaster.Application.UseCases.CartItem.Commands.Create;
 
 public class AddCartItemCommandHandler(IUnitOfWork unitOfWork)
-    : ICommandHandler<AddCartItemCommand, int>
+    : ICommandHandler<AddCartItemCommand, Guid>
 {
-    public async Task<int> Handle(AddCartItemCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(AddCartItemCommand request, CancellationToken cancellationToken)
     {
         var cart = await unitOfWork.CartRepository.GetByIdAsync(request.CartId, cancellationToken);
         if (cart == null)

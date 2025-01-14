@@ -8,12 +8,10 @@ public class UpdateCraftsmanCommandValidator : AbstractValidator<UpdateCraftsman
     public UpdateCraftsmanCommandValidator()
     {
         RuleFor(x => x.CraftsmanId)
-            .GreaterThan(0)
-            .WithMessage("Craftsman ID must be greater than zero.");
+            .NotEqual(Guid.Empty).WithMessage("Craftsman ID cannot be an empty GUID.");
 
         RuleFor(x => x.UserId)
-            .GreaterThan(0)
-            .WithMessage("User ID must be greater than zero.");
+            .NotEqual(Guid.Empty).WithMessage("Id cannot be an empty GUID.");
 
         RuleFor(x => x.Specialization)
             .GreaterThanOrEqualTo(0)

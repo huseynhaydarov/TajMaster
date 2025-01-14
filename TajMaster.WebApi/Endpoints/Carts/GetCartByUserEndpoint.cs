@@ -9,7 +9,7 @@ public class GetCartByUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/carts/{userId}", async (ISender mediator, [FromRoute] int userId) =>
+        app.MapGet("/api/carts/{userId}", async (ISender mediator, [FromRoute] Guid userId) =>
             {
                 var cart = await mediator.Send(new GetCartByUserIdQuery(userId));
                 return Results.Ok(cart);

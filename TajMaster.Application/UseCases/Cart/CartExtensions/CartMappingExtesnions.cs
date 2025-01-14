@@ -2,7 +2,7 @@ using TajMaster.Application.UseCases.Cart.CartDtos;
 using TajMaster.Application.UseCases.CartItem.CartItemDTos;
 using TajMaster.Application.UseCases.CartItem.CartItemExtensions;
 
-namespace TajMaster.Application.UseCases.CartExtensions;
+namespace TajMaster.Application.UseCases.Cart.CartExtensions;
 
 public static class CartMappingExtensions
 {

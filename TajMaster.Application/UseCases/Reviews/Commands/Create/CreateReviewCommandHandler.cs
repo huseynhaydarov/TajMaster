@@ -6,9 +6,9 @@ using TajMaster.Domain.Entities;
 namespace TajMaster.Application.UseCases.Reviews.Commands.Create;
 
 public class CreateReviewCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
-    : IRequestHandler<CreateReviewCommand, int>
+    : IRequestHandler<CreateReviewCommand, Guid>
 {
-    public async Task<int> Handle(CreateReviewCommand command, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateReviewCommand command, CancellationToken cancellationToken)
     {
         var review = mapper.Map<Review>(command);
 

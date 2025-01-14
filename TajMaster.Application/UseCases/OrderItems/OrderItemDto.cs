@@ -1,7 +1,7 @@
 namespace TajMaster.Application.UseCases.OrderItems;
 
 public record OrderItemDto(
-    int OrderId,
-    int ServiceId,
+    Guid OrderId,
+    Guid ServiceId,
     int Quantity,
     decimal Price);

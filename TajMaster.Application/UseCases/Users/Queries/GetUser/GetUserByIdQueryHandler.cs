@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Users.UserDtos;
@@ -12,9 +13,6 @@ public class GetUserByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<G
     {
         var user = await unitOfWork.UserRepository.GetByIdAsync(request.UserId, cancellationToken);
 
-        if (user == null)
-            throw new NotFoundException($"User with ID {request.UserId} not found.");
-
-        return user.MapToUser();
+        return user?.MapToUser()!;
     }
 }

@@ -19,13 +19,13 @@ public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
             .ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public virtual async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await context.Set<TEntity>()
-            .FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id, cancellationToken);
+            .FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id, cancellationToken);
     }
 
-    public async Task<IList<TEntity>> GetByIdsAsync(IEnumerable<int> ids,
+    public async Task<IList<TEntity>> GetByIdsAsync(IEnumerable<Guid> ids,
         CancellationToken cancellationToken = default)
     {
         var enumerable = ids.ToList();
@@ -33,7 +33,7 @@ public class Repository<TEntity>(DbContext context) : IRepository<TEntity>
             return new List<TEntity>();
 
         return await context.Set<TEntity>()
-            .Where(e => enumerable.Contains(EF.Property<int>(e, "Id")))
+            .Where(e => enumerable.Contains(EF.Property<Guid>(e, "Id")))
             .ToListAsync(cancellationToken);
     }
 

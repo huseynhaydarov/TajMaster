@@ -12,7 +12,7 @@ public class Craftsman : BaseEntity
     public string? ProfilePicture { get; set; }
     public bool IsAvialable { get; set; }
     public bool ProfileVerified { get; set; }
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public User User { get; set; } = null!;
     public List<Order> Orders { get; set; } = [];
     public List<Service> Services { get; set; } = [];

@@ -9,10 +9,10 @@ public class GetServicesByCategoryEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/services/category/{Id}", async (int categoryId, ISender sender) =>
+        app.MapGet("/api/services/category/{Id}", async (Guid categoryId, ISender sender) =>
             {
-                if (categoryId <= 0)
-                    return Results.BadRequest(new { Message = "CategoryId must be a positive integer." });
+                if (categoryId == Guid.Empty)
+                    return Results.BadRequest(new { Message = "Invalid category ID." });
 
                 var query = new GetServicesByCategoryQuery(categoryId);
 

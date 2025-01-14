@@ -1,7 +1,7 @@
 namespace TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
 
 public record CraftsmanDto(
-    int CraftsmanId,
+    Guid CraftsmanId,
     string Specialization,
     int Experience,
     int Rating,

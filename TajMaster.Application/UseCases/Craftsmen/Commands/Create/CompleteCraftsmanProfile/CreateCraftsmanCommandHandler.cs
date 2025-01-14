@@ -7,20 +7,20 @@ using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
 using TajMaster.Domain.Enumerations;
 
-namespace TajMaster.Application.UseCases.Craftsmen.Commands.Create;
+namespace TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraftsmanProfile;
 
 public class CreateCraftsmanCommandHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper,
     IBlobService blobService,
     ILogger<CreateCraftsmanCommandHandler> logger)
-    : IRequestHandler<CreateCraftsmanCommand, int>
+    : IRequestHandler<CompleteCraftsmanProfileCommand, Guid>
 {
-    public async Task<int> Handle(CreateCraftsmanCommand command, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CompleteCraftsmanProfileCommand profileCommand, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Starting to process CreateCraftsmanCommand for UserId: {UserId}", command.UserId);
+        logger.LogInformation("Starting to process CreateCraftsmanCommand for UserId: {UserId}", profileCommand.UserId);
 
-        var user = await unitOfWork.UserRepository.GetByIdAsync(command.UserId, cancellationToken);
+        var user = await unitOfWork.UserRepository.GetByIdAsync(profileCommand.UserId, cancellationToken);
         if (user == null)
             throw new NotFoundException("User not found.");
 
@@ -29,35 +29,38 @@ public class CreateCraftsmanCommandHandler(
 
         string? profilePictureUrl = null;
 
-        if (command.ProfilePicture != null)
+        if (profileCommand.ProfilePicture != null)
         {
             logger.LogInformation(
                 "Processing profile picture. Filename: {FileName}, Content Type: {ContentType}, Length: {Length} bytes",
-                command.ProfilePicture.FileName,
-                command.ProfilePicture.ContentType,
-                command.ProfilePicture.Length);
+                profileCommand.ProfilePicture.FileName,
+                profileCommand.ProfilePicture.ContentType,
+                profileCommand.ProfilePicture.Length);
 
             try
             {
-                profilePictureUrl = await blobService.UploadFileAsync(command.ProfilePicture, "images");
+                profilePictureUrl = await blobService.UploadFileAsync(profileCommand.ProfilePicture, "images");
                 logger.LogInformation("Successfully uploaded profile picture. URL: {Url}", profilePictureUrl);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to upload profile picture for user {UserId}", command.UserId);
+                logger.LogError(ex, "Failed to upload profile picture for user {UserId}", profileCommand.UserId);
                 throw;
             }
         }
         else
         {
-            logger.LogWarning("No profile picture provided for user {UserId}", command.UserId);
+            logger.LogWarning("No profile picture provided for user {UserId}", profileCommand.UserId);
         }
 
-        var craftsman = mapper.Map<Craftsman>(command);
-        craftsman.UserId = command.UserId;
+        var craftsman = mapper.Map<Craftsman>(profileCommand);
+        craftsman.UserId = profileCommand.UserId;
         craftsman.ProfilePicture = profilePictureUrl;
 
         craftsman = await unitOfWork.CraftsmanRepository.CreateAsync(craftsman, cancellationToken);
+        
+        craftsman.ProfileVerified = true;
+        
         await unitOfWork.CompleteAsync(cancellationToken);
 
         logger.LogInformation("Successfully created craftsman with ID: {CraftsmanId}", craftsman.Id);

@@ -4,7 +4,7 @@ namespace TajMaster.Application.Common.Interfaces.Repositories;
 
 public interface ICartRepository : IRepository<Cart>
 {
-    Task<Cart> GetCartByUserIdAsync(int userId);
+    Task<Cart> GetCartByUserIdAsync(Guid userId);
     Task UpdateAsync(Cart cart);
-    Task DeleteAsync(int cartId);
+    Task DeleteAsync(Guid cartId);
 }

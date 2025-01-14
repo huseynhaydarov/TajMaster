@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enums;
+using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Infrastructure.Persistence.Configurations;
 

@@ -15,7 +15,7 @@ public class OrderRepository(ApplicationDbContext context) : Repository<Order>(c
         return order;
     }
 
-    public async Task<IEnumerable<Order>> GetOrdersByUserIdAsNoTracking(int userId,
+    public async Task<IEnumerable<Order>> GetOrdersByUserIdAsNoTracking(Guid userId,
         CancellationToken cancellationToken = default)
     {
         return await context.Orders

@@ -3,4 +3,4 @@ using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 
 namespace TajMaster.Application.UseCases.Reviews.Queries.GetReview;
 
-public record GetReviewByIdQuery(int ReviewId) : IQuery<ReviewDto>;
+public record GetReviewByIdQuery(Guid ReviewId) : IQuery<ReviewDto>;

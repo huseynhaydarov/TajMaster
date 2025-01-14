@@ -3,4 +3,4 @@ using TajMaster.Application.UseCases.Services.ServiceDtos;
 
 namespace TajMaster.Application.UseCases.Services.Queries.GetServiceByCategory;
 
-public record GetServicesByCategoryQuery(int CategoryId) : IQuery<IEnumerable<ServiceSummaryDto>>;
+public record GetServicesByCategoryQuery(Guid CategoryId) : IQuery<IEnumerable<ServiceSummaryDto>>;

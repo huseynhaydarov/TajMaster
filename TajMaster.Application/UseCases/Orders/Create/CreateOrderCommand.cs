@@ -3,8 +3,8 @@ using TajMaster.Application.Common.Interfaces.CQRS;
 namespace TajMaster.Application.UseCases.Orders.Create;
 
 public record CreateOrderCommand(
-    int UserId,
-    int CraftsmanId,
+    Guid UserId,
+    Guid CraftsmanId,
     DateTime AppointmentDate,
     string Address)
-    : ICommand<int>;
+    : ICommand<Guid>;

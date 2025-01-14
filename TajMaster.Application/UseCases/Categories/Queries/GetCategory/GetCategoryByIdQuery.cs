@@ -3,4 +3,4 @@ using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Categories.Queries.GetCategory;
 
-public record GetCategoryByIdQuery(int CategoryId) : IQuery<Category>;
+public record GetCategoryByIdQuery(Guid CategoryId) : IQuery<Category>;

@@ -10,7 +10,7 @@ public class UpdateCraftsmanAvailabilityEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPatch("/api/craftsmen/{id}/availability", async (
-                [FromRoute] int id,
+                [FromRoute] Guid id,
                 [FromBody] bool isAvailable,
                 ISender mediator,
                 CancellationToken cancellationToken

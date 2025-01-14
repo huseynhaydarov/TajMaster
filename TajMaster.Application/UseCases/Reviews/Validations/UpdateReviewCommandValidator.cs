@@ -8,7 +8,7 @@ public class UpdateReviewCommandValidator : AbstractValidator<UpdateReviewComman
     public UpdateReviewCommandValidator()
     {
         RuleFor(x => x.ReviewId)
-            .GreaterThan(0).WithMessage("Review ID must be greater than 0.");
+            .NotEqual(Guid.Empty).WithMessage("Review ID cannot be empty");
 
         RuleFor(x => x.Rating)
             .InclusiveBetween(1, 5).WithMessage("Rating must be between 1 and 5.");

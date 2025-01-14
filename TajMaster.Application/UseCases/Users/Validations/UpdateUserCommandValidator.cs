@@ -8,8 +8,7 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     public UpdateUserCommandValidator()
     {
         RuleFor(x => x.UserId)
-            .GreaterThan(0)
-            .WithMessage("User ID must be greater than 0.");
+            .NotEqual(Guid.Empty).WithMessage("UserId cannot be empty");
 
         RuleFor(x => x.FullName)
             .NotEmpty()

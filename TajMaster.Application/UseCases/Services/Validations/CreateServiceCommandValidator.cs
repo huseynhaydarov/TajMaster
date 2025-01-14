@@ -19,7 +19,7 @@ public class CreateServiceCommandValidator : AbstractValidator<CreateServiceComm
             .GreaterThan(0).WithMessage("Base price must be greater than 0.");
 
         RuleFor(x => x.CraftsmanId)
-            .GreaterThan(0).WithMessage("Craftsman ID must be valid.");
+            .NotEqual(Guid.Empty).WithMessage("CraftsmanId is required.");
 
         RuleFor(x => x.Categories)
             .NotEmpty().WithMessage("At least one category is required.");

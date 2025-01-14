@@ -8,7 +8,7 @@ namespace TajMaster.Infrastructure.Persistence.Repositories;
 
 public class ReviewRepository(ApplicationDbContext context) : Repository<Review>(context), IReviewRepository
 {
-    public async Task<IEnumerable<Review>> GetReviewsByUserIdAsNoTrackingAsync(int userId,
+    public async Task<IEnumerable<Review>> GetReviewsByUserIdAsNoTrackingAsync(Guid userId,
         CancellationToken cancellationToken = default)
     {
         return await context.Reviews
@@ -18,7 +18,7 @@ public class ReviewRepository(ApplicationDbContext context) : Repository<Review>
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Review>> GetReviewsByCraftsmanIdAsNoTracking(int craftsmanId,
+    public async Task<IEnumerable<Review>> GetReviewsByCraftsmanIdAsNoTracking(Guid craftsmanId,
         CancellationToken cancellationToken = default)
     {
         return await context.Reviews

@@ -31,4 +31,8 @@
         <Compile Remove="Migrations\20241226112718_UpdateRoleConversion.Designer.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
 </Project>

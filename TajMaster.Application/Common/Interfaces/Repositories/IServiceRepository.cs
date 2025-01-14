@@ -4,6 +4,6 @@ namespace TajMaster.Application.Common.Interfaces.Repositories;
 
 public interface IServiceRepository : IRepository<Service>
 {
-    Task<IEnumerable<Service>> GetServicesByCategoryIdAsNoTrackingAsync(int categoryId,
+    Task<IEnumerable<Service>> GetServicesByCategoryIdAsNoTrackingAsync(Guid categoryId,
         CancellationToken cancellationToken = default);
 }

@@ -9,10 +9,10 @@ public class GetCartItemByCartEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/cartItems/cart/{cartId}", async (int cartId, ISender sender) =>
+        app.MapGet("/api/cartItems/cart/{cartId}", async (Guid cartId, ISender sender) =>
             {
-                if (cartId <= 0)
-                    return Results.BadRequest(new { Message = "CartId must be a positive integer." });
+                if (cartId != Guid.Empty)
+                    return Results.BadRequest(new { Message = "Invalid cart ID." });
 
                 var query = new GetCartItemsByCartIdQuery(cartId);
 

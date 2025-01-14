@@ -11,9 +11,9 @@ using TajMaster.Domain.Enumerations;
 namespace TajMaster.Application.UseCases.Users.Commands.Create;
 
 public class CreateUserCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IMediator mediator, IPasswordHasher passwordHasher)
-    : ICommandHandler<CreateUserCommand, int>
+    : ICommandHandler<CreateUserCommand, Guid>
 {
-    public async Task<int> Handle(CreateUserCommand command, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
         if (command.Email != null)
         {

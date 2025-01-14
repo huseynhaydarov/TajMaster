@@ -48,7 +48,7 @@ public class AuthModuleEndpoint : ICarterModule
                 }
                 
                 var userIdString = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-                if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out var userId))
+                if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
                 {
                     Console.WriteLine("Invalid user ID in token");
                     return Results.Unauthorized();

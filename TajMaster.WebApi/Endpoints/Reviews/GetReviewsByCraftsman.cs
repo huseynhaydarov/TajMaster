@@ -9,10 +9,10 @@ public class GetReviewsByCraftsman : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/reviews/craftsman/{Id}", async (int craftsmanId, ISender sender) =>
+        app.MapGet("/api/reviews/craftsman/{Id}", async (Guid craftsmanId, ISender sender) =>
             {
-                if (craftsmanId <= 0)
-                    return Results.BadRequest(new { Message = "CraftsmanId must be a positive integer." });
+                if (craftsmanId != Guid.Empty)
+                    return Results.BadRequest(new { Message = "Invalid craftsman ID." });
 
                 var query = new GetReviewsByCraftsmanIdQuery(craftsmanId);
 

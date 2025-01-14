@@ -28,7 +28,7 @@ public class CraftsmanRepository(ApplicationDbContext context) : Repository<Craf
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Craftsman>> GetCraftsmanByUserIdAsNoTrackingAsync(int userId,
+    public async Task<IEnumerable<Craftsman>> GetCraftsmanByUserIdAsNoTrackingAsync(Guid userId,
         CancellationToken cancellationToken = default)
     {
         return await context.Craftsmen

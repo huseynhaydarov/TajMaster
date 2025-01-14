@@ -8,7 +8,7 @@ public class UpdateServiceCommandValidator : AbstractValidator<UpdateServiceComm
     public UpdateServiceCommandValidator()
     {
         RuleFor(x => x.ServiceId)
-            .GreaterThan(0).WithMessage("Service ID must be greater than 0.");
+            .NotEqual(Guid.Empty).WithMessage("Service Id cannot be empty");
 
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("Title is required.")

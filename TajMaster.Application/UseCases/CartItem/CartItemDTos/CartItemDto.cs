@@ -1,8 +1,8 @@
 namespace TajMaster.Application.UseCases.CartItem.CartItemDTos;
 
 public record CartItemDto(
-    int CartItemId,
+    Guid CartItemId,
     string ServiceName,
-    int ServiceId,
+    Guid ServiceId,
     decimal Price
 );

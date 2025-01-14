@@ -3,7 +3,7 @@ using TajMaster.Application.UseCases.Categories.CategoryDto;
 namespace TajMaster.Application.UseCases.Services.ServiceDtos;
 
 public record ServiceDetailDto(
-    int ServiceId,
+    Guid ServiceId,
     string Title,
     string Description,
     decimal BasePrice,

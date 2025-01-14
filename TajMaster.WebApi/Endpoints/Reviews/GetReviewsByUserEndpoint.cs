@@ -9,10 +9,10 @@ public class GetReviewsByUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/reviews/user/{Id}", async (int userId, ISender sender) =>
+        app.MapGet("/api/reviews/user/{Id}", async (Guid userId, ISender sender) =>
             {
-                if (userId <= 0)
-                    return Results.BadRequest(new { Message = "CategoryId must be a positive integer." });
+                if (userId == Guid.Empty)
+                    return Results.BadRequest(new { Message = "Invalid category ID." });
 
                 var query = new GetReviewsByCustomerIdQuery(userId);
 

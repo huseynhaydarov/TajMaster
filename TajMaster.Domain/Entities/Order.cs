@@ -5,8 +5,8 @@ namespace TajMaster.Domain.Entities;
 
 public class Order : BaseEntity
 {
-    public int UserId { get; set; }
-    public int CraftsmanId { get; set; }
+    public Guid UserId { get; set; }
+    public Guid CraftsmanId { get; set; }
     public DateTime AppointmentDate { get; set; }
     public required string Address { get; set; }
     public OrderStatus Status { get; set; } = OrderStatus.Pending;

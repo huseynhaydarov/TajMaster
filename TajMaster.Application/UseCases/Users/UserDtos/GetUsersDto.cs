@@ -4,7 +4,7 @@ using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 namespace TajMaster.Application.UseCases.Users.UserDtos;
 
 public record UserDetailDto(
-    int UserId,
+    Guid UserId,
     string FullName,
     string? Email,
     string? PhoneNumber,

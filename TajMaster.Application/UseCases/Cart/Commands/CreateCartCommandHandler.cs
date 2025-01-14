@@ -1,12 +1,12 @@
 using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
-using TajMaster.Domain.Enums;
+using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Application.UseCases.Cart.Commands;
 
-public class CreateCartCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateCartCommand, int>
+public class CreateCartCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateCartCommand, Guid>
 {
-    public async Task<int> Handle(CreateCartCommand command, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateCartCommand command, CancellationToken cancellationToken)
     {
         var newCart = new Domain.Entities.Cart
         {

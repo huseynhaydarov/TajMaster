@@ -3,6 +3,6 @@ using TajMaster.Application.Common.Interfaces.CQRS;
 namespace TajMaster.Application.UseCases.CartItem.Commands.Create;
 
 public record AddCartItemCommand(
-    int CartId,
-    int ServiceId,
-    decimal Price) : ICommand<int>;
+    Guid CartId,
+    Guid ServiceId,
+    decimal Price) : ICommand<Guid>;

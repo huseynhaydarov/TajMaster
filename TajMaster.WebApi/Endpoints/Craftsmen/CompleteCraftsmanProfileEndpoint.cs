@@ -1,10 +1,10 @@
 using Carter;
 using MediatR;
-using TajMaster.Application.UseCases.Craftsmen.Commands.Create;
+using TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraftsmanProfile;
 
 namespace TajMaster.WebApi.Endpoints.Craftsmen;
 
-public class CreateCraftsmanEndpoint : ICarterModule
+public class CompleteCraftsmanProfileEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
@@ -12,9 +12,9 @@ public class CreateCraftsmanEndpoint : ICarterModule
             {
                 var form = await context.Request.ReadFormAsync();
 
-                var command = new CreateCraftsmanCommand(
-                    int.Parse(form["userId"]!),
-                    int.Parse(form["specialization"].ToString()!),
+                var command = new CompleteCraftsmanProfileCommand(
+                    Guid.Parse(form["userId"]!),
+                    int.Parse(form["specialization"].ToString()),
                     int.Parse(form["experience"]!),
                     form["about"].ToString(),
                     form.Files.GetFile("profilePicture")
@@ -25,7 +25,7 @@ public class CreateCraftsmanEndpoint : ICarterModule
             })
             .WithName("CreateCraftsmanEndpoint")
             .WithTags("Craftsmen")
-            .Accepts<CreateCraftsmanCommand>("multipart/form-data")
+            .Accepts<CompleteCraftsmanProfileCommand>("multipart/form-data")
             .Produces<int>(201)
             .Produces(400)
             .DisableAntiforgery();

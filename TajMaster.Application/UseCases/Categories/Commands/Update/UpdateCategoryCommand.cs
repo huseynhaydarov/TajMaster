@@ -3,6 +3,6 @@ using MediatR;
 namespace TajMaster.Application.UseCases.Categories.Commands.Update;
 
 public record UpdateCategoryCommand(
-    int CategoryId,
+    Guid CategoryId,
     string Name,
     string Description) : IRequest<bool>;

@@ -7,9 +7,9 @@ using TajMaster.Domain.Entities;
 namespace TajMaster.Application.UseCases.Services.Commands.Create;
 
 public class CreateServiceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
-    : IRequestHandler<CreateServiceCommand, int>
+    : IRequestHandler<CreateServiceCommand, Guid>
 {
-    public async Task<int> Handle(CreateServiceCommand command, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateServiceCommand command, CancellationToken cancellationToken)
     {
         var categoryList = await unitOfWork.CategoryRepository.GetByIdsAsync(command.Categories, cancellationToken);
 

@@ -7,9 +7,9 @@ public class OrderItemDtoValidator : AbstractValidator<OrderItemDto>
 {
     public OrderItemDtoValidator()
     {
-        RuleFor(item => item.ServiceId)
-            .GreaterThan(0)
-            .WithMessage("ServiceId must be a positive integer.");
+        RuleFor(command => command.ServiceId)
+            .NotEqual(Guid.Empty)
+            .WithMessage("Service ID must be a valid GUID and cannot be empty.");
 
         RuleFor(item => item.Quantity)
             .GreaterThan(0)

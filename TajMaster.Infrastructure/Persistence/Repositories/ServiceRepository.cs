@@ -8,7 +8,7 @@ namespace TajMaster.Infrastructure.Persistence.Repositories;
 
 public class ServiceRepository(ApplicationDbContext context) : Repository<Service>(context), IServiceRepository
 {
-    public async Task<IEnumerable<Service>> GetServicesByCategoryIdAsNoTrackingAsync(int categoryId,
+    public async Task<IEnumerable<Service>> GetServicesByCategoryIdAsNoTrackingAsync(Guid categoryId,
         CancellationToken cancellationToken = default)
     {
         return await context.Services
@@ -18,7 +18,7 @@ public class ServiceRepository(ApplicationDbContext context) : Repository<Servic
             .ToListAsync(cancellationToken);
     }
 
-    public override async Task<Service?> GetByIdAsync(int serviceId, CancellationToken cancellationToken = default)
+    public override async Task<Service?> GetByIdAsync(Guid serviceId, CancellationToken cancellationToken = default)
     {
         var service = await context.Services
             .Include(s => s.Categories) // Ensuring categories are loaded

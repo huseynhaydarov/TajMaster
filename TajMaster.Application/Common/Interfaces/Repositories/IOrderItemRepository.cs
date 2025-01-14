@@ -4,5 +4,5 @@ namespace TajMaster.Application.Common.Interfaces.Repositories;
 
 public interface IOrderItemRepository : IRepository<OrderItem>
 {
-    Task<List<OrderItem>> GetOrderItemsByOrderIdAsync(int orderId);
+    Task<List<OrderItem>> GetOrderItemsByOrderIdAsync(Guid orderId);
 }

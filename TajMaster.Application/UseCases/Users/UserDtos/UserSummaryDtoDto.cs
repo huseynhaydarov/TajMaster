@@ -1,7 +1,7 @@
 namespace TajMaster.Application.UseCases.Users.UserDtos;
 
 public record UserSummaryDto(
-    int UserId,
+    Guid UserId,
     string FullName,
     string? Email,
     string? PhoneNumber,

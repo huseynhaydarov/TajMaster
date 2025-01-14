@@ -8,7 +8,7 @@ public class GetCraftsmanByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/craftsman/{id}", async (ISender mediator, int id) =>
+        app.MapGet("/craftsman/{id}", async (ISender mediator, Guid id) =>
             {
                 var craftsman = await mediator.Send(new GetCraftsmanByIdQuery(id));
                 return Results.Ok(craftsman);

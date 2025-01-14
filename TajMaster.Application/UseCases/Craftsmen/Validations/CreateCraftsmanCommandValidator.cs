@@ -1,15 +1,15 @@
 using FluentValidation;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Create;
+using TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraftsmanProfile;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Validations;
 
-public class CreateCraftsmanCommandValidator : AbstractValidator<CreateCraftsmanCommand>
+public class CreateCraftsmanCommandValidator : AbstractValidator<CompleteCraftsmanProfileCommand>
 {
     public CreateCraftsmanCommandValidator()
     {
         RuleFor(x => x.UserId)
-            .GreaterThan(0)
-            .WithMessage("User ID must be a positive number.");
+            .NotEqual(Guid.Empty).WithMessage("User ID cannot be an empty GUID.");
 
         RuleFor(x => x.Specialization)
             .IsInEnum()

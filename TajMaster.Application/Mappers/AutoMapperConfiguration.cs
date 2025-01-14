@@ -3,7 +3,8 @@ using TajMaster.Application.UseCases.Cart.Commands;
 using TajMaster.Application.UseCases.CartItem.CartItemDTos;
 using TajMaster.Application.UseCases.Categories.Commands.Create;
 using TajMaster.Application.UseCases.Categories.Commands.Update;
-using TajMaster.Application.UseCases.Craftsmen.Commands.Create;
+using TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraftsmanProfile;
+using TajMaster.Application.UseCases.Craftsmen.Commands.Create.CreateCraftsman;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsman;
 using TajMaster.Application.UseCases.OrderItems;
 using TajMaster.Application.UseCases.Orders.Create;
@@ -42,10 +43,12 @@ public class AutoMapperConfiguration : Profile
         CreateMap<CreateOrderCommand, Order>();
 
 
-        CreateMap<CreateCraftsmanCommand, Craftsman>()
+        CreateMap<CompleteCraftsmanProfileCommand, Craftsman>()
             .ForMember(c => c.Description, opt => opt.MapFrom(src => src.About))
             .ForMember(c => c.Specialization, opt => opt.MapFrom(src => src.Specialization))
             .ForMember(c => c.ProfilePicture, opt => opt.Ignore());
+        CreateMap<CreateCraftsmanCommand, User>()
+            .ForMember(dest => dest.HashedPassword, opt => opt.MapFrom(src => src.Password));
         CreateMap<UpdateCraftsmanCommand, Craftsman>();
 
         CreateMap<CreateCategoryCommand, Category>();

@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Http;
 using TajMaster.Application.Common.Interfaces.CQRS;
 
-namespace TajMaster.Application.UseCases.Craftsmen.Commands.Create;
+namespace TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraftsmanProfile;
 
-public record CreateCraftsmanCommand(
-    int UserId,
+public record CompleteCraftsmanProfileCommand(
+    Guid UserId,
     int Specialization,
     int Experience,
     string? About,
     IFormFile? ProfilePicture
-) : ICommand<int>;
+) : ICommand<Guid>;

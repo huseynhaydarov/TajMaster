@@ -3,4 +3,4 @@ using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsman;
 
-public record GetCraftsmanByIdQuery(int CraftsmanId) : IQuery<Craftsman>;
+public record GetCraftsmanByIdQuery(Guid CraftsmanId) : IQuery<Craftsman>;

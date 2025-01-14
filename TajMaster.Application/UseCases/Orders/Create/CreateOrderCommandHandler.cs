@@ -2,13 +2,12 @@ using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Domain.Entities;
 using TajMaster.Domain.Enumerations;
-using TajMaster.Domain.Enums;
 
 namespace TajMaster.Application.UseCases.Orders.Create;
 
-public class CreateOrderCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateOrderCommand, int>
+public class CreateOrderCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateOrderCommand, Guid>
 {
-    public async Task<int> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {
         var cart = await unitOfWork.CartRepository.GetCartByUserIdAsync(command.UserId);
         if (cart == null || !cart.CartItems.Any())
@@ -34,25 +33,19 @@ public class CreateOrderCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler
         order.OrderItems = orderItems;
 
         cart.CartStatus = CartStatus.completed;
-
-        // Delete the CartItems before clearing the collection
+        
         foreach (var cartItem in cart.CartItems.ToList())
             await unitOfWork.CartItemRepository.DeleteAsync(cartItem,
-                cancellationToken); // Assuming you have a CartItemRepository with Delete method
-
-        // Clear the CartItems collection
+                cancellationToken);
+        
         cart.CartItems.Clear();
-
-        // Update the cart
+        
         await unitOfWork.CartRepository.UpdateAsync(cart);
-
-        // Optionally: Archive the cart after the order
+        
         cart.CartStatus = CartStatus.archived;
-
-        // Create the order in the database
+        
         order = await unitOfWork.OrderRepository.CreateAsync(order, cancellationToken);
-
-        // Commit all changes
+        
         await unitOfWork.CompleteAsync(cancellationToken);
 
         return order.Id;

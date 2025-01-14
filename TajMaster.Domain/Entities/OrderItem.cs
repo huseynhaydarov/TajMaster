@@ -4,8 +4,8 @@ namespace TajMaster.Domain.Entities;
 
 public class OrderItem : BaseEntity
 {
-    public int OrderId { get; set; }
-    public int ServiceId { get; set; }
+    public Guid OrderId { get; set; }
+    public Guid ServiceId { get; set; }
     public int Quantity { get; set; }
     public decimal Price { get; set; }
     public Order Order { get; set; } = null!;

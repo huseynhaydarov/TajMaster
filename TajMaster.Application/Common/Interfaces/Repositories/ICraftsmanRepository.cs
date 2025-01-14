@@ -4,7 +4,7 @@ namespace TajMaster.Application.Common.Interfaces.Repositories;
 
 public interface ICraftsmanRepository : IRepository<Craftsman>
 {
-    Task<IEnumerable<Craftsman>> GetCraftsmanByUserIdAsNoTrackingAsync(int userId,
+    Task<IEnumerable<Craftsman>> GetCraftsmanByUserIdAsNoTrackingAsync(Guid userId,
         CancellationToken cancellationToken = default);
 
     Task<List<Craftsman>>

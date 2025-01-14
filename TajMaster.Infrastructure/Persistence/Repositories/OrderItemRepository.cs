@@ -7,7 +7,7 @@ namespace TajMaster.Infrastructure.Persistence.Repositories;
 
 public class OrderItemRepository(ApplicationDbContext context) : Repository<OrderItem>(context), IOrderItemRepository
 {
-    public async Task<List<OrderItem>> GetOrderItemsByOrderIdAsync(int orderId)
+    public async Task<List<OrderItem>> GetOrderItemsByOrderIdAsync(Guid orderId)
     {
         return await context.OrderItems
             .Where(oi => oi.OrderId == orderId)

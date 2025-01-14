@@ -13,7 +13,6 @@ public class GetCategoriesEndpoint : ICarterModule
         app.MapGet("/api/categories", async ([AsParameters] PagingParameters pagingParameters, ISender mediator) =>
             {
                 var results = await mediator.Send(new GetCategoriesQuery(pagingParameters));
-
                 return Results.Ok(results);
             })
             .WithName("GetCategoriesEndpoint")

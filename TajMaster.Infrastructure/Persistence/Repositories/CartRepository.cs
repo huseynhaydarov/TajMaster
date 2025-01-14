@@ -7,7 +7,7 @@ namespace TajMaster.Infrastructure.Persistence.Repositories;
 
 public class CartRepository(ApplicationDbContext context) : Repository<Cart>(context), ICartRepository
 {
-    public async Task<Cart> GetCartByUserIdAsync(int userId)
+    public async Task<Cart> GetCartByUserIdAsync(Guid userId)
     {
         return (await context.Carts
             .Include(c => c.CartItems)
@@ -22,7 +22,7 @@ public class CartRepository(ApplicationDbContext context) : Repository<Cart>(con
         await context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int cartId)
+    public async Task DeleteAsync(Guid cartId)
     {
         var cart = await context.Carts.FindAsync(cartId);
         if (cart != null)

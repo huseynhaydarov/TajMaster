@@ -9,9 +9,9 @@ public class GetCraftsmenByUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/craftsmen/user/{Id}", async (int userId, ISender sender) =>
+        app.MapGet("/api/craftsmen/user/{Id}", async (Guid userId, ISender sender) =>
             {
-                if (userId <= 0)
+                if (userId == Guid.Empty)
                     return Results.BadRequest(new { Message = "UserId must be a positive integer." });
 
                 var query = new GetCraftsmanByUserIdQuery(userId);

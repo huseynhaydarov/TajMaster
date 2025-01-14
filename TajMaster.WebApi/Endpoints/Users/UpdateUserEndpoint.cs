@@ -9,7 +9,7 @@ public class UpdateUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/users/{id}", async (ISender mediator, int id, [FromBody] UpdateUserCommand command) =>
+        app.MapPut("/api/users/{id}", async (ISender mediator, Guid id, [FromBody] UpdateUserCommand command) =>
             {
                 if (id != command.UserId) return Results.BadRequest();
                 var result = await mediator.Send(command);

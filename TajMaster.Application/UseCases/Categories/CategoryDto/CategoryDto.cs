@@ -1,6 +1,6 @@
 namespace TajMaster.Application.UseCases.Categories.CategoryDto;
 
 public record CategoryDto(
-    int CategoryId,
+    Guid CategoryId,
     string Name,
     string Description);

@@ -2,7 +2,7 @@ using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Cart.CartDtos;
-using TajMaster.Application.UseCases.CartExtensions;
+using TajMaster.Application.UseCases.Cart.CartExtensions;
 
 namespace TajMaster.Application.UseCases.Cart.Queries;
 

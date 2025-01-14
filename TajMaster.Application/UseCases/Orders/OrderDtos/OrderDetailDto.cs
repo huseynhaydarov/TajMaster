@@ -3,9 +3,9 @@ using TajMaster.Application.UseCases.OrderItems;
 namespace TajMaster.Application.UseCases.Orders.OrderDtos;
 
 public record OrderDetailDto(
-    int OrderId,
-    int UserId,
-    int CraftsmanId,
+    Guid OrderId,
+    Guid UserId,
+    Guid CraftsmanId,
     DateTime AppointmentDate,
     string Address,
     string OrderStatus,

@@ -3,4 +3,4 @@ using TajMaster.Application.UseCases.Services.ServiceDtos;
 
 namespace TajMaster.Application.UseCases.Services.Queries.GetService;
 
-public record GetServiceByIdQuery(int ServiceId) : IQuery<ServiceDetailDto>;
+public record GetServiceByIdQuery(Guid ServiceId) : IQuery<ServiceDetailDto>;

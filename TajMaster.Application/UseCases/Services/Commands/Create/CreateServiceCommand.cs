@@ -6,6 +6,6 @@ public record CreateServiceCommand(
     string Title,
     string? Description,
     decimal BasePrice,
-    int CraftsmanId,
-    IList<int> Categories)
-    : ICommand<int>;
+    Guid CraftsmanId,
+    IList<Guid> Categories)
+    : ICommand<Guid>;

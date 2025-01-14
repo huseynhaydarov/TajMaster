@@ -8,13 +8,13 @@ public class CreateReviewCommandValidator : AbstractValidator<CreateReviewComman
     public CreateReviewCommandValidator()
     {
         RuleFor(x => x.OrderId)
-            .GreaterThan(0).WithMessage("Order ID must be greater than 0.");
+            .NotEqual(Guid.Empty).WithMessage("Order ID cannot be empty");
 
         RuleFor(x => x.UserId)
-            .GreaterThan(0).WithMessage("User ID must be greater than 0.");
+            .NotEqual(Guid.Empty).WithMessage("UserId cannot be empty");
 
         RuleFor(x => x.CraftsmanId)
-            .GreaterThan(0).WithMessage("Craftsman ID must be greater than 0.");
+            .NotEqual(Guid.Empty).WithMessage("CraftsmanId cannot be empty");
 
         RuleFor(x => x.Rating)
             .InclusiveBetween(1, 5).WithMessage("Rating must be between 1 and 5.");
