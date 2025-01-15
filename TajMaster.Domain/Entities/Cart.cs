@@ -1,16 +1,18 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using TajMaster.Domain.Abstractions;
-using TajMaster.Domain.Enumerations;
 
-namespace TajMaster.Domain.Entities;
-
-public class Cart : BaseEntity
+namespace TajMaster.Domain.Entities
 {
-    public Guid UserId { get; set; }
-    public CartStatus CartStatus { get; set; }
+    public class Cart : BaseEntity
+    {
+        public Guid UserId { get; set; }
 
-    [NotMapped] public decimal Subtotal => CartItems?.Sum(x => x.Price * x.Quantity) ?? 0;
+        public required string CartStatus { get; set; }
 
-    public User User { get; set; } = null!;
-    public List<CartItem> CartItems { get; set; } = [];
+        [NotMapped] 
+        public decimal Subtotal => CartItems?.Sum(x => x.Price * x.Quantity) ?? 0;
+
+        public User User { get; set; } = null!;
+        public List<CartItem> CartItems { get; set; } = [];
+    }
 }

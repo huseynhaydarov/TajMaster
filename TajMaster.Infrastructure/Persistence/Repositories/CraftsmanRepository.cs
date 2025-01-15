@@ -41,13 +41,17 @@ public class CraftsmanRepository(ApplicationDbContext context) : Repository<Craf
     public async Task<List<Craftsman>> GetBySpecializationAsync(string specialization,
         CancellationToken cancellationToken = default)
     {
-        if (!Enum.TryParse<Specialization>(specialization, true, out var parsedSpecialization))
+        var specializationEntity = await context.Specializations
+            .FirstOrDefaultAsync(s => s.Name.Equals(specialization, StringComparison.OrdinalIgnoreCase), cancellationToken);
+        
+        if (specializationEntity == null)
             throw new ArgumentException($"Invalid specialization: {specialization}");
-
+        
         return await context.Craftsmen
-            .Where(c => c.Specialization == parsedSpecialization)
+            .Where(c => c.SpecializationId == specializationEntity.Id)
             .ToListAsync(cancellationToken);
     }
+
 
     public IQueryable<Craftsman> GetAll()
     {

@@ -22,38 +22,18 @@ namespace TajMaster.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryServices", b =>
-                {
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("categoryid");
-
-                    b.Property<Guid>("ServiceId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("serviceid");
-
-                    b.HasKey("CategoryId", "ServiceId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("CategoryServices");
-                });
-
             modelBuilder.Entity("TajMaster.Domain.Entities.Cart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CartStatus")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("cartstatus");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("userid");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -67,25 +47,20 @@ namespace TajMaster.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("CartId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("cartid");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(14, 2)
-                        .HasColumnType("numeric(14,2)")
-                        .HasColumnName("price");
+                        .HasColumnType("numeric(14,2)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("quantity");
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("ServiceId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("serviceid");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -96,73 +71,104 @@ namespace TajMaster.Infrastructure.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("TajMaster.Domain.Entities.CartStatusEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CartStatuses");
+                });
+
             modelBuilder.Entity("TajMaster.Domain.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("description");
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("name");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("TajMaster.Domain.Entities.CategoryService", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ServiceId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("CategoryServices");
+                });
+
             modelBuilder.Entity("TajMaster.Domain.Entities.Craftsman", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("description");
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("Experience")
-                        .HasColumnType("integer")
-                        .HasColumnName("experience");
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsAvialable")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isavialable");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ProfilePicture")
                         .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("profilepicture");
+                        .HasColumnType("character varying(150)");
 
                     b.Property<bool>("ProfileVerified")
-                        .HasColumnType("boolean")
-                        .HasColumnName("profileverified");
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("integer")
-                        .HasColumnName("rating");
+                        .HasColumnType("integer");
 
-                    b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("specialization");
+                    b.Property<Guid>("SpecializationId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("userid");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SpecializationId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -174,36 +180,29 @@ namespace TajMaster.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("address");
+                        .HasColumnType("character varying(150)");
 
                     b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("appointmentdate");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CraftsmanId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("craftsmanid");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("status");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("TotalPrice")
                         .HasPrecision(14, 2)
-                        .HasColumnType("numeric(14,2)")
-                        .HasColumnName("totalprice");
+                        .HasColumnType("numeric(14,2)");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("userid");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -218,25 +217,20 @@ namespace TajMaster.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("orderid");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(14, 2)
-                        .HasColumnType("numeric(14,2)")
-                        .HasColumnName("price");
+                        .HasColumnType("numeric(14,2)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("quantity");
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("ServiceId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("serviceid");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -251,33 +245,26 @@ namespace TajMaster.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Comment")
                         .HasMaxLength(300)
-                        .HasColumnType("character varying(300)")
-                        .HasColumnName("comment");
+                        .HasColumnType("character varying(300)");
 
                     b.Property<Guid>("CraftsmanId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("craftsmanid");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("orderid");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("integer")
-                        .HasColumnName("rating");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("ReviewDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("reviewdate");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("userid");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -294,29 +281,24 @@ namespace TajMaster.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("BasePrice")
                         .HasPrecision(14, 2)
-                        .HasColumnType("numeric(14,2)")
-                        .HasColumnName("baseprice");
+                        .HasColumnType("numeric(14,2)");
 
                     b.Property<Guid>("CraftsmanId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("craftsmanid");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("description");
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("title");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -325,50 +307,61 @@ namespace TajMaster.Infrastructure.Migrations
                     b.ToTable("Services");
                 });
 
+            modelBuilder.Entity("TajMaster.Domain.Entities.Specialization", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Specializations");
+                });
+
             modelBuilder.Entity("TajMaster.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Address")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("address");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text")
-                        .HasColumnName("email");
+                        .HasColumnType("text");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("fullname");
+                        .HasColumnType("text");
 
                     b.Property<string>("HashedPassword")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("hashedpassword");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("isactive");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(9)
-                        .HasColumnType("character varying(9)")
-                        .HasColumnName("phone");
+                        .HasColumnType("character varying(9)");
 
                     b.Property<DateTime>("RegisteredDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("registereddate");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Roles")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("roles");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -376,21 +369,6 @@ namespace TajMaster.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CategoryServices", b =>
-                {
-                    b.HasOne("TajMaster.Domain.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TajMaster.Domain.Entities.Service", null)
-                        .WithMany()
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("TajMaster.Domain.Entities.Cart", b =>
@@ -423,13 +401,40 @@ namespace TajMaster.Infrastructure.Migrations
                     b.Navigation("Service");
                 });
 
+            modelBuilder.Entity("TajMaster.Domain.Entities.CategoryService", b =>
+                {
+                    b.HasOne("TajMaster.Domain.Entities.Category", "Category")
+                        .WithMany("CategoryServices")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TajMaster.Domain.Entities.Service", "Service")
+                        .WithMany("CategoryServices")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("TajMaster.Domain.Entities.Craftsman", b =>
                 {
+                    b.HasOne("TajMaster.Domain.Entities.Specialization", "Specialization")
+                        .WithMany("Craftsmen")
+                        .HasForeignKey("SpecializationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TajMaster.Domain.Entities.User", "User")
                         .WithOne("Craftsman")
                         .HasForeignKey("TajMaster.Domain.Entities.Craftsman", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Specialization");
 
                     b.Navigation("User");
                 });
@@ -515,6 +520,11 @@ namespace TajMaster.Infrastructure.Migrations
                     b.Navigation("CartItems");
                 });
 
+            modelBuilder.Entity("TajMaster.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("CategoryServices");
+                });
+
             modelBuilder.Entity("TajMaster.Domain.Entities.Craftsman", b =>
                 {
                     b.Navigation("Orders");
@@ -535,7 +545,14 @@ namespace TajMaster.Infrastructure.Migrations
                 {
                     b.Navigation("CartItems");
 
+                    b.Navigation("CategoryServices");
+
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("TajMaster.Domain.Entities.Specialization", b =>
+                {
+                    b.Navigation("Craftsmen");
                 });
 
             modelBuilder.Entity("TajMaster.Domain.Entities.User", b =>

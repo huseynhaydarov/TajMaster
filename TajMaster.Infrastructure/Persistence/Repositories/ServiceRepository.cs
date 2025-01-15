@@ -13,15 +13,15 @@ public class ServiceRepository(ApplicationDbContext context) : Repository<Servic
     {
         return await context.Services
             .AsNoTracking()
-            .Include(service => service.Categories)
-            .Where(service => service.Categories.Any(category => category.Id == categoryId))
+            .Include(service => service.CategoryServices)
+            .Where(service => service.CategoryServices.Any(category => category.CategoryId == categoryId))
             .ToListAsync(cancellationToken);
     }
 
     public override async Task<Service?> GetByIdAsync(Guid serviceId, CancellationToken cancellationToken = default)
     {
         var service = await context.Services
-            .Include(s => s.Categories) // Ensuring categories are loaded
+            .Include(s => s.CategoryServices) // Ensuring categories are loaded
             .FirstOrDefaultAsync(s => s.Id == serviceId, cancellationToken);
 
         return service;
@@ -31,7 +31,7 @@ public class ServiceRepository(ApplicationDbContext context) : Repository<Servic
         CancellationToken cancellationToken = default)
     {
         var query = context.Services
-            .Include(u => u.Categories)
+            .Include(u => u.CategoryServices)
             .AsQueryable();
 
         if (pagingParameters.OrderByDescending == true)

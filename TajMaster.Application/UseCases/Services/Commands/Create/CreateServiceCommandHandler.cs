@@ -18,7 +18,14 @@ public class CreateServiceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
 
         var service = mapper.Map<Service>(command);
 
-        service.Categories = categoryList.ToList();
+        service.CategoryServices = categoryList.Select(category => new CategoryService
+        {
+            CategoryId = category.Id,
+            ServiceId = service.Id, 
+            Category = category,
+            Service = service,
+        }).ToList();
+
 
         service = await unitOfWork.ServiceRepository.CreateAsync(service, cancellationToken);
 

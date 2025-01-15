@@ -13,7 +13,8 @@ public class UnitOfWork(
     ICategoryRepository categoryRepository,
     IOrderItemRepository orderItemRepository,
     ICartRepository cartRepository,
-    ICartItemRepository cartItemRepository) : IUnitOfWork, IDisposable
+    ICartItemRepository cartItemRepository,
+    ICartStatusRepository cartStatusRepository) : IUnitOfWork, IDisposable
 {
     private bool _disposed;
     public IOrderItemRepository OrderItemRepository => orderItemRepository;
@@ -26,6 +27,7 @@ public class UnitOfWork(
     public IOrderRepository OrderRepository => orderRepository;
     public ICraftsmanRepository CraftsmanRepository => craftsmanRepository;
     public ICategoryRepository CategoryRepository => categoryRepository;
+     public ICartStatusRepository CartStatusRepository => cartStatusRepository;
 
     public async Task<int> CompleteAsync(CancellationToken cancellationToken = default)
     {

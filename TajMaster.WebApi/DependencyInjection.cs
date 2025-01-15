@@ -7,7 +7,7 @@ using TajMaster.Application.Common.Helpers;
 using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Domain.Enumerations;
 using TajMaster.Infrastructure.AuthService;
-using TajMaster.WebApi.Middleware;
+using TajMaster.Infrastructure.Middlewares;
 
 namespace TajMaster.WebApi;
 
@@ -16,7 +16,6 @@ public static class DependencyInjection
     public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddCarter();
-        services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddAntiforgery();
         
         var jwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
@@ -84,35 +83,24 @@ public static class DependencyInjection
 
     public static WebApplication UseApiServices(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
+        if  (app.Environment.IsDevelopment())
         {
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseExceptionHandler(options =>
-            {
-                options.Run(async context =>
-                {
-                    context.Response.StatusCode = 500;
-                    context.Response.ContentType = "application/json";
-                    var error = new
-                    {
-                        StatusCode = 500,
-                        Message = "An unexpected error occurred"
-                    };
-                    await context.Response.WriteAsJsonAsync(error);
-                });
-            });
+            app.UseDeveloperExceptionPage(); 
         }
         
-        app.UseMiddleware<RequestLoggingMiddleware>();
+        app.UseRouting();
         
         app.UseAuthentication();
         app.UseAuthorization();
         
         app.MapCarter();
-        
+
         return app;
+    }
+
+    public static void AddMiddlewares(this WebApplication app)
+    {
+        app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+        app.UseMiddleware<RequestLoggingMiddleware>();
     }
 }

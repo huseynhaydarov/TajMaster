@@ -12,7 +12,13 @@ public class CreateOrderCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler
         var cart = await unitOfWork.CartRepository.GetCartByUserIdAsync(command.UserId);
         if (cart == null || !cart.CartItems.Any())
             throw new InvalidOperationException("Cart is empty or not found.");
+        
+        var completedStatus = await unitOfWork.CartStatusRepository.GetByNameAsync("Completed", cancellationToken);
+        if (completedStatus == null)
+            throw new InvalidOperationException("Cart status 'Completed' not found.");
 
+        cart.CartStatus = completedStatus.ToString()!;
+        
         var order = new Order
         {
             UserId = command.UserId,
@@ -32,20 +38,20 @@ public class CreateOrderCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler
 
         order.OrderItems = orderItems;
 
-        cart.CartStatus = CartStatus.completed;
-        
-        foreach (var cartItem in cart.CartItems.ToList())
-            await unitOfWork.CartItemRepository.DeleteAsync(cartItem,
-                cancellationToken);
-        
+   
         cart.CartItems.Clear();
+
         
+        var archivedStatus = await unitOfWork.CartStatusRepository.GetByNameAsync("Archived", cancellationToken);
+        if (archivedStatus == null)
+            throw new InvalidOperationException("Cart status 'Archived' not found.");
+
+        cart.CartStatus = archivedStatus.ToString()!;
+
         await unitOfWork.CartRepository.UpdateAsync(cart);
-        
-        cart.CartStatus = CartStatus.archived;
-        
+
         order = await unitOfWork.OrderRepository.CreateAsync(order, cancellationToken);
-        
+
         await unitOfWork.CompleteAsync(cancellationToken);
 
         return order.Id;

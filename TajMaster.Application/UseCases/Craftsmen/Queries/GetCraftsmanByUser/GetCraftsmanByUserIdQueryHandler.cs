@@ -22,7 +22,7 @@ public class GetCraftsmanByUserIdQueryHandler(IUnitOfWork unitOfWork)
 
         return enumerable.Select(craftsman => new CraftsmanDto(
             craftsman.Id,
-            craftsman.Specialization.ToString(),
+            craftsman.Specialization.ToString() ?? String.Empty,
             craftsman.Experience,
             craftsman.Rating,
             craftsman.Description,

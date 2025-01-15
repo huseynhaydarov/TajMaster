@@ -6,7 +6,6 @@ using TajMaster.Application.Common.Interfaces.PasswordHasher;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Cart.Commands;
 using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Application.UseCases.Users.Commands.Create;
 
@@ -18,6 +17,7 @@ public class CreateUserCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IM
         if (command.Email != null)
         {
             var existingUser = await unitOfWork.UserRepository.FindByEmailAsync(command.Email, cancellationToken);
+            
             if (existingUser != null) throw new ConflictException("The email address is already in use.");
         }
         

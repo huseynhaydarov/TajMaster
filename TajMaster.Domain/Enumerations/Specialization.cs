@@ -1,4 +1,4 @@
-﻿namespace TajMaster.Domain.Enumerations;
+﻿/*namespace TajMaster.Domain.Enumerations;
 
 public enum Specialization
 {
@@ -8,4 +8,4 @@ public enum Specialization
     Painter = 4,
     Handymen = 5,
     HvacTechnician = 6
-}
+}*/

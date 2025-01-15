@@ -6,5 +6,5 @@ public class Category : BaseEntity
 {
     public required string Name { get; set; }
     public required string Description { get; set; }
-    public List<Service> Services { get; set; } = [];
+    public ICollection<CategoryService> CategoryServices { get; set; } = new List<CategoryService>();
 }

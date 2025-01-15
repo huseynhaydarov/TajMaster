@@ -1,6 +1,9 @@
 using AutoMapper;
 using TajMaster.Application.UseCases.Cart.Commands;
 using TajMaster.Application.UseCases.CartItem.CartItemDTos;
+using TajMaster.Application.UseCases.CartStatus.Command;
+using TajMaster.Application.UseCases.CartStatus.Command.Update;
+using TajMaster.Application.UseCases.CartStatuses.Command.Create;
 using TajMaster.Application.UseCases.Categories.Commands.Create;
 using TajMaster.Application.UseCases.Categories.Commands.Update;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraftsmanProfile;
@@ -13,6 +16,8 @@ using TajMaster.Application.UseCases.Reviews.Commands.Update;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 using TajMaster.Application.UseCases.Services.Commands.Create;
 using TajMaster.Application.UseCases.Services.Commands.Update;
+using TajMaster.Application.UseCases.Specializations.Command.Create;
+using TajMaster.Application.UseCases.Specializations.Commands.Update;
 using TajMaster.Application.UseCases.Users.Commands.Create;
 using TajMaster.Application.UseCases.Users.Commands.Update;
 using TajMaster.Domain.Entities;
@@ -28,9 +33,9 @@ public class AutoMapperConfiguration : Profile
         CreateMap<UpdateUserCommand, User>();
 
         CreateMap<CreateServiceCommand, Service>()
-            .ForMember(dest => dest.Categories, opt => opt.Ignore());
+            .ForMember(dest => dest.CategoryServices, opt => opt.Ignore());
         CreateMap<UpdateServiceCommand, Service>()
-            .ForMember(dest => dest.Categories, opt => opt.Ignore());
+            .ForMember(dest => dest.CategoryServices, opt => opt.Ignore());
 
         CreateMap<CreateReviewCommand, Review>();
         CreateMap<UpdateReviewCommand, Review>();
@@ -58,5 +63,11 @@ public class AutoMapperConfiguration : Profile
             .ForMember(dest => dest.ServiceName, opt => opt.MapFrom(src => src.Service.Title));
 
         CreateMap<CreateCartCommand, Cart>();
+
+        CreateMap<CreateCartStatusCommand, CartStatusEntity>();
+        CreateMap<UpdateCartStatusCommand, CartStatusEntity>();
+
+        CreateMap<CreateSpecializationCommand, Specialization>();
+        CreateMap<UpdateSpecializationCommand, Specialization>();
     }
 }

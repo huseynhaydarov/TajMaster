@@ -1,4 +1,4 @@
-namespace TajMaster.WebApi.Middleware.Exceptions;
+namespace TajMaster.Application.Exceptions;
 
 public class BadRequestException : Exception
 {

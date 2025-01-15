@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Domain.Abstractions;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Infrastructure.Persistence.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IApplicationDbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<Service> Services => Set<Service>();
@@ -15,16 +16,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<Cart> Carts => Set<Cart>();
+    public DbSet<CartStatusEntity> CartStatuses => Set<CartStatusEntity>();
     public DbSet<CartItem> CartItems => Set<CartItem>();
+    
+    public DbSet<CategoryService> CategoryServices => Set<CategoryService>();
 
+    public DbSet<Specialization> Specializations => Set<Specialization>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Ignore<BaseEntity>();
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
-
-        foreach (var entity in modelBuilder.Model.GetEntityTypes())
-        foreach (var property in entity.GetProperties())
-            property.SetColumnName(property.Name.ToLower());
     }
 }

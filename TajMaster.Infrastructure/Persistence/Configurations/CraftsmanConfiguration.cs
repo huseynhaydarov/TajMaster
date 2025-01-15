@@ -10,11 +10,6 @@ public class CraftsmanConfiguration : IEntityTypeConfiguration<Craftsman>
     public void Configure(EntityTypeBuilder<Craftsman> builder)
     {
         builder.HasKey(c => c.Id);
-        builder.Property(c => c.Specialization)
-            .HasConversion(
-                c => c.ToString(),
-                c => (Specialization)Enum.Parse(typeof(Specialization), c))
-            .IsRequired();
         builder.Property(c => c.Experience)
             .IsRequired();
         builder.Property(c => c.Rating)
@@ -35,6 +30,10 @@ public class CraftsmanConfiguration : IEntityTypeConfiguration<Craftsman>
             .WithOne(c => c.Craftsman)
             .HasForeignKey(c => c.CraftsmanId)
             .OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne(c => c.Specialization)  
+            .WithMany()  
+            .HasForeignKey(c => c.Id) 
+            .IsRequired();
         builder.HasMany(c => c.Orders)
             .WithOne(c => c.Craftsman)
             .HasForeignKey(c => c.CraftsmanId)

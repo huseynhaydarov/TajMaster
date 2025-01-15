@@ -13,6 +13,8 @@ public interface IUnitOfWork
     ICategoryRepository CategoryRepository { get; }
     ICartRepository CartRepository { get; }
     ICartItemRepository CartItemRepository { get; }
+    
+    ICartStatusRepository CartStatusRepository { get; }
 
     Task<int> CompleteAsync(CancellationToken cancellationToken = default);
     void Dispose();

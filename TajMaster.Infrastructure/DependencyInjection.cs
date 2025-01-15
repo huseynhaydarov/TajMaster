@@ -33,6 +33,8 @@ public static class DependencyInjection
         services.AddScoped<ICartItemRepository, CartItemRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IPasswordHasher, PasswordHasher.PasswordHasher>();
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+        services.AddScoped<ICartStatusRepository, CartStatusRepository>();
 
         if (string.IsNullOrEmpty(storageConnectionString))
             throw new ArgumentNullException($"Storage account connection string cannot be null or empty.");

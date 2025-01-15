@@ -20,7 +20,7 @@ public class GetCraftsmenQueryHandler(IUnitOfWork unitOfWork)
         var craftsmanDto = paginatedCraftsmen
             .Select(craftsman => new CraftsmanDto(
                 craftsman.Id,
-                craftsman.Specialization.ToString(),
+                craftsman.Specialization.ToString() ?? string.Empty,
                 craftsman.Experience,
                 craftsman.Rating,
                 craftsman.Description,
