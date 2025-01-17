@@ -1,9 +1,8 @@
 using AutoMapper;
 using TajMaster.Application.UseCases.Cart.Commands;
 using TajMaster.Application.UseCases.CartItem.CartItemDTos;
-using TajMaster.Application.UseCases.CartStatus.Command;
-using TajMaster.Application.UseCases.CartStatus.Command.Update;
 using TajMaster.Application.UseCases.CartStatuses.Command.Create;
+using TajMaster.Application.UseCases.CartStatuses.Command.Update;
 using TajMaster.Application.UseCases.Categories.Commands.Create;
 using TajMaster.Application.UseCases.Categories.Commands.Update;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraftsmanProfile;
@@ -11,12 +10,14 @@ using TajMaster.Application.UseCases.Craftsmen.Commands.Create.CreateCraftsman;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsman;
 using TajMaster.Application.UseCases.OrderItems;
 using TajMaster.Application.UseCases.Orders.Create;
+using TajMaster.Application.UseCases.OrderStatuses.Commands.Create;
+using TajMaster.Application.UseCases.OrderStatuses.Commands.Update;
 using TajMaster.Application.UseCases.Reviews.Commands.Create;
 using TajMaster.Application.UseCases.Reviews.Commands.Update;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 using TajMaster.Application.UseCases.Services.Commands.Create;
 using TajMaster.Application.UseCases.Services.Commands.Update;
-using TajMaster.Application.UseCases.Specializations.Command.Create;
+using TajMaster.Application.UseCases.Specializations.Commands.Create;
 using TajMaster.Application.UseCases.Specializations.Commands.Update;
 using TajMaster.Application.UseCases.Users.Commands.Create;
 using TajMaster.Application.UseCases.Users.Commands.Update;
@@ -64,8 +65,11 @@ public class AutoMapperConfiguration : Profile
 
         CreateMap<CreateCartCommand, Cart>();
 
-        CreateMap<CreateCartStatusCommand, CartStatusEntity>();
-        CreateMap<UpdateCartStatusCommand, CartStatusEntity>();
+        CreateMap<CreateCartStatusCommand, CartStatus>();
+        CreateMap<UpdateCartStatusCommand, CartStatus>();
+
+        CreateMap<CreateOrderStatusCommand, OrderStatus>();
+        CreateMap<UpdateOrderStatusCommand, OrderStatus>();
 
         CreateMap<CreateSpecializationCommand, Specialization>();
         CreateMap<UpdateSpecializationCommand, Specialization>();

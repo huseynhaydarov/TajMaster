@@ -1,12 +1,14 @@
 using AutoMapper;
 using MediatR;
 using TajMaster.Application.Common.Interfaces.Data;
-using TajMaster.Application.UseCases.Specializations.Command.Create;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Specializations.Commands.Create;
 
-public class CreateSpecializationCommandHandler(IApplicationDbContext context, IMapper mapper) : IRequestHandler<CreateSpecializationCommand, Guid>
+public class CreateSpecializationCommandHandler(
+    IApplicationDbContext context, 
+    IMapper mapper) 
+    : IRequestHandler<CreateSpecializationCommand, Guid>
 {
     public async Task<Guid> Handle(CreateSpecializationCommand command, CancellationToken cancellationToken)
     {

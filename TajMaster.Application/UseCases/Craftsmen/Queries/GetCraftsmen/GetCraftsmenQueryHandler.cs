@@ -1,11 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmen;
 
-public class GetCraftsmenQueryHandler(IUnitOfWork unitOfWork)
+public class GetCraftsmenQueryHandler(IApplicationDbContext context)
     : IQueryHandler<GetCraftsmenQuery, PaginatedResult<CraftsmanDto>>
 {
     public async Task<PaginatedResult<CraftsmanDto>> Handle(GetCraftsmenQuery request,
@@ -13,28 +15,31 @@ public class GetCraftsmenQueryHandler(IUnitOfWork unitOfWork)
     {
         var pagingParams = request.PagingParameters;
 
-        var paginatedCraftsmen = await unitOfWork.CraftsmanRepository.GetAllAsync(pagingParams, cancellationToken);
+        var query = context.Craftsmen.AsNoTracking();
 
-        var totalCount = paginatedCraftsmen.Count();
+        if (pagingParams.OrderByDescending == true)
+        {
+            query = query.OrderByDescending(c => c.Id);
+        }
+        else
+        {
+            query = query.OrderBy(c => c.Id);
+        }
 
-        var craftsmanDto = paginatedCraftsmen
-            .Select(craftsman => new CraftsmanDto(
-                craftsman.Id,
-                craftsman.Specialization.ToString() ?? string.Empty,
-                craftsman.Experience,
-                craftsman.Rating,
-                craftsman.Description,
-                craftsman.ProfilePicture,
-                craftsman.IsAvialable,
-                craftsman.ProfileVerified
-            )).ToList();
+        var totalCount = await query.CountAsync(cancellationToken);
 
-        var paginatedResult = new PaginatedResult<CraftsmanDto>(
+        var paginatedCraftsmen = await query
+            .Skip(pagingParams.Skip)
+            .Take(pagingParams.Take)
+            .ToListAsync(cancellationToken);
+
+        var craftsmanDtos = paginatedCraftsmen.ToCraftsmanDtos();
+
+        return new PaginatedResult<CraftsmanDto>(
             pagingParams.PageNumber!.Value,
             pagingParams.PageSize!.Value,
             totalCount,
-            craftsmanDto
+            craftsmanDtos.ToList()
         );
-        return paginatedResult;
     }
 }

@@ -9,7 +9,8 @@ public class LoginAuthEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/auth/login", async (ISender mediator, HttpContext context, [FromBody] LoginCommand command) =>
+        app.MapPost("/api/auth/login", async (ISender mediator, HttpContext context, 
+                [FromBody] LoginCommand command) =>
             {
                 var result = await mediator.Send(command);
 

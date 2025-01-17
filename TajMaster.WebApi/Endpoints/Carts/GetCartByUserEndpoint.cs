@@ -9,9 +9,12 @@ public class GetCartByUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/carts/{userId}", async (ISender mediator, [FromRoute] Guid userId) =>
+        app.MapGet("/api/carts/{userId:guid}", async (ISender mediator, [FromRoute] Guid userId, [FromQuery] string? cartStatusName) =>
             {
-                var cart = await mediator.Send(new GetCartByUserIdQuery(userId));
+                // Default to "Active" if cartStatusName is not provided
+                cartStatusName ??= "Active";
+
+                var cart = await mediator.Send(new GetCartByUserIdQuery(userId, cartStatusName));
                 return Results.Ok(cart);
             })
             .WithName("GetCartEndpoint")

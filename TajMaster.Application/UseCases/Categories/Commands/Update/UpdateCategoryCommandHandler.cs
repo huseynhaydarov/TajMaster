@@ -1,26 +1,32 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
 namespace TajMaster.Application.UseCases.Categories.Commands.Update;
 
-public class UpdateCategoryCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+public class UpdateCategoryCommandHandler(
+    IApplicationDbContext context, 
+    IMapper mapper)
     : IRequestHandler<UpdateCategoryCommand, bool>
 {
     public async Task<bool> Handle(UpdateCategoryCommand command, CancellationToken cancellationToken)
     {
-        var category = await unitOfWork.CategoryRepository.GetByIdAsync(command.CategoryId, cancellationToken);
+        var category = await context.Categories
+            .FirstOrDefaultAsync(c => c.Id == command.CategoryId, cancellationToken);
 
         if (category == null)
+        {
             throw new NotFoundException($"Category with ID {command.CategoryId} not found.");
+        }
 
         mapper.Map(command, category);
 
-        await unitOfWork.CategoryRepository.UpdateAsync(category, cancellationToken);
+        context.Categories.Update(category);
 
-        await unitOfWork.CompleteAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
-        return true;
+        return await Task.FromResult(true);
     }
 }

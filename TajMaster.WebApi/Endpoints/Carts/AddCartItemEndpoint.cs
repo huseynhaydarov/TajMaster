@@ -12,7 +12,8 @@ public class AddCartItemEndpoint : ICarterModule
         app.MapPost("/api/carts/items", async (ISender mediator, [FromBody] AddCartItemCommand command) =>
             {
                 var cartItemId = await mediator.Send(command);
-                return Results.Created($"/carts/items/{cartItemId}", new { Id = cartItemId });
+                
+                return Results.Created($"/api/carts/items/{cartItemId}", new { Id = cartItemId });
             })
             .WithName("AddCartItemEndpoint")
             .WithTags("Carts");

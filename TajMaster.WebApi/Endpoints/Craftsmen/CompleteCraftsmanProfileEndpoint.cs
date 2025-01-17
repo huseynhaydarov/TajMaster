@@ -20,8 +20,9 @@ public class CompleteCraftsmanProfileEndpoint : ICarterModule
                     form.Files.GetFile("profilePicture")
                 );
 
-                var craftsmanId = await mediator.Send(command);
-                return Results.Created($"/craftsmen/{craftsmanId}", new { Id = craftsmanId });
+                var newCraftsman = await mediator.Send(command);
+                
+                return Results.Created($"api/craftsmen/{newCraftsman}", new { Id = newCraftsman });
             })
             .WithName("CreateCraftsmanEndpoint")
             .WithTags("Craftsmen")

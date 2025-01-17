@@ -9,10 +9,10 @@ namespace TajMaster.Application.UseCases.Specializations.Commands.Delete;
 public class DeleteSpecializationCommandHandler(IApplicationDbContext context)
     : IRequestHandler<DeleteSpecializationCommand, bool>
 {
-    public async Task<bool> Handle(DeleteSpecializationCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteSpecializationCommand command, CancellationToken cancellationToken)
     {
         var specialization = await context.Specializations
-            .FirstOrDefaultAsync(s => s.Id == request.SpecializationId, cancellationToken);
+            .FirstOrDefaultAsync(s => s.Id == command.SpecializationId, cancellationToken);
 
         if (specialization == null)
         {
@@ -21,12 +21,13 @@ public class DeleteSpecializationCommandHandler(IApplicationDbContext context)
         
         if (specialization.Craftsmen != null && specialization.Craftsmen.Any())
         {
-            throw new InvalidOperationException("This specialization cannot be deleted because it is in use by craftsmen.");
+            throw new InvalidOperationException("This specialization is in use by craftsmen.");
         }
         
         context.Specializations.Remove(specialization);
+        
         await context.SaveChangesAsync(cancellationToken);
         
-        return true;
+        return await Task.FromResult(true);
     }
 }

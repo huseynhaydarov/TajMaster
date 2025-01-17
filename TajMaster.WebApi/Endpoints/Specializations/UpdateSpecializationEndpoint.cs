@@ -9,12 +9,18 @@ public class UpdateSpecializationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        // Update Specialization
-        app.MapPut("/api/specializations/{id}", async (ISender mediator, Guid id, [FromBody] UpdateSpecializationCommand command) =>
+        app.MapPut("/api/specializations/{id:guid}", async (ISender mediator, Guid id, [FromBody] UpdateSpecializationCommand command) =>
         {
-            if (id != command.SpecializationId) return Results.BadRequest();
+            if (id != command.SpecializationId)
+            {
+                return Results.BadRequest(new { Error = "Specialization ID mismatch." });
+            }
+            
             var result = await mediator.Send(command);
-            return result ? Results.Ok() : Results.BadRequest("Failed to update specialization.");
-        }).WithName("UpdateSpecialization");
+            
+            return result ? Results.Ok() : Results.BadRequest();
+        })
+            .WithName("UpdateSpecializationEndpoint")
+            .WithTags("Specializations");
     }
 }

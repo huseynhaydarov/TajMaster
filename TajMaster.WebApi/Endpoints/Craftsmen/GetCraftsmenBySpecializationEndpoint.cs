@@ -14,7 +14,8 @@ public class GetCraftsmenBySpecializationEndpoint : ICarterModule
                 [FromRoute] string specialization,
                 IMediator mediator) =>
             {
-                var craftsmen = await mediator.Send(new GetCraftsmenBySpecializationQuery(specialization));
+                var craftsmen = await mediator.Send(
+                    new GetCraftsmenBySpecializationQuery(specialization));
 
                 return craftsmen.Any()
                     ? Results.Ok(craftsmen)

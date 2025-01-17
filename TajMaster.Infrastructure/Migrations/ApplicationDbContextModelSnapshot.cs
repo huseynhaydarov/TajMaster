@@ -28,14 +28,15 @@ namespace TajMaster.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CartStatus")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("CartStatusId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CartStatusId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -71,7 +72,7 @@ namespace TajMaster.Infrastructure.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("TajMaster.Domain.Entities.CartStatusEntity", b =>
+            modelBuilder.Entity("TajMaster.Domain.Entities.CartStatus", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -193,9 +194,8 @@ namespace TajMaster.Infrastructure.Migrations
                     b.Property<Guid>("CraftsmanId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("OrderStatusId")
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("TotalPrice")
                         .HasPrecision(14, 2)
@@ -207,6 +207,8 @@ namespace TajMaster.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CraftsmanId");
+
+                    b.HasIndex("OrderStatusId");
 
                     b.HasIndex("UserId");
 
@@ -239,6 +241,25 @@ namespace TajMaster.Infrastructure.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("TajMaster.Domain.Entities.OrderStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatuses");
                 });
 
             modelBuilder.Entity("TajMaster.Domain.Entities.Review", b =>
@@ -373,11 +394,19 @@ namespace TajMaster.Infrastructure.Migrations
 
             modelBuilder.Entity("TajMaster.Domain.Entities.Cart", b =>
                 {
+                    b.HasOne("TajMaster.Domain.Entities.CartStatus", "CartStatus")
+                        .WithMany("Carts")
+                        .HasForeignKey("CartStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("TajMaster.Domain.Entities.User", "User")
                         .WithOne("Cart")
                         .HasForeignKey("TajMaster.Domain.Entities.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CartStatus");
 
                     b.Navigation("User");
                 });
@@ -447,6 +476,12 @@ namespace TajMaster.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TajMaster.Domain.Entities.OrderStatus", "OrderStatus")
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TajMaster.Domain.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
@@ -454,6 +489,8 @@ namespace TajMaster.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Craftsman");
+
+                    b.Navigation("OrderStatus");
 
                     b.Navigation("User");
                 });
@@ -520,6 +557,11 @@ namespace TajMaster.Infrastructure.Migrations
                     b.Navigation("CartItems");
                 });
 
+            modelBuilder.Entity("TajMaster.Domain.Entities.CartStatus", b =>
+                {
+                    b.Navigation("Carts");
+                });
+
             modelBuilder.Entity("TajMaster.Domain.Entities.Category", b =>
                 {
                     b.Navigation("CategoryServices");
@@ -539,6 +581,11 @@ namespace TajMaster.Infrastructure.Migrations
                     b.Navigation("OrderItems");
 
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("TajMaster.Domain.Entities.OrderStatus", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("TajMaster.Domain.Entities.Service", b =>

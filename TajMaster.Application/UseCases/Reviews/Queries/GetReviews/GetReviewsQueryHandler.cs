@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
@@ -6,17 +7,25 @@ using TajMaster.Application.UseCases.Reviews.ReviewExtensions;
 
 namespace TajMaster.Application.UseCases.Reviews.Queries.GetReviews;
 
-public class GetReviewsQueryHandler(IUnitOfWork unitOfWork) : IQueryHandler<GetReviewsQuery, PaginatedResult<ReviewDto>>
+public class GetReviewsQueryHandler(
+    IApplicationDbContext context) 
+    : IQueryHandler<GetReviewsQuery, PaginatedResult<ReviewDto>>
 {
-    public async Task<PaginatedResult<ReviewDto>> Handle(GetReviewsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResult<ReviewDto>> Handle(GetReviewsQuery query, CancellationToken cancellationToken)
     {
-        var pagingParams = request.PagingParameters;
+        var pagingParams = query.PagingParameters;
+        
+        var request = context.Reviews
+            .AsNoTracking()
+            .AsQueryable();
 
-        var paginatedReviews = await unitOfWork.ReviewRepository.GetAllAsync(pagingParams, cancellationToken);
+        request = pagingParams.OrderByDescending == true
+            ? request.OrderByDescending(s => s.Id)
+            : request.OrderBy(u => u.Id);
+        
+        var totalCount = await request.CountAsync(cancellationToken);
 
-        var totalCount = paginatedReviews.Count();
-
-        var reviewDto = paginatedReviews.ToReviewDtoList();
+        var reviewDto = request.ToReviewDtoList();
 
         var paginatedResult = new PaginatedResult<ReviewDto>(
             (int)pagingParams.PageNumber!,

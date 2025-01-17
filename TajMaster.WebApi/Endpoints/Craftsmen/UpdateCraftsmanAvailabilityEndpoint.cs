@@ -9,7 +9,7 @@ public class UpdateCraftsmanAvailabilityEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPatch("/api/craftsmen/{id}/availability", async (
+        app.MapPatch("/api/craftsmen/{id:guid}/availability", async (
                 [FromRoute] Guid id,
                 [FromBody] bool isAvailable,
                 ISender mediator,
@@ -17,6 +17,7 @@ public class UpdateCraftsmanAvailabilityEndpoint : ICarterModule
             ) =>
             {
                 await mediator.Send(new UpdateCraftsmanAvailabilityCommand(id, isAvailable), cancellationToken);
+                
                 return Results.NoContent();
             })
             .WithName("UpdateCraftsmanAvailabilityEndpoint")

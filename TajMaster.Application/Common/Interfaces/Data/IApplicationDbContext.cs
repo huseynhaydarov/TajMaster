@@ -9,11 +9,12 @@ public interface IApplicationDbContext
     DbSet<Service> Services { get; }
     DbSet<Review> Reviews { get; }
     DbSet<Order> Orders { get; }
+    DbSet<OrderItem> OrderItems { get; }
+    DbSet<OrderStatus> OrderStatuses { get; }
     DbSet<Craftsman> Craftsmen { get; }
     DbSet<Category> Categories { get; }
-    DbSet<OrderItem> OrderItems { get; }
     DbSet<Cart> Carts { get; }
-    DbSet<CartStatusEntity> CartStatuses { get; }
+    DbSet<CartStatus> CartStatuses { get; }
     DbSet<CartItem> CartItems { get; }
     
     DbSet<Specialization> Specializations { get; }

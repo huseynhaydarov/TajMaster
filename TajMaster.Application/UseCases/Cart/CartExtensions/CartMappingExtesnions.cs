@@ -11,7 +11,7 @@ public static class CartMappingExtensions
         return new CartDto(
             cart.Id,
             cart.UserId,
-            cart.CartStatus.ToString()!,
+            cart.CartStatus.Name,
             cart.Subtotal,
             cart.CartItems?.Select(ci => ci.ToCartItemDto()).ToList() ?? new List<CartItemDto>()
         );

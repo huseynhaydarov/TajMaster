@@ -1,36 +1,41 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Services.Commands.Create;
 
-public class CreateServiceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+public class CreateServiceCommandHandler(
+    IApplicationDbContext context, 
+    IMapper mapper)
     : IRequestHandler<CreateServiceCommand, Guid>
 {
     public async Task<Guid> Handle(CreateServiceCommand command, CancellationToken cancellationToken)
     {
-        var categoryList = await unitOfWork.CategoryRepository.GetByIdsAsync(command.Categories, cancellationToken);
-
-        if (categoryList == null || categoryList.Count != command.Categories.Count)
+        var categoryIds = command.Categories;
+        var categories = await context.Categories
+            .Where(c => categoryIds.Contains(c.Id))
+            .ToListAsync(cancellationToken);
+        
+        if (categories.Count != categoryIds.Count)
+        {
             throw new NotFoundException(nameof(Category));
-
+        }
+        
         var service = mapper.Map<Service>(command);
-
-        service.CategoryServices = categoryList.Select(category => new CategoryService
+        
+        service.CategoryServices = categories.Select(category => new CategoryService
         {
             CategoryId = category.Id,
-            ServiceId = service.Id, 
-            Category = category,
-            Service = service,
+            Category = category
         }).ToList();
-
-
-        service = await unitOfWork.ServiceRepository.CreateAsync(service, cancellationToken);
-
-        await unitOfWork.CompleteAsync(cancellationToken);
-
+        
+        context.Services.Add(service);
+        
+        await context.SaveChangesAsync(cancellationToken);
+        
         return service.Id;
     }
 }

@@ -1,22 +1,25 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
 namespace TajMaster.Application.UseCases.Users.Commands.Delete;
 
-public class DeleteUserCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteUserCommand, bool>
+public class DeleteUserCommandHandler(IApplicationDbContext context) : IRequestHandler<DeleteUserCommand, bool>
 {
-    public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await unitOfWork.UserRepository.GetByIdAsync(request.UserId, cancellationToken);
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Id == command.UserId, cancellationToken);
 
         if (user == null)
-            throw new NotFoundException($"User with ID {request.UserId} not found");
+        {
+            throw new NotFoundException($"User with ID {command.UserId} not found");
+        }
+        
+        context.Users.Remove(user);
 
-        await unitOfWork.UserRepository.DeleteAsync(user, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
-        await unitOfWork.CompleteAsync(cancellationToken);
-
-        return true;
+        return await Task.FromResult(true);
     }
 }

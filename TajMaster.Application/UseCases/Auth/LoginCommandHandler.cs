@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Application.Common.Interfaces.PasswordHasher;
@@ -7,14 +8,15 @@ using TajMaster.Application.UseCases.Auth.AuthDTOs;
 namespace TajMaster.Application.UseCases.Auth;
 
 public class LoginCommandHandler(
-    IUnitOfWork unitOfWork,
+   IApplicationDbContext context,
     ITokenService tokenService,
     IPasswordHasher passwordHasher)
     : IRequestHandler<LoginCommand, AuthResponse>
 {
-    public async Task<AuthResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<AuthResponse> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
-        var user = await unitOfWork.UserRepository.GetByEmailAsync(request.Email);
+        var user = await context.Users.FirstOrDefaultAsync(l => l.Email == command.Email, cancellationToken);
+        
         if (user == null)
         {
             return UnauthorizedResponse("Invalid credentials");
@@ -22,7 +24,7 @@ public class LoginCommandHandler(
         
         try
         {
-            if (passwordHasher.VerifyHash(request.Password, user.HashedPassword))
+            if (passwordHasher.VerifyHash(command.Password, user.HashedPassword))
             {
                 return UnauthorizedResponse("Invalid credentials");
             }
@@ -38,6 +40,7 @@ public class LoginCommandHandler(
         }
         
         var token = tokenService.GenerateJwtToken(user);
+        
         var refreshToken = tokenService.GenerateRefreshToken();
         
         return new AuthResponse(

@@ -1,5 +1,5 @@
 using MediatR;
 
-namespace TajMaster.Application.UseCases.CartStatus.Command.Update;
+namespace TajMaster.Application.UseCases.CartStatuses.Command.Update;
 
 public record UpdateCartStatusCommand(Guid CartStatusId, string Name, int Code) : IRequest<bool>;

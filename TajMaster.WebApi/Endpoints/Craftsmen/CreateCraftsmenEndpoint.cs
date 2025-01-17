@@ -12,7 +12,7 @@ public class CreateCraftsmenEndpoint : ICarterModule
             {
                 var result = await mediator.Send(command);
                 
-                return Results.Created($"/craftsmen/{result}", new { Id = result });
+                return Results.Created($"api/users/craftsmen/{result}", new { Id = result });
             })
             .WithName("RegisterCraftsmanEndpoint")
             .WithTags("Users");

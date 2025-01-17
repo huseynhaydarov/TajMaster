@@ -11,8 +11,9 @@ public class RegisterUserEndpoint : ICarterModule
     {
         app.MapPost("/api/users", async (ISender mediator, [FromBody] CreateUserCommand command) =>
             {
-                var userId = await mediator.Send(command);
-                return Results.Created($"/users/{userId}", new { Id = userId });
+                var newUser = await mediator.Send(command);
+                
+                return Results.Created($"/api/users/{newUser}", new { Id = newUser });
             })
             .WithName("RegisterUserEndpoint")
             .WithTags("Users");

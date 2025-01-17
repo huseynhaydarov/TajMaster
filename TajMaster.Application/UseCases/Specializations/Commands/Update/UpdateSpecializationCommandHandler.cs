@@ -9,20 +9,18 @@ namespace TajMaster.Application.UseCases.Specializations.Commands.Update;
 public class UpdateSpecializationCommandHandler(IApplicationDbContext context)
     : IRequestHandler<UpdateSpecializationCommand, bool>
 {
-    public async Task<bool> Handle(UpdateSpecializationCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateSpecializationCommand command, CancellationToken cancellationToken)
     {
         var specialization = await context.Specializations
-            .FirstOrDefaultAsync(s => s.Id == request.SpecializationId, cancellationToken);
+            .FirstOrDefaultAsync(s => s.Id == command.SpecializationId, cancellationToken);
 
         if (specialization == null)
         {
-            throw new NotFoundException(nameof(Specialization));
+            throw new NotFoundException($"Specialization with ID {command.SpecializationId} not found");
         }
         
-        specialization.Name = request.Name ?? specialization.Name;
-        specialization.Description = request.Description ?? specialization.Description;
-        
         context.Specializations.Update(specialization);
+        
         await context.SaveChangesAsync(cancellationToken);
         
         return true;

@@ -6,28 +6,41 @@ using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.SearchCraftsmen;
 
-public class SearchCraftsmenQueryHandler(IUnitOfWork unitOfWork)
+public class SearchCraftsmenQueryHandler(IApplicationDbContext context)
     : IRequestHandler<SearchCraftsmenQuery, List<CraftsmanDto>>
 {
     public async Task<List<CraftsmanDto>> Handle(SearchCraftsmenQuery request, CancellationToken cancellationToken)
     {
-        var query = unitOfWork.CraftsmanRepository.GetAll();
-        
+        var query = context.Craftsmen.AsNoTracking(); 
+
         if (!string.IsNullOrEmpty(request.Specialization))
-            
+        {
             query = query.Where(c =>
-                c.Specialization.ToString()!.Contains(request.Specialization, StringComparison.OrdinalIgnoreCase));
-        if (request.Availability.HasValue) query = query.Where(c => c.IsAvialable == request.Availability.Value);
+                EF.Functions.Like(c.Specialization.ToString()!, $"%{request.Specialization}%")); 
+        }
+
+        if (request.Availability.HasValue)
+        {
+            query = query.Where(c => c.IsAvialable == request.Availability.Value);
+        }
 
         if (request.ProfileVerified.HasValue)
+        {
             query = query.Where(c => c.ProfileVerified == request.ProfileVerified.Value);
+        }
 
-        if (request.MinExperience.HasValue) query = query.Where(c => c.Experience >= request.MinExperience.Value);
+        if (request.MinExperience.HasValue)
+        {
+            query = query.Where(c => c.Experience >= request.MinExperience.Value);
+        }
 
-        if (request.MinRating.HasValue) query = query.Where(c => c.Rating >= request.MinRating.Value);
+        if (request.MinRating.HasValue)
+        {
+            query = query.Where(c => c.Rating >= request.MinRating.Value);
+        }
 
         var result = await query.ToListAsync(cancellationToken);
 
-        return result.CraftsmanDtos().ToList();
+        return result.ToCraftsmanDtos().ToList();
     }
 }

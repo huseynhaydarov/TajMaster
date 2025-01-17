@@ -1,35 +1,38 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
 
 namespace TajMaster.Application.UseCases.Categories.Queries.GetCategories;
 
-public class GetCategoriesQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<GetCategoriesQuery, PaginatedResult<CategoryDto.CategoryDto>>
+public class GetCategoriesQueryHandler(IApplicationDbContext context)
+    : IRequestHandler<GetCategoriesQuery, PaginatedResult<CategoryDtos.CategoryDto>>
 {
-    public async Task<PaginatedResult<CategoryDto.CategoryDto>> Handle(GetCategoriesQuery request,
+    public async Task<PaginatedResult<CategoryDtos.CategoryDto>> Handle(GetCategoriesQuery request,
         CancellationToken cancellationToken)
     {
         var pagingParams = request.PagingParameters;
+        
+        var query = context.Categories.AsQueryable();
 
-        var paginatedCategories = await unitOfWork.CategoryRepository.GetAllAsync(pagingParams, cancellationToken);
-
-        var totalCount = paginatedCategories.Count();
-
-        var categoriesDto = paginatedCategories
-            .Select(category => new CategoryDto.CategoryDto(
+        var totalCount = await query.CountAsync(cancellationToken);  // Get the total count for pagination
+        
+        var paginatedCategories = await query
+            .Skip(pagingParams.Skip)
+            .Take(pagingParams.Take)
+            .ToListAsync(cancellationToken);
+        
+        var categoriesDto = paginatedCategories.Select(category => new CategoryDtos.CategoryDto(
                 category.Id,
                 category.Name,
                 category.Description))
             .ToList();
-
-        var paginatedResult = new PaginatedResult<CategoryDto.CategoryDto>(
-            (int)pagingParams.PageNumber!,
-            (int)pagingParams.PageSize!,
+        
+        return new PaginatedResult<CategoryDtos.CategoryDto>(
+            pagingParams.PageNumber!.Value,
+            pagingParams.PageSize!.Value,
             totalCount,
             categoriesDto
         );
-
-        return paginatedResult;
     }
 }

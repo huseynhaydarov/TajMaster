@@ -1,28 +1,29 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
-using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Application.UseCases.Cart.Commands;
 
-public class CreateCartCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateCartCommand, Guid>
+public class CreateCartCommandHandler(IApplicationDbContext context) : IRequestHandler<CreateCartCommand, Guid>
 {
     public async Task<Guid> Handle(CreateCartCommand command, CancellationToken cancellationToken)
     {
-        var activeStatus =  await unitOfWork.CartStatusRepository.GetByNameAsync("Active", cancellationToken);
+        var activeStatus = await context.CartStatuses
+            .AsNoTracking()
+            .FirstOrDefaultAsync(cs => cs.Name == "Active", cancellationToken);
+
         if (activeStatus == null)
             throw new InvalidOperationException("Cart status 'Active' not found.");
-
-
+        
         var newCart = new Domain.Entities.Cart
         {
             UserId = command.UserId,
-            CartStatus = activeStatus.ToString()!
-           
+            CartStatusId = activeStatus.Id, // Reference by foreign key
         };
-
-        await unitOfWork.CartRepository.CreateAsync(newCart, cancellationToken);
-        await unitOfWork.CompleteAsync(cancellationToken);
+        
+        await context.Carts.AddAsync(newCart, cancellationToken);
+        
+        await context.SaveChangesAsync(cancellationToken);
 
         return newCart.Id;
     }

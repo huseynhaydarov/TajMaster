@@ -5,6 +5,6 @@ namespace TajMaster.Application.UseCases.Cart.CartDtos;
 public record CartDto(
     Guid CartId,
     Guid UserId,
-    string CartStatus,
+    string CartStatusName,
     decimal SubTotal,
     List<CartItemDto> CartItems);

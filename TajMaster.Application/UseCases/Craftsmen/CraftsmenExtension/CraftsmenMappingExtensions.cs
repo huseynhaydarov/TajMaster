@@ -19,8 +19,8 @@ public static class CraftsmenMappingExtensions
         );
     }
 
-    public static IEnumerable<CraftsmanDto> CraftsmanDtos(this IEnumerable<Craftsman> craftsmen)
+    public static IEnumerable<CraftsmanDto> ToCraftsmanDtos(this IEnumerable<Craftsman> craftsmen)
     {
-        return craftsmen.Select(user => user.MapToCraftsmanDto());
+        return craftsmen.Select(craftsman => craftsman.MapToCraftsmanDto());
     }
 }

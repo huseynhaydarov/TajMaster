@@ -1,17 +1,23 @@
-using TajMaster.Application.Common.Interfaces.CQRS;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 
 namespace TajMaster.Application.UseCases.CartItem.Commands.Delete.DeleteByCart;
 
-public class DeleteCartItemsByCartIdCommandHandler(IUnitOfWork unitOfWork)
-    : IQueryHandler<DeleteCartItemsByCartIdCommand, bool>
+public class DeleteCartItemsByCartIdCommandHandler(
+    IApplicationDbContext context)
+    : IRequestHandler<DeleteCartItemsByCartIdCommand, bool>
 {
     public async Task<bool> Handle(DeleteCartItemsByCartIdCommand request, CancellationToken cancellationToken)
     {
-        await unitOfWork.CartItemRepository.DeleteByCartIdAsync(request.CartId);
+        var cartItems = await context.CartItems
+            .Where(ci => ci.CartId == request.CartId)
+            .ToListAsync(cancellationToken);
+        
+        context.CartItems.RemoveRange(cartItems);
+        
+        await context.SaveChangesAsync(cancellationToken);
 
-        await unitOfWork.CompleteAsync(cancellationToken);
-
-        return true;
+        return await Task.FromResult(true);
     }
 }

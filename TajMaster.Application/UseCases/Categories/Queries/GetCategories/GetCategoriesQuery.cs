@@ -3,4 +3,4 @@ using TajMaster.Application.Common.Pagination;
 
 namespace TajMaster.Application.UseCases.Categories.Queries.GetCategories;
 
-public record GetCategoriesQuery(PagingParameters PagingParameters) : IQuery<PaginatedResult<CategoryDto.CategoryDto>>;
+public record GetCategoriesQuery(PagingParameters PagingParameters) : IQuery<PaginatedResult<CategoryDtos.CategoryDto>>;

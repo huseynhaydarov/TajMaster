@@ -11,9 +11,9 @@ public class CreateCartStatusEndpoint : ICarterModule
     {
         app.MapPost("/api/cart-statuses", async (ISender mediator, [FromBody] CreateCartStatusCommand command) =>
             {
-                var cartStatusId = await mediator.Send(command);
+                var newCartStatus = await mediator.Send(command);
                 
-                return Results.Created($"/cart-statuses/{cartStatusId}", new { Id = cartStatusId });
+                return Results.Created($"/api/cart-statuses/{newCartStatus}", new { Id = newCartStatus });
             })
             .WithName("CreateCartStatusEndpoint")
             .WithTags("CartStatuses");

@@ -47,7 +47,7 @@ public static class UserMappingExtensions
                 order.CraftsmanId,
                 order.AppointmentDate,
                 order.Address,
-                order.Status.ToString(),
+                order.OrderStatus.Name,
                 order.TotalPrice
             )).ToList() ?? [],
             user.Reviews?.Select(review => new ReviewDto(

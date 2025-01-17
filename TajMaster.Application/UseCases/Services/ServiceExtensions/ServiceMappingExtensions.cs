@@ -1,4 +1,5 @@
 using TajMaster.Application.UseCases.Categories.CategoryDto;
+using TajMaster.Application.UseCases.Categories.CategoryDtos;
 using TajMaster.Application.UseCases.Services.ServiceDtos;
 using TajMaster.Domain.Entities;
 

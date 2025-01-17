@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
@@ -6,28 +7,39 @@ using TajMaster.Application.UseCases.Orders.OrderExtensions;
 
 namespace TajMaster.Application.UseCases.Orders.Queries.GetOrders;
 
-public class GetOrdersQueryHandler(IUnitOfWork unitOfWork)
+public class GetOrdersQueryHandler(
+    IApplicationDbContext context)
     : IQueryHandler<GetOrdersQuery, PaginatedResult<OrderSummaryDto>>
 {
-    public async Task<PaginatedResult<OrderSummaryDto>> Handle(GetOrdersQuery request,
+    public async Task<PaginatedResult<OrderSummaryDto>> Handle(GetOrdersQuery query,
         CancellationToken cancellationToken)
     {
-        var pagingParams = request.PagingParameters;
+        var pagingParams = query.PagingParameters;
 
-        var paginatedOrders = await unitOfWork.OrderRepository.GetAllAsync(pagingParams, cancellationToken);
+        var request = context.Orders
+            .AsNoTracking()
+            .Include(o => o.OrderItems)
+            .Include(o => o.Reviews)
+            .AsQueryable();
 
-        var totalCount = paginatedOrders.Count();
+        request = pagingParams.OrderByDescending == true
+            ? request.OrderByDescending(u => u.Id)
+            : request.OrderBy(u => u.Id);
+
+        var totalCount = await request.CountAsync(cancellationToken);
+        
+        var paginatedOrders = await request
+            .Skip(pagingParams.Skip)
+            .Take(pagingParams.Take)
+            .ToListAsync(cancellationToken);
 
         var orderDto = paginatedOrders.ToOrderSummaryDtoList();
-        ;
-
-        var paginatedResult = new PaginatedResult<OrderSummaryDto>(
+        
+        return new PaginatedResult<OrderSummaryDto>(
             (int)pagingParams.PageNumber!,
             (int)pagingParams.PageSize!,
             totalCount,
             orderDto
         );
-
-        return paginatedResult;
     }
 }

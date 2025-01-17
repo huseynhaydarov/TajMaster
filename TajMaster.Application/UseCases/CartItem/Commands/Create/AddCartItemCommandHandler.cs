@@ -1,24 +1,33 @@
-using TajMaster.Application.Common.Interfaces.CQRS;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Exceptions;
 
 namespace TajMaster.Application.UseCases.CartItem.Commands.Create;
 
-public class AddCartItemCommandHandler(IUnitOfWork unitOfWork)
-    : ICommandHandler<AddCartItemCommand, Guid>
+public class AddCartItemCommandHandler(
+    IApplicationDbContext context)
+    : IRequestHandler<AddCartItemCommand, Guid>
 {
     public async Task<Guid> Handle(AddCartItemCommand request, CancellationToken cancellationToken)
     {
-        var cart = await unitOfWork.CartRepository.GetByIdAsync(request.CartId, cancellationToken);
-        if (cart == null)
-            throw new InvalidOperationException("Cart not found.");
+        var cart = await context.Carts
+            .Include(c => c.CartItems)
+            .FirstOrDefaultAsync(c => c.Id == request.CartId, cancellationToken);
 
+        if (cart == null)
+        {
+            throw new NotFoundException("Cart not found.");
+        }
+        
         var existingItem = cart.CartItems.FirstOrDefault(ci => ci.ServiceId == request.ServiceId);
+        
         if (existingItem != null)
         {
             existingItem.Quantity += 1;
             existingItem.Price = request.Price * existingItem.Quantity;
 
-            await unitOfWork.CartItemRepository.UpdateAsync(existingItem, cancellationToken);
+            context.CartItems.Update(existingItem);
         }
         else
         {
@@ -30,11 +39,11 @@ public class AddCartItemCommandHandler(IUnitOfWork unitOfWork)
                 Quantity = 1
             };
 
-            await unitOfWork.CartItemRepository.CreateAsync(newCartItem, cancellationToken);
+            await context.CartItems.AddAsync(newCartItem, cancellationToken);
         }
-
-        await unitOfWork.CompleteAsync(cancellationToken);
-
-        return existingItem?.Id ?? cart.CartItems.Last().Id;
+        
+        await context.SaveChangesAsync(cancellationToken);
+        
+        return request.CartId;
     }
 }

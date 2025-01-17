@@ -33,8 +33,4 @@
         <ProjectReference Include="..\TajMaster.Infrastructure\TajMaster.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Endpoints\Exceptions\" />
-    </ItemGroup>
-
 </Project>

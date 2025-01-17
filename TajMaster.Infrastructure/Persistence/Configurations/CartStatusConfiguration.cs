@@ -4,9 +4,9 @@ using TajMaster.Domain.Entities;
 
 namespace TajMaster.Infrastructure.Persistence.Configurations;
 
-public class CartStatusConfiguration : IEntityTypeConfiguration<CartStatusEntity>
+public class CartStatusConfiguration : IEntityTypeConfiguration<CartStatus>
 {
-    public void Configure(EntityTypeBuilder<CartStatusEntity> builder)
+    public void Configure(EntityTypeBuilder<CartStatus> builder)
     {
         builder.HasKey(cs => cs.Id);
         builder.Property(cs => cs.Name).IsRequired().HasMaxLength(50);

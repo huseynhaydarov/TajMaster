@@ -1,7 +1,7 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TajMaster.Application.UseCases.Specializations.Command.Create;
+using TajMaster.Application.UseCases.Specializations.Commands.Create;
 
 namespace TajMaster.WebApi.Endpoints.Specializations;
 
@@ -9,11 +9,15 @@ public class CreateSpecializationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        // Create Specialization
-        app.MapPost("/api/specializations", async (ISender mediator, [FromBody] CreateSpecializationCommand command) =>
+        app.MapPost("/api/specializations", async (ISender mediator, [FromBody] 
+                CreateSpecializationCommand command) =>
         {
-            var specializationId = await mediator.Send(command);
-            return Results.Created($"/api/specializations/{specializationId}", new { Id = specializationId });
-        }).WithName("CreateSpecialization");
+            var newSpecialization = await mediator.Send(command);
+            
+            return Results.Created($"/api/specializations/{newSpecialization}", new { Id = newSpecialization });
+        })
+            .WithName("CreateSpecializationEndpoint")
+            .WithTags("Specializations");
+            ;
     }
 }

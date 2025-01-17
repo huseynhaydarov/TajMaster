@@ -11,7 +11,10 @@ public class GetAllSpecializationsEndpoint : ICarterModule
         app.MapGet("/api/specializations", async (ISender mediator) =>
         {
             var specializations = await mediator.Send(new GetAllSpecializationsQuery());
+            
             return Results.Ok(specializations);
-        }).WithName("GetAllSpecializations");
+        })
+            .WithName("GetAllSpecializationsEndpoint")
+            .WithTags("Specializations");
     }
 }

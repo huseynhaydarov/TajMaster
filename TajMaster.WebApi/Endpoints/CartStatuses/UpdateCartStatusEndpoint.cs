@@ -1,7 +1,7 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TajMaster.Application.UseCases.CartStatus.Command.Update;
+using TajMaster.Application.UseCases.CartStatuses.Command.Update;
 
 namespace TajMaster.WebApi.Endpoints.CartStatuses;
 
@@ -11,14 +11,19 @@ public class UpdateCartStatusEndpoint : ICarterModule
     {
         app.MapPut("/api/cart-statuses/{id:guid}", async (ISender mediator, Guid id, [FromBody] UpdateCartStatusCommand command) =>
             {
-                
-                if(id != command.CartStatusId ) return Results.NotFound();
+
+                if (id != command.CartStatusId)
+                {
+                    return Results.NotFound();
+                }
                 var result = await mediator.Send(command);
 
                 if (result)
-                    return Results.NoContent();  // Return 204 No Content on successful update
+                {
+                    return Results.NoContent();
+                }
 
-                return Results.NotFound();  // Return 404 if CartStatus not found
+                return Results.NotFound(); 
             })
             .WithName("UpdateCartStatusEndpoint")
             .WithTags("CartStatuses");

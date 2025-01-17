@@ -2,4 +2,4 @@ using MediatR;
 
 namespace TajMaster.Application.UseCases.CartStatuses.Command.Create;
 
-public record CreateCartStatusCommand(string Name, int Code) : IRequest<Guid>;
+public record CreateCartStatusCommand(string Name, string Code) : IRequest<Guid>;

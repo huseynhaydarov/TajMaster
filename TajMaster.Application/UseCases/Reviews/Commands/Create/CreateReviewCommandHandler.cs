@@ -5,16 +5,18 @@ using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Reviews.Commands.Create;
 
-public class CreateReviewCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+public class CreateReviewCommandHandler(
+    IApplicationDbContext context, 
+    IMapper mapper)
     : IRequestHandler<CreateReviewCommand, Guid>
 {
     public async Task<Guid> Handle(CreateReviewCommand command, CancellationToken cancellationToken)
     {
         var review = mapper.Map<Review>(command);
 
-        review = await unitOfWork.ReviewRepository.CreateAsync(review, cancellationToken);
-
-        await unitOfWork.CompleteAsync(cancellationToken);
+        context.Reviews.Add(review);
+        
+        await context.SaveChangesAsync(cancellationToken);
 
         return review.Id;
     }

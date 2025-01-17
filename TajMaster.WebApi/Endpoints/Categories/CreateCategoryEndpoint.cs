@@ -11,8 +11,9 @@ public class CreateCategoryEndpoint : ICarterModule
     {
         app.MapPost("/api/categories", async (ISender mediator, [FromBody] CreateCategoryCommand command) =>
             {
-                var categoryId = await mediator.Send(command);
-                return Results.Created($"/categories/{categoryId}", new { Id = categoryId });
+                var newCategory = await mediator.Send(command);
+                
+                return Results.Created($"/api/categories/{newCategory}", new { Id = newCategory });
             })
             .WithName("CreateCategoryEndpoint")
             .WithTags("Categories");

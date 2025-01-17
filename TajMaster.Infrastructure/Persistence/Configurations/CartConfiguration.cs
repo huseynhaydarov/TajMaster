@@ -22,9 +22,12 @@ namespace TajMaster.Infrastructure.Persistence.Configurations
                 .HasForeignKey(t => t.CartId)
                 .OnDelete(DeleteBehavior.Cascade);
             
-            builder.Property(t => t.CartStatus).IsRequired();
- 
-            builder.Ignore(c => c.Subtotal);  // Ignore the calculated property
+         builder.HasOne(c => c.CartStatus)
+             .WithMany(cs => cs.Carts)
+             .HasForeignKey(c => c.CartStatusId)
+             .OnDelete(DeleteBehavior.Restrict);
+         
+            builder.Ignore(c => c.Subtotal);  
         }
     }
 }

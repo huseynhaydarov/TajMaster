@@ -1,19 +1,27 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Exceptions;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Commands.Delete;
 
-public class DeleteCraftsmanCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteCraftsmanCommand, bool>
+public class DeleteCraftsmanCommandHandler(
+    IApplicationDbContext context) 
+    : IRequestHandler<DeleteCraftsmanCommand, bool>
 {
-    public async Task<bool> Handle(DeleteCraftsmanCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteCraftsmanCommand command, CancellationToken cancellationToken)
     {
-        var craftsman = await unitOfWork.CraftsmanRepository.GetByIdAsync(request.CraftsmanId, cancellationToken);
+        var craftsman = await context.Craftsmen.FirstOrDefaultAsync(cr => cr.Id == command.CraftsmanId,
+            cancellationToken);
 
-        if (craftsman == null) return await Task.FromResult(false);
+        if (craftsman == null)
+        {
+            throw new NotFoundException($"Craftsmen with ID {command.CraftsmanId} not found.");
+        }
 
-        await unitOfWork.CraftsmanRepository.DeleteAsync(craftsman, cancellationToken);
+        context.Craftsmen.Remove(craftsman);
 
-        await unitOfWork.CompleteAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return await Task.FromResult(true);
     }

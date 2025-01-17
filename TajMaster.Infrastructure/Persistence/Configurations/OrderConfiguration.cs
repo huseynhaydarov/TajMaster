@@ -32,11 +32,10 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .WithOne(oi => oi.Order)
             .HasForeignKey(oi => oi.OrderId)
             .OnDelete(DeleteBehavior.Cascade);
-        builder.Property(o => o.Status)
-            .HasConversion(
-                o => o.ToString(),
-                o => (OrderStatus)Enum.Parse(typeof(OrderStatus), o))
-            .IsRequired();
+        builder.HasOne(o => o.OrderStatus)
+            .WithMany(o => o.Orders)
+            .HasForeignKey(o => o.OrderStatusId)
+            .OnDelete(DeleteBehavior.Cascade);
         builder.Property(o => o.TotalPrice)
             .HasPrecision(14, 2)
             .IsRequired();

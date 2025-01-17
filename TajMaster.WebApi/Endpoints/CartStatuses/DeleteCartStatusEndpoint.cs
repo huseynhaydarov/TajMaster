@@ -1,6 +1,6 @@
 using Carter;
 using MediatR;
-using TajMaster.Application.UseCases.CartStatus.Command.Delete;
+using TajMaster.Application.UseCases.CartStatuses.Command.Delete;
 
 namespace TajMaster.WebApi.Endpoints.CartStatuses;
 
@@ -14,9 +14,11 @@ public class DeleteCartStatusEndpoint : ICarterModule
                 var result = await mediator.Send(command);
 
                 if (result)
-                    return Results.NoContent();  // Return 204 No Content on successful deletion
-
-                return Results.NotFound();  // Return 404 if CartStatus not found
+                {
+                    return Results.NoContent();
+                } 
+                
+                return Results.NotFound(); 
             })
             .WithName("DeleteCartStatusEndpoint")
             .WithTags("CartStatuses");

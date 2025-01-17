@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using Carter;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Interfaces.IdentityService;
 
@@ -24,7 +25,8 @@ public class AuthModuleEndpoint : ICarterModule
                 if (string.IsNullOrEmpty(rawHeader) || !rawHeader.StartsWith("Bearer "))
                 {
                     Console.WriteLine("Authorization header is missing or invalid.");
-                    return Results.Unauthorized();
+                    
+                    throw new InvalidOperationException();
                 }
 
                 var accessToken = rawHeader.Substring("Bearer ".Length).Trim(); // Extract the token
@@ -32,14 +34,15 @@ public class AuthModuleEndpoint : ICarterModule
 
                 
                 var tokenService = context.RequestServices.GetRequiredService<ITokenService>();
-                var unitOfWork = context.RequestServices.GetRequiredService<IUnitOfWork>();
+                var dbContext = context.RequestServices.GetRequiredService<IApplicationDbContext>();
                 
                 var principal = tokenService.GetPrincipalFromExpiredToken(accessToken);
                 
                 if (principal == null)
                 {
                     Console.WriteLine("Failed to extract claims.");
-                    return Results.Unauthorized();
+                    
+                    throw new NullReferenceException();
                 }
 
                 foreach (var claim in principal.Claims)
@@ -48,16 +51,20 @@ public class AuthModuleEndpoint : ICarterModule
                 }
                 
                 var userIdString = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+                
                 if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
                 {
                     Console.WriteLine("Invalid user ID in token");
-                    return Results.Unauthorized();
+                    
+                    throw new InvalidOperationException();
                 }
                 
-                var user = await unitOfWork.UserRepository.GetByIdAsync(userId);
+                var user = await dbContext.Users
+                    .FirstOrDefaultAsync(u => u.Id == userId);
+                
                 if (user == null)
                 {
-                    return Results.Unauthorized();
+                    throw new NullReferenceException($"User with ID {userId} could not be found.");
                 }
                 
                 var newAccessToken = tokenService.GenerateJwtToken(user);
