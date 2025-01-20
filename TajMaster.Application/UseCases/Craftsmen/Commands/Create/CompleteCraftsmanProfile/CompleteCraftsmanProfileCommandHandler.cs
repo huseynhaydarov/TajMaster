@@ -27,7 +27,7 @@ public class CompleteCraftsmanProfileCommandHandler(
         throw new NotFoundException($"User with Id {profileCommand.UserId} not found.");
     }
 
-    if (user.Roles != Role.Craftsman)
+    if (user.UserRoleId != UserRoleEnum.Craftsman.Id)
     {
         throw new InvalidOperationException("The user is not eligible to become a craftsman.");
     }

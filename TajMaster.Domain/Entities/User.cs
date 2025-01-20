@@ -10,7 +10,8 @@ public class User : BaseEntity
     public required string HashedPassword { get; set; }
     public string? Phone { get; set; }
     public string? Address { get; set; }
-    public Role Roles { get; set; }
+    public Guid UserRoleId { get; set; }
+    public UserRole UserRole { get; set; } = null!;
     public DateTime RegisteredDate { get; set; } = DateTime.UtcNow;
     public bool IsActive { get; set; }
     public Craftsman Craftsman { get; set; } = null!;

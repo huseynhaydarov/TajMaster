@@ -5,8 +5,8 @@ namespace TajMaster.WebApi.AuthAttribute;
 
 public class CustomAuthorizeAttribute : AuthorizeAttribute
 {
-    public CustomAuthorizeAttribute(params Role[] roles)
+    public CustomAuthorizeAttribute(params UserRoleEnum[] roles)
     {
-        Roles = string.Join(",", roles);
+        Roles = string.Join(",", roles.Select(r => r.Name));
     }
 }

@@ -1,5 +1,5 @@
 using TajMaster.Application.Common.Interfaces.CQRS;
-using TajMaster.Application.UseCases.Auth.AuthDTOs;
+using TajMaster.Application.UseCases.Auths.AuthDTOs;
 
 namespace TajMaster.Application.UseCases.Auth;
 

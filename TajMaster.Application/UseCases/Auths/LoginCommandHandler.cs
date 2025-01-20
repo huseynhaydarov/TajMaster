@@ -3,9 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Application.Common.Interfaces.PasswordHasher;
-using TajMaster.Application.UseCases.Auth.AuthDTOs;
+using TajMaster.Application.UseCases.Auth;
+using TajMaster.Application.UseCases.Auths.AuthDTOs;
 
-namespace TajMaster.Application.UseCases.Auth;
+namespace TajMaster.Application.UseCases.Auths;
 
 public class LoginCommandHandler(
    IApplicationDbContext context,
@@ -49,7 +50,7 @@ public class LoginCommandHandler(
             refreshToken,
             user.FullName,
             user.Email,
-            user.Roles);
+            user.UserRole);
     }
 
     private static AuthResponse UnauthorizedResponse(string errorMessage)

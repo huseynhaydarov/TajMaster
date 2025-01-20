@@ -83,7 +83,7 @@ public class AuthModuleEndpoint : ICarterModule
                     AccessToken = newAccessToken,
                     user.FullName,
                     user.Email,
-                    user.Roles
+                    Roles = user.UserRole.Name
                 });
             }
             catch (Exception ex)

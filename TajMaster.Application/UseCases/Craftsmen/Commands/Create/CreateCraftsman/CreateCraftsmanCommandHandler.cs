@@ -19,7 +19,8 @@ public class CreateCraftsmanCommandHandler(
         
         craftsman.HashedPassword = passwordHasher.HashPassword(command.Password);
         
-        craftsman.Roles = Role.Craftsman;
+        craftsman.UserRoleId = UserRoleEnum.Craftsman.Id;
+
         
         context.Users.Add(craftsman);
 

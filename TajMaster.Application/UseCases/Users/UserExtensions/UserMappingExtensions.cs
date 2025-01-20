@@ -38,7 +38,7 @@ public static class UserMappingExtensions
             user.Email,
             user.Phone,
             user.Address,
-            user.Roles.ToString() ?? "",
+            user.UserRole.Name,
             user.RegisteredDate,
             user.IsActive,
             user.Orders?.Select(order => new OrderSummaryDto(

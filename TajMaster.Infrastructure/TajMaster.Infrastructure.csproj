@@ -29,6 +29,8 @@
 
     <ItemGroup>
         <Compile Remove="Migrations\20241226112718_UpdateRoleConversion.Designer.cs" />
+        <Compile Remove="Migrations\20250120075451_FixStatusesEnumerations.Designer.cs" />
+        <Compile Remove="Migrations\20250120075451_FixStatusesEnumerations.cs" />
     </ItemGroup>
 
     <ItemGroup>

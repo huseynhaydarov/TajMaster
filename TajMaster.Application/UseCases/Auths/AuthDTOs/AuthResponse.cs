@@ -1,6 +1,6 @@
-using TajMaster.Domain.Enumerations;
+using TajMaster.Domain.Entities;
 
-namespace TajMaster.Application.UseCases.Auth.AuthDTOs;
+namespace TajMaster.Application.UseCases.Auths.AuthDTOs;
 
 public record AuthResponse(
     bool Success,
@@ -8,5 +8,5 @@ public record AuthResponse(
     string RefreshToken,
     string? FullName = null,
     string? Email = null,
-    Role? Roles = null,
+    UserRole? Roles = null,
     IEnumerable<string>? Errors = null);

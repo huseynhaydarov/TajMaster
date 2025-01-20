@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Application.UseCases.Cart.Commands;
 
@@ -12,7 +13,7 @@ public class CreateCartCommandHandler(
     {
         var cartStatus = await context.CartStatuses
             .AsNoTracking()
-            .FirstOrDefaultAsync(cs => cs.Name == "Active", cancellationToken);
+            .FirstOrDefaultAsync(cs => cs.Id == CartEnum.Created.Id, cancellationToken);
 
         if (cartStatus == null)
         {
@@ -22,7 +23,7 @@ public class CreateCartCommandHandler(
         var newCart = new Domain.Entities.Cart
         {
             UserId = command.UserId,
-            CartStatusId = cartStatus.Id, // Reference by foreign key CartStatusEnum.Created.Value
+            CartStatusId = cartStatus.Id,
         };
         
         await context.Carts.AddAsync(newCart, cancellationToken);
