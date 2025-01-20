@@ -1,30 +1,42 @@
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Common.Pagination;
 using TajMaster.Application.UseCases.Specializations.SpecializationDtos;
-using TajMaster.Application.Exceptions;
-using Microsoft.EntityFrameworkCore;
 
 namespace TajMaster.Application.UseCases.Specializations.Queries.GetAll
 {
-    public class GetAllSpecializationsQueryHandler(IApplicationDbContext context)
-        : IQueryHandler<GetAllSpecializationsQuery, List<SpecializationDto>>
+    public class GetAllSpecializationsQueryHandler(
+        IApplicationDbContext context) 
+        : IQueryHandler<GetAllSpecializationsQuery, PaginatedResult<SpecializationDto>>
     {
-        public async Task<List<SpecializationDto>> Handle(GetAllSpecializationsQuery query, 
-            CancellationToken cancellationToken)
+        public async Task<PaginatedResult<SpecializationDto>> Handle(GetAllSpecializationsQuery query, CancellationToken cancellationToken)
         {
-            var specializations = await context.Specializations
-                .AsNoTracking()
-                .Include(c => c.Craftsmen)
-                .ToListAsync(cancellationToken);
+            var pagingParams = query.PagingParameters;
 
-            if (specializations == null || !specializations.Any())
-            {
-                throw new NotFoundException("No specializations found");
-            }
+            // Query Specializations with AsNoTracking for read-only operation
+            var request = context.Specializations
+                .AsNoTracking()
+                .AsQueryable();
             
-            var specializationsDto = new List<SpecializationDto>();
+            request = (bool)pagingParams.OrderByDescending! 
+                ? request.OrderByDescending(s => s.Id) 
+                : request.OrderBy(s => s.Id);
             
-            return specializationsDto;
+            var totalCount = await request.CountAsync(cancellationToken);
+            
+            var specializationDtoList = await request
+                .Skip((int)((pagingParams.PageNumber - 1) * pagingParams.PageSize)!)
+                .Take((int)pagingParams.PageSize!)
+                .Select(s => new SpecializationDto(s.Id, s.Name, s.Description)) 
+                .ToListAsync(cancellationToken); 
+            
+            return new PaginatedResult<SpecializationDto>(
+                (int)pagingParams.PageNumber!,
+                (int)pagingParams.PageSize,
+                totalCount, 
+                specializationDtoList
+            );
         }
     }
 }

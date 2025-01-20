@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using TajMaster.Domain.Enumerations;
 
-namespace TajMaster.WebApi.Authorization;
+namespace TajMaster.WebApi.AuthAttribute;
 
 public class CustomAuthorizeAttribute : AuthorizeAttribute
 {

@@ -9,7 +9,7 @@ public class GetCartStatusByNameEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/cart-statuses/name/{name}", async (ISender mediator, string name) =>
+        app.MapGet("/api/order-statuses/name/{name}", async (ISender mediator, string name) =>
             {
                 var result = await mediator.Send(new GetOrderStatusByNameQuery(name));
 

@@ -9,7 +9,7 @@ public static class CraftsmenMappingExtensions
     {
         return new CraftsmanDto(
             craftsman.Id,
-            craftsman.Specialization.ToString() ?? string.Empty,
+            craftsman.Specialization.Name,
             craftsman.Experience,
             craftsman.Rating,
             craftsman.Description,

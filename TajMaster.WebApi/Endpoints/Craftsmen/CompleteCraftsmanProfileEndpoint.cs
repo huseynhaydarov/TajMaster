@@ -14,7 +14,7 @@ public class CompleteCraftsmanProfileEndpoint : ICarterModule
 
                 var command = new CompleteCraftsmanProfileCommand(
                     Guid.Parse(form["userId"]!),
-                    int.Parse(form["specialization"].ToString()),
+                    form["specialization"].ToString(),
                     int.Parse(form["experience"]!),
                     form["about"].ToString(),
                     form.Files.GetFile("profilePicture")
