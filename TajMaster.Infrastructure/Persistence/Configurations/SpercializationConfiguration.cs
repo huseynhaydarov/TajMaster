@@ -9,16 +9,16 @@ public class SpecializationConfiguration : IEntityTypeConfiguration<Specializati
     public void Configure(EntityTypeBuilder<Specialization> builder)
     {
         builder.HasKey(s => s.Id);
-        
+
         builder.Property(s => s.Name)
             .HasMaxLength(100)
             .IsRequired();
 
         builder.Property(s => s.Description)
             .HasMaxLength(500);
-        
-        builder.HasMany(s => s.Craftsmen) 
-            .WithOne(c => c.Specialization) 
+
+        builder.HasMany(s => s.Craftsmen)
+            .WithOne(c => c.Specialization)
             .HasForeignKey(c => c.SpecializationId)
             .OnDelete(DeleteBehavior.Cascade);
     }

@@ -11,11 +11,8 @@ public class DeleteUserCommandHandler(IApplicationDbContext context) : IRequestH
     {
         var user = await context.Users.FirstOrDefaultAsync(u => u.Id == command.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NotFoundException($"User with ID {command.UserId} not found");
-        }
-        
+        if (user == null) throw new NotFoundException($"User with ID {command.UserId} not found");
+
         context.Users.Remove(user);
 
         await context.SaveChangesAsync(cancellationToken);

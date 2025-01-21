@@ -1,6 +1,6 @@
 using AutoMapper;
-using TajMaster.Application.UseCases.Cart.Commands;
 using TajMaster.Application.UseCases.CartItem.CartItemDTos;
+using TajMaster.Application.UseCases.Carts.Commands;
 using TajMaster.Application.UseCases.CartStatuses.Command.Create;
 using TajMaster.Application.UseCases.CartStatuses.Command.Update;
 using TajMaster.Application.UseCases.Categories.Commands.Create;
@@ -9,7 +9,6 @@ using TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraftsman
 using TajMaster.Application.UseCases.Craftsmen.Commands.Create.CreateCraftsman;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateAvailability;
 using TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsman;
-using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtensions;
 using TajMaster.Application.UseCases.OrderItems;
 using TajMaster.Application.UseCases.Orders.Create;
 using TajMaster.Application.UseCases.OrderStatuses.Commands.Create;
@@ -49,19 +48,19 @@ public class AutoMapperConfiguration : Profile
         CreateMap<OrderItem, OrderItemDto>();
 
         CreateMap<CreateOrderCommand, Order>();
-        
+
         CreateMap<CompleteCraftsmanProfileCommand, Craftsman>()
-            .ForMember(c => c.Description, opt 
+            .ForMember(c => c.Description, opt
                 => opt.MapFrom(src => src.About))
-            .ForMember(c => c.ProfilePicture, opt 
+            .ForMember(c => c.ProfilePicture, opt
                 => opt.Ignore())
-            .ForMember(c => c.Specialization, opt => opt.Ignore()); 
-        
+            .ForMember(c => c.Specialization, opt => opt.Ignore());
+
         CreateMap<CreateCraftsmanCommand, User>()
             .ForMember(dest => dest.HashedPassword, opt => opt.MapFrom(src => src.Password));
         CreateMap<UpdateCraftsmanCommand, Craftsman>();
         CreateMap<UpdateCraftsmanAvailabilityCommand, Craftsman>();
-        
+
         CreateMap<CreateCategoryCommand, Category>();
         CreateMap<UpdateCategoryCommand, Category>();
 

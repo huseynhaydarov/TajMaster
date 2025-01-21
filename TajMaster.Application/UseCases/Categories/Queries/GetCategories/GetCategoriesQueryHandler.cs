@@ -12,22 +12,22 @@ public class GetCategoriesQueryHandler(IApplicationDbContext context)
         CancellationToken cancellationToken)
     {
         var pagingParams = request.PagingParameters;
-        
+
         var query = context.Categories.AsQueryable();
 
-        var totalCount = await query.CountAsync(cancellationToken);  // Get the total count for pagination
-        
+        var totalCount = await query.CountAsync(cancellationToken); // Get the total count for pagination
+
         var paginatedCategories = await query
             .Skip(pagingParams.Skip)
             .Take(pagingParams.Take)
             .ToListAsync(cancellationToken);
-        
+
         var categoriesDto = paginatedCategories.Select(category => new CategoryDtos.CategoryDto(
                 category.Id,
                 category.Name,
                 category.Description))
             .ToList();
-        
+
         return new PaginatedResult<CategoryDtos.CategoryDto>(
             pagingParams.PageNumber!.Value,
             pagingParams.PageSize!.Value,

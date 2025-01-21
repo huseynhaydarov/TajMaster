@@ -5,7 +5,8 @@ using TajMaster.Application.UseCases.CartStatuses.CartStatusDtos;
 
 namespace TajMaster.Application.UseCases.CartStatuses.Queries.GetCartStatusByName;
 
-public class GetCartStatusByNameQueryHandler(IApplicationDbContext context) : IQueryHandler<GetCartStatusByNameQuery, CartStatusDto>
+public class GetCartStatusByNameQueryHandler(IApplicationDbContext context)
+    : IQueryHandler<GetCartStatusByNameQuery, CartStatusDto>
 {
     public async Task<CartStatusDto> Handle(GetCartStatusByNameQuery request, CancellationToken cancellationToken)
     {

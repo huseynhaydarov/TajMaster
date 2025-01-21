@@ -12,7 +12,7 @@ public class CreateOrderEndpoint : ICarterModule
         app.MapPost("/api/orders", async (ISender mediator, [FromBody] CreateOrderCommand command) =>
             {
                 var newOrder = await mediator.Send(command);
-                
+
                 return Results.Created($"/api/orders/{newOrder}", new { Id = newOrder });
             })
             .WithName("CreateOrderEndpoint")

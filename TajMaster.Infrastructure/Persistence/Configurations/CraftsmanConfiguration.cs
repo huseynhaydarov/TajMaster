@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Infrastructure.Persistence.Configurations;
 
@@ -30,14 +29,10 @@ public class CraftsmanConfiguration : IEntityTypeConfiguration<Craftsman>
             .WithOne(c => c.Craftsman)
             .HasForeignKey(c => c.CraftsmanId)
             .OnDelete(DeleteBehavior.Cascade);
-        builder.HasOne(c => c.Specialization)  
-            .WithMany()  
-            .HasForeignKey(c => c.Id) 
+        builder.HasOne(c => c.Specialization)
+            .WithMany()
+            .HasForeignKey(c => c.Id)
             .IsRequired();
-        builder.HasMany(c => c.Orders)
-            .WithOne(c => c.Craftsman)
-            .HasForeignKey(c => c.CraftsmanId)
-            .OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(c => c.Reviews)
             .WithOne(c => c.Craftsman)
             .HasForeignKey(c => c.CraftsmanId)

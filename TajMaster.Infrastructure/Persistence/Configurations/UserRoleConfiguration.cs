@@ -13,7 +13,7 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
         builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
         builder.Property(x => x.Code).IsRequired().HasMaxLength(50);
         builder.Property(x => x.IsActive).IsRequired();
-        
+
         builder.HasData(
             new UserRole
             {

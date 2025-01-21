@@ -6,6 +6,6 @@ public class UserRole
     public required string Name { get; set; }
     public required string Code { get; set; }
     public required bool IsActive { get; set; }
-    
-    public List<User> Users { get; set; } = new List<User>();
+
+    public List<User> Users { get; set; } = new();
 }

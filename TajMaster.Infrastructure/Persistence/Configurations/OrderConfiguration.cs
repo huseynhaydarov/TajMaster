@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Infrastructure.Persistence.Configurations;
 
@@ -14,10 +13,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .WithMany(o => o.Orders)
             .HasForeignKey(o => o.UserId)
             .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired();
-        builder.HasOne(o => o.Craftsman)
-            .WithMany(o => o.Orders)
-            .HasForeignKey(o => o.CraftsmanId)
             .IsRequired();
         builder.Property(o => o.AppointmentDate)
             .IsRequired();

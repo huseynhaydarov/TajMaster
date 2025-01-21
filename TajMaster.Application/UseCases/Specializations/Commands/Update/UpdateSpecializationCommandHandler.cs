@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
-using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Specializations.Commands.Update;
 
@@ -15,14 +14,12 @@ public class UpdateSpecializationCommandHandler(IApplicationDbContext context)
             .FirstOrDefaultAsync(s => s.Id == command.SpecializationId, cancellationToken);
 
         if (specialization == null)
-        {
             throw new NotFoundException($"Specialization with ID {command.SpecializationId} not found");
-        }
-        
+
         context.Specializations.Update(specialization);
-        
+
         await context.SaveChangesAsync(cancellationToken);
-        
+
         return true;
     }
 }

@@ -11,10 +11,7 @@ public class GetOrdersByUserIdEndpoint : ICarterModule
     {
         app.MapGet("/api/orders/user/{Id:guid}", async (Guid userId, ISender sender) =>
             {
-                if (userId == Guid.Empty)
-                {
-                    return Results.BadRequest(new { Message = "Invalid user ID." });
-                }
+                if (userId == Guid.Empty) return Results.BadRequest(new { Message = "Invalid user ID." });
 
                 var query = new GetOrdersByUserIdQuery(userId);
 
@@ -23,9 +20,7 @@ public class GetOrdersByUserIdEndpoint : ICarterModule
                 var orderDto = orders as OrderDetailDto[] ?? orders.ToArray();
 
                 if (!orderDto.Any())
-                {
                     return Results.NotFound(new { Message = $"No orders found for user ID {userId}." });
-                }
 
                 return Results.Ok(orderDto);
             })

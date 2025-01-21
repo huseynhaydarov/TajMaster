@@ -12,7 +12,7 @@ public class DeleteCartItemByCartIdEndpoint : ICarterModule
         app.MapDelete("/cart/{cartId:guid}/items", async ([FromRoute] Guid cartId, ISender mediator) =>
             {
                 var command = new DeleteCartItemsByCartIdCommand(cartId);
-                
+
                 var result = await mediator.Send(command);
 
                 return result

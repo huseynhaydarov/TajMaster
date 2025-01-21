@@ -18,6 +18,7 @@ public class GetOrdersQueryHandler(
 
         var request = context.Orders
             .AsNoTracking()
+            .Include(o => o.OrderStatus)
             .Include(o => o.OrderItems)
             .Include(o => o.Reviews)
             .AsQueryable();
@@ -27,14 +28,14 @@ public class GetOrdersQueryHandler(
             : request.OrderBy(u => u.Id);
 
         var totalCount = await request.CountAsync(cancellationToken);
-        
+
         var paginatedOrders = await request
             .Skip(pagingParams.Skip)
             .Take(pagingParams.Take)
             .ToListAsync(cancellationToken);
 
         var orderDto = paginatedOrders.ToOrderSummaryDtoList();
-        
+
         return new PaginatedResult<OrderSummaryDto>(
             (int)pagingParams.PageNumber!,
             (int)pagingParams.PageSize!,

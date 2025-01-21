@@ -1,8 +1,6 @@
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
-using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Users.UserDtos;
 using TajMaster.Application.UseCases.Users.UserExtensions;
 
@@ -12,13 +10,15 @@ public class GetUserByIdQueryHandler(IApplicationDbContext context) : IRequestHa
 {
     public async Task<UserDetailDto> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
-        var user = await context.Users.FirstOrDefaultAsync(u => u.Id == query.UserId, cancellationToken);
+        var user = await context.Users
+            .Include(u => u.UserRole)
+            .Include(u => u.Orders)
+            .ThenInclude(o => o.OrderStatus)
+            .Include(u => u.Reviews)
+            .FirstOrDefaultAsync(u => u.Id == query.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NullReferenceException();
-        }
-        
+        if (user == null) throw new NullReferenceException();
+
         return user.MapToUser();
     }
 }

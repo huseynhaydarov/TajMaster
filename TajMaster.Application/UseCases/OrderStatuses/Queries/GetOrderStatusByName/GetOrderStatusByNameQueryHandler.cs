@@ -1,14 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
-using TajMaster.Application.UseCases.CartStatuses.CartStatusDtos;
-using TajMaster.Application.UseCases.CartStatuses.Queries.GetCartStatusByName;
 using TajMaster.Application.UseCases.OrderStatuses.OrderStatusDtos;
 
 namespace TajMaster.Application.UseCases.OrderStatuses.Queries.GetOrderStatusByName;
 
 public class GetOrderStatusByNameQueryHandler(
-    IApplicationDbContext context) 
+    IApplicationDbContext context)
     : IQueryHandler<GetOrderStatusByNameQuery, OrderStatusDto>
 {
     public async Task<OrderStatusDto> Handle(GetOrderStatusByNameQuery request, CancellationToken cancellationToken)

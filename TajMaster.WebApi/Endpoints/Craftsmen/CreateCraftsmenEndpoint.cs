@@ -11,10 +11,10 @@ public class CreateCraftsmenEndpoint : ICarterModule
         app.MapPost("/api/users/craftsmen", async (CreateCraftsmanCommand command, ISender mediator) =>
             {
                 var result = await mediator.Send(command);
-                
+
                 return Results.Created($"api/users/craftsmen/{result}", new { Id = result });
             })
-            .WithName("RegisterCraftsmanEndpoint")
-            .WithTags("Users");
+            .WithName("CreateCraftsmanEndpoint")
+            .WithTags("Craftsmen");
     }
 }

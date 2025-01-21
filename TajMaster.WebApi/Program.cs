@@ -1,11 +1,10 @@
 using Carter;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application;
 using TajMaster.Infrastructure;
-using TajMaster.WebApi;
-using TajMaster.Infrastructure.Persistence.Data;
-using Microsoft.EntityFrameworkCore;
-
 using TajMaster.Infrastructure.Middlewares;
+using TajMaster.Infrastructure.Persistence.Data;
+using TajMaster.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,18 +31,15 @@ void ConfigureMiddleware(WebApplication app)
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
-        app.UseSwagger(); 
-        app.UseSwaggerUI(c => 
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "TajMaster API v1");
-        });
+        app.UseSwagger();
+        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "TajMaster API v1"); });
     }
     else
     {
-        app.UseExceptionHandler("/Home/Error"); 
-        app.UseHsts(); 
+        app.UseExceptionHandler("/Home/Error");
+        app.UseHsts();
     }
-    
+
     app.UseRouting();
     app.UseAuthentication();
     app.UseAuthorization();
@@ -56,7 +52,8 @@ void ApplyMigrations(WebApplication app)
 {
     try
     {
-        var applicationDbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var applicationDbContext =
+            app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
         applicationDbContext.Database.MigrateAsync().Wait();
     }
     catch (Exception ex)

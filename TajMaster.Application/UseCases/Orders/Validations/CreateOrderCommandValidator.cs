@@ -10,11 +10,6 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
         RuleFor(command => command.UserId)
             .NotEqual(Guid.Empty)
             .WithMessage("User ID must be a valid GUID and cannot be empty.");
-        
-        RuleFor(command => command.CraftsmanId)
-            .NotEqual(Guid.Empty)
-            .WithMessage("CraftsmanId must be a valid GUID and cannot be empty.");
-            
 
         RuleFor(command => command.AppointmentDate)
             .Must(BeInTheFuture)
@@ -22,9 +17,7 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
 
         RuleFor(command => command.Address)
             .NotEmpty()
-            .WithMessage("Address is required.")
-            .MinimumLength(10)
-            .WithMessage("Address must be at least 10 characters long.");
+            .WithMessage("Address is required.");
     }
 
     private bool BeInTheFuture(DateTime date)

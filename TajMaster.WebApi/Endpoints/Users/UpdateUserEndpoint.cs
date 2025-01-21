@@ -11,13 +11,10 @@ public class UpdateUserEndpoint : ICarterModule
     {
         app.MapPut("/api/users/{id}", async (ISender mediator, Guid id, [FromBody] UpdateUserCommand command) =>
             {
-                if (id != command.UserId)
-                {
-                    return Results.BadRequest(new { message = "User ID mismatch." });
-                }
-                
+                if (id != command.UserId) return Results.BadRequest(new { message = "User ID mismatch." });
+
                 var result = await mediator.Send(command);
-                
+
                 return result ? Results.NoContent() : Results.NotFound();
             })
             .WithName("UpdateUserEndpoint")

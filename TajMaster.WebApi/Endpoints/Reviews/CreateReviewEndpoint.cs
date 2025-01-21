@@ -12,7 +12,7 @@ public class CreateReviewEndpoint : ICarterModule
         app.MapPost("/api/reviews", async (ISender mediator, [FromBody] CreateReviewCommand command) =>
             {
                 var newReview = await mediator.Send(command);
-                
+
                 return Results.Created($"/api/reviews/{newReview}", new { id = newReview });
             })
             .WithName("CreateReviewEndpoint")

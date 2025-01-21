@@ -2,47 +2,45 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace TajMaster.Infrastructure.Middlewares
+namespace TajMaster.Infrastructure.Middlewares;
+
+public class RequestLoggingMiddleware(RequestDelegate next, ILogger<RequestLoggingMiddleware> logger)
 {
-    public class RequestLoggingMiddleware(RequestDelegate next, ILogger<RequestLoggingMiddleware> logger)
+    public async Task InvokeAsync(HttpContext context)
     {
-        public async Task InvokeAsync(HttpContext context)
+        logger.LogInformation("Request: {Method} {Path}", context.Request.Method, context.Request.Path);
+
+        if (context.Request.Headers.ContainsKey("Authorization"))
         {
-         
-            logger.LogInformation("Request: {Method} {Path}", context.Request.Method, context.Request.Path);
-            
-            if (context.Request.Headers.ContainsKey("Authorization"))
+            var token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            try
             {
-                var token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var handler = new JwtSecurityTokenHandler();
 
-                try
+                if (handler.ReadToken(token) is JwtSecurityToken jsonToken)
                 {
-                    var handler = new JwtSecurityTokenHandler();
+                    logger.LogInformation("Token Details:");
+                    logger.LogInformation("Issuer: {Issuer}", jsonToken.Issuer);
+                    logger.LogInformation("Valid From: {ValidFrom}", jsonToken.ValidFrom);
+                    logger.LogInformation("Valid To: {ValidTo}", jsonToken.ValidTo);
 
-                    if (handler.ReadToken(token) is JwtSecurityToken jsonToken)
-                    {
-                        logger.LogInformation("Token Details:");
-                        logger.LogInformation("Issuer: {Issuer}", jsonToken.Issuer);
-                        logger.LogInformation("Valid From: {ValidFrom}", jsonToken.ValidFrom);
-                        logger.LogInformation("Valid To: {ValidTo}", jsonToken.ValidTo);
-                        
-                        var claims = string.Join(", ", jsonToken.Claims.Select(c => $"{c.Type}: {c.Value}"));
-                        logger.LogInformation("Claims: {Claims}", claims);
-                    }
-                    else
-                    {
-                        logger.LogWarning("Token parsing failed. Token is null.");
-                    }
+                    var claims = string.Join(", ", jsonToken.Claims.Select(c => $"{c.Type}: {c.Value}"));
+                    logger.LogInformation("Claims: {Claims}", claims);
                 }
-                catch (Exception ex)
+                else
                 {
-                    logger.LogError("Error parsing token: {Error}", ex.Message);
+                    logger.LogWarning("Token parsing failed. Token is null.");
                 }
             }
-            
-            await next(context);
-            
-            logger.LogInformation("Response Status Code: {StatusCode}", context.Response.StatusCode);
+            catch (Exception ex)
+            {
+                logger.LogError("Error parsing token: {Error}", ex.Message);
+            }
         }
+
+        await next(context);
+
+        logger.LogInformation("Response Status Code: {StatusCode}", context.Response.StatusCode);
     }
 }

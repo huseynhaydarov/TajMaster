@@ -1,6 +1,6 @@
 using TajMaster.Application.Common.Interfaces.CQRS;
-using TajMaster.Application.UseCases.Cart.CartDtos;
+using TajMaster.Application.UseCases.Carts.CartDtos;
 
-namespace TajMaster.Application.UseCases.Cart.Queries;
+namespace TajMaster.Application.UseCases.Carts.Queries;
 
-public record GetCartByUserIdQuery(Guid UserId, string? CartStatusName) : IQuery<CartDto>;
+public record GetCartByUserIdQuery(Guid UserId) : IQuery<CartDto>;

@@ -15,16 +15,15 @@ public class GetCraftsmenQueryHandler(IApplicationDbContext context)
     {
         var pagingParams = request.PagingParameters;
 
-        var query = context.Craftsmen.AsNoTracking();
+        var query = context.Craftsmen
+            .AsNoTracking()
+            .Include(c => c.Specialization)
+            .AsQueryable();
 
         if (pagingParams.OrderByDescending == true)
-        {
             query = query.OrderByDescending(c => c.Id);
-        }
         else
-        {
             query = query.OrderBy(c => c.Id);
-        }
 
         var totalCount = await query.CountAsync(cancellationToken);
 

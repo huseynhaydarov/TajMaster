@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TajMaster.Application\TajMaster.Application.csproj" />
-        <ProjectReference Include="..\TajMaster.Domain\TajMaster.Domain.csproj" />
+        <ProjectReference Include="..\TajMaster.Application\TajMaster.Application.csproj"/>
+        <ProjectReference Include="..\TajMaster.Domain\TajMaster.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,20 +22,20 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Npgsql" Version="9.0.1" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
+        <PackageReference Include="Npgsql" Version="9.0.1"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1"/>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Migrations\20241226112718_UpdateRoleConversion.Designer.cs" />
-        <Compile Remove="Migrations\20250120075451_FixStatusesEnumerations.Designer.cs" />
-        <Compile Remove="Migrations\20250120075451_FixStatusesEnumerations.cs" />
+        <Compile Remove="Migrations\20241226112718_UpdateRoleConversion.Designer.cs"/>
+        <Compile Remove="Migrations\20250120075451_FixStatusesEnumerations.Designer.cs"/>
+        <Compile Remove="Migrations\20250120075451_FixStatusesEnumerations.cs"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations\" />
-      <Folder Include="Persistence\Repositories\" />
+        <Folder Include="Migrations\"/>
+        <Folder Include="Persistence\Repositories\"/>
     </ItemGroup>
 
 </Project>

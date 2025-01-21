@@ -18,10 +18,7 @@ public class GetCraftsmenBySpecializationQueryHandler(
             .Where(cr => cr.Specialization.ToString() == query.Specialization)
             .ToListAsync(cancellationToken);
 
-        if (!craftsmen.Any())
-        {
-            return new List<CraftsmanDto>();
-        }
+        if (!craftsmen.Any()) return new List<CraftsmanDto>();
 
         return craftsmen.ToCraftsmanDtos().ToList();
     }

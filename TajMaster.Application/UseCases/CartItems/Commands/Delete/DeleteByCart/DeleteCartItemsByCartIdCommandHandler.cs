@@ -13,9 +13,9 @@ public class DeleteCartItemsByCartIdCommandHandler(
         var cartItems = await context.CartItems
             .Where(ci => ci.CartId == request.CartId)
             .ToListAsync(cancellationToken);
-        
+
         context.CartItems.RemoveRange(cartItems);
-        
+
         await context.SaveChangesAsync(cancellationToken);
 
         return await Task.FromResult(true);

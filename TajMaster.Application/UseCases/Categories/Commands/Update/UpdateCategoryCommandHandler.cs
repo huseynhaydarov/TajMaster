@@ -7,7 +7,7 @@ using TajMaster.Application.Exceptions;
 namespace TajMaster.Application.UseCases.Categories.Commands.Update;
 
 public class UpdateCategoryCommandHandler(
-    IApplicationDbContext context, 
+    IApplicationDbContext context,
     IMapper mapper)
     : IRequestHandler<UpdateCategoryCommand, bool>
 {
@@ -16,10 +16,7 @@ public class UpdateCategoryCommandHandler(
         var category = await context.Categories
             .FirstOrDefaultAsync(c => c.Id == command.CategoryId, cancellationToken);
 
-        if (category == null)
-        {
-            throw new NotFoundException($"Category with ID {command.CategoryId} not found.");
-        }
+        if (category == null) throw new NotFoundException($"Category with ID {command.CategoryId} not found.");
 
         mapper.Map(command, category);
 

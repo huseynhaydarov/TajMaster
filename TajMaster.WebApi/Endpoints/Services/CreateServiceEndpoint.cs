@@ -12,7 +12,7 @@ public class CreateServiceEndpoint : ICarterModule
         app.MapPost("/api/services", async (ISender mediator, [FromBody] CreateServiceCommand command) =>
             {
                 var newService = await mediator.Send(command);
-                
+
                 return Results.Created($"api/services/{newService}", new { Id = newService });
             })
             .WithName("CreateServiceEndpoint")

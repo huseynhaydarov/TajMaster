@@ -6,7 +6,7 @@ using TajMaster.Domain.Entities;
 namespace TajMaster.Application.UseCases.Reviews.Commands.Create;
 
 public class CreateReviewCommandHandler(
-    IApplicationDbContext context, 
+    IApplicationDbContext context,
     IMapper mapper)
     : IRequestHandler<CreateReviewCommand, Guid>
 {
@@ -15,7 +15,7 @@ public class CreateReviewCommandHandler(
         var review = mapper.Map<Review>(command);
 
         context.Reviews.Add(review);
-        
+
         await context.SaveChangesAsync(cancellationToken);
 
         return review.Id;

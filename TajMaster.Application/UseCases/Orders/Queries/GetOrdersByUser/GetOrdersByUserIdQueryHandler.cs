@@ -20,10 +20,7 @@ public class GetOrdersByUserQueryHandler(
             .Where(r => r.UserId == query.UserId)
             .ToListAsync(cancellationToken);
 
-        if (!orders.Any())
-        {
-            throw new NotFoundException($"No orders found for user with ID: {query.UserId}");
-        }
+        if (!orders.Any()) throw new NotFoundException($"No orders found for user with ID: {query.UserId}");
 
         return orders.ToOrderDetailDtoList();
     }

@@ -1,6 +1,6 @@
 using TajMaster.Application.UseCases.CartItem.CartItemDTos;
 
-namespace TajMaster.Application.UseCases.CartItem.CartItemExtensions;
+namespace TajMaster.Application.UseCases.CartItems.CartItemExtensions;
 
 public static class CartItemMappingExtensions
 {

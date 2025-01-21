@@ -8,7 +8,7 @@ using TajMaster.Application.UseCases.Reviews.ReviewExtensions;
 namespace TajMaster.Application.UseCases.Reviews.Queries.GetReview;
 
 public class GetReviewByIdQueryHandler(
-    IApplicationDbContext context) 
+    IApplicationDbContext context)
     : IRequestHandler<GetReviewByIdQuery, ReviewDto>
 {
     public async Task<ReviewDto> Handle(GetReviewByIdQuery query, CancellationToken cancellationToken)
@@ -16,10 +16,7 @@ public class GetReviewByIdQueryHandler(
         var review = await context.Reviews
             .FirstOrDefaultAsync(r => r.Id == query.ReviewId, cancellationToken);
 
-        if (review == null)
-        {
-            throw new NotFoundException($"Review with ID {query.ReviewId} not found.");
-        }
+        if (review == null) throw new NotFoundException($"Review with ID {query.ReviewId} not found.");
 
         return review.ToReviewDto();
     }

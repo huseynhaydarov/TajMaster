@@ -6,7 +6,7 @@ using TajMaster.Application.Exceptions;
 namespace TajMaster.Application.UseCases.Services.Commands.Delete;
 
 public class DeleteServiceCommandHandler(
-    IApplicationDbContext context) 
+    IApplicationDbContext context)
     : IRequestHandler<DeleteServiceCommand, bool>
 {
     public async Task<bool> Handle(DeleteServiceCommand command, CancellationToken cancellationToken)
@@ -14,10 +14,7 @@ public class DeleteServiceCommandHandler(
         var service = await context.Services
             .FirstOrDefaultAsync(s => s.Id == command.ServiceId, cancellationToken);
 
-        if (service == null)
-        {
-            throw new NotFoundException($"Service with ID {command.ServiceId} not found");
-        }
+        if (service == null) throw new NotFoundException($"Service with ID {command.ServiceId} not found");
 
         context.Services.Remove(service);
 

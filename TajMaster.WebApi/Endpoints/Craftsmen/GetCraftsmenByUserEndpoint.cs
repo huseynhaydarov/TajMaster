@@ -21,9 +21,7 @@ public class GetCraftsmenByUserEndpoint : ICarterModule
                 var craftsmanDto = craftsmen as CraftsmanDto[] ?? craftsmen.ToArray();
 
                 if (!craftsmanDto.Any())
-                {
                     return Results.NotFound(new { Message = $"No craftsmen found for user ID {userId}." });
-                }
 
                 return Results.Ok(craftsmanDto);
             })

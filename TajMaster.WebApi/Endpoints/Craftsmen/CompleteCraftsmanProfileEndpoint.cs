@@ -21,11 +21,11 @@ public class CompleteCraftsmanProfileEndpoint : ICarterModule
                 );
 
                 var newCraftsman = await mediator.Send(command);
-                
+
                 return Results.Created($"api/craftsmen/{newCraftsman}", new { Id = newCraftsman });
             })
-            .WithName("CreateCraftsmanEndpoint")
-            .WithTags("Craftsmen")
+            .WithName("CompleteCraftsmanProfileEndpoint")
+            .WithTags("Users")
             .Accepts<CompleteCraftsmanProfileCommand>("multipart/form-data")
             .Produces<int>(201)
             .Produces(400)

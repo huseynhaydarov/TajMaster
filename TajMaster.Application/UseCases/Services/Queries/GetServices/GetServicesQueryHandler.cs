@@ -8,7 +8,7 @@ using TajMaster.Application.UseCases.Services.ServiceExtensions;
 namespace TajMaster.Application.UseCases.Services.Queries.GetServices;
 
 public class GetServicesQueryHandler(
-   IApplicationDbContext context)
+    IApplicationDbContext context)
     : IQueryHandler<GetServicesQuery, PaginatedResult<ServiceSummaryDto>>
 {
     public async Task<PaginatedResult<ServiceSummaryDto>> Handle(GetServicesQuery query,
@@ -17,17 +17,17 @@ public class GetServicesQueryHandler(
         var pagingParams = query.PagingParameters;
 
         var request = context.Services
-                .AsNoTracking()
-                .Include(u => u.CategoryServices)
-                .AsQueryable();
-        
-        
+            .AsNoTracking()
+            .Include(u => u.CategoryServices)
+            .AsQueryable();
+
+
         request = pagingParams.OrderByDescending == true
             ? request.OrderByDescending(s => s.Id)
             : request.OrderBy(u => u.Id);
-        
+
         var totalCount = await request.CountAsync(cancellationToken);
-        
+
         var serviceDtos = request.ToServiceDtoList();
 
         var paginatedResult = new PaginatedResult<ServiceSummaryDto>(

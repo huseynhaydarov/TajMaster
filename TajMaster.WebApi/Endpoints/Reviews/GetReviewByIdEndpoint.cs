@@ -11,7 +11,7 @@ public class GetReviewByIdEndpoint : ICarterModule
         app.MapGet("/api/reviews/{id:guid}", async (ISender mediator, Guid id) =>
             {
                 var review = await mediator.Send(new GetReviewByIdQuery(id));
-                
+
                 return Results.Ok(review);
             })
             .WithName("GetReviewByIdEndpoint")

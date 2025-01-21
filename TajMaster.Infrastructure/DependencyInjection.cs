@@ -16,22 +16,20 @@ public static class DependencyInjection
         this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        
+
         var storageConnectionString = configuration.GetConnectionString("StorageAccount");
-        
+
         if (string.IsNullOrEmpty(storageConnectionString))
-        {
-            throw new ArgumentNullException($"Storage account connection string cannot be null or empty.");
-        }
+            throw new ArgumentNullException("Storage account connection string cannot be null or empty.");
 
         services.AddDbContext<ApplicationDbContext>((db, options) => { options.UseNpgsql(connectionString); });
-        
+
         services.AddSingleton<IPasswordHasher, PasswordHasher.PasswordHasher>();
-        
+
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
         services.AddSingleton(_ => new BlobServiceClient(storageConnectionString));
-        
+
         services.AddScoped<IBlobService, BlobService>();
 
         return services;

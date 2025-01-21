@@ -11,7 +11,7 @@ public class GetServiceByIdEndpoint : ICarterModule
         app.MapGet("/api/services/{id:guid}", async (ISender mediator, Guid id) =>
             {
                 var user = await mediator.Send(new GetServiceByIdQuery(id));
-                
+
                 return Results.Ok(user);
             })
             .WithName("GetServiceByIdEndpoint")

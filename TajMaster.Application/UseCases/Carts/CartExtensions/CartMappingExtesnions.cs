@@ -1,12 +1,13 @@
-using TajMaster.Application.UseCases.Cart.CartDtos;
 using TajMaster.Application.UseCases.CartItem.CartItemDTos;
-using TajMaster.Application.UseCases.CartItem.CartItemExtensions;
+using TajMaster.Application.UseCases.CartItems.CartItemExtensions;
+using TajMaster.Application.UseCases.Carts.CartDtos;
+using TajMaster.Domain.Entities;
 
-namespace TajMaster.Application.UseCases.Cart.CartExtensions;
+namespace TajMaster.Application.UseCases.Carts.CartExtensions;
 
 public static class CartMappingExtensions
 {
-    public static CartDto ToCartDto(this Domain.Entities.Cart cart)
+    public static CartDto ToCartDto(this Cart cart)
     {
         return new CartDto(
             cart.Id,
@@ -17,7 +18,7 @@ public static class CartMappingExtensions
         );
     }
 
-    public static List<CartDto> ToCartDtoList(this IEnumerable<Domain.Entities.Cart> carts)
+    public static List<CartDto> ToCartDtoList(this IEnumerable<Cart> carts)
     {
         return carts.Select(cart => cart.ToCartDto()).ToList();
     }

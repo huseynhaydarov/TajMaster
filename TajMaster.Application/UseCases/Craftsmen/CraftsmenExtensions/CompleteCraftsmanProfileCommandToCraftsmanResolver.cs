@@ -9,10 +9,11 @@ namespace TajMaster.Application.UseCases.Craftsmen.CraftsmenExtensions;
 public class CompleteCraftsmanProfileCommandToCraftsmanResolver(IApplicationDbContext context)
     : IValueResolver<CompleteCraftsmanProfileCommand, Craftsman, Specialization>
 {
-    public Specialization Resolve(CompleteCraftsmanProfileCommand source, Craftsman destination, Specialization destMember, ResolutionContext context1)
+    public Specialization Resolve(CompleteCraftsmanProfileCommand source, Craftsman destination,
+        Specialization destMember, ResolutionContext context1)
     {
         return context.Specializations
-                   .FirstOrDefault(s => s.Name == source.Specialization) 
+                   .FirstOrDefault(s => s.Name == source.Specialization)
                ?? throw new NotFoundException("Specialization not found.");
     }
 }

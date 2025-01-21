@@ -9,15 +9,14 @@ public class CreateSpecializationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/specializations", async (ISender mediator, [FromBody] 
-                CreateSpecializationCommand command) =>
-        {
-            var newSpecialization = await mediator.Send(command);
-            
-            return Results.Created($"/api/specializations/{newSpecialization}", new { Id = newSpecialization });
-        })
+        app.MapPost("/api/specializations", async (ISender mediator, [FromBody] CreateSpecializationCommand command) =>
+            {
+                var newSpecialization = await mediator.Send(command);
+
+                return Results.Created($"/api/specializations/{newSpecialization}", new { Id = newSpecialization });
+            })
             .WithName("CreateSpecializationEndpoint")
             .WithTags("Specializations");
-            ;
+        ;
     }
 }

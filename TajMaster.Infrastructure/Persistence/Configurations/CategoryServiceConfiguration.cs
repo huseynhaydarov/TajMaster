@@ -8,7 +8,6 @@ public class CategoryServiceConfiguration : IEntityTypeConfiguration<CategorySer
 {
     public void Configure(EntityTypeBuilder<CategoryService> builder)
     {
-
         builder.HasKey(cs => cs.Id);
         builder.Property(cs => cs.CategoryId).IsRequired();
         builder.Property(cs => cs.ServiceId).IsRequired();

@@ -14,15 +14,12 @@ public class DeleteCartItemCommandHandler(
         var cartItem = await context.CartItems
             .FirstOrDefaultAsync(ci => ci.Id == request.CartItemId, cancellationToken);
 
-        if (cartItem == null)
-        {
-            throw new NotFoundException($"Cart item with ID {request.CartItemId} not found.");
-        }
-        
+        if (cartItem == null) throw new NotFoundException($"Cart item with ID {request.CartItemId} not found.");
+
         context.CartItems.Remove(cartItem);
-        
+
         await context.SaveChangesAsync(cancellationToken);
 
-        return await Task.FromResult(true); 
+        return await Task.FromResult(true);
     }
 }

@@ -12,7 +12,7 @@ public class DeleteUserEndpoint : ICarterModule
         app.MapDelete("/api/users/{id:guid}", async (ISender mediator, [FromRoute] Guid id) =>
             {
                 var result = await mediator.Send(new DeleteUserCommand(id));
-                
+
                 return result ? Results.NoContent() : Results.NotFound();
             })
             .WithName("DeleteUserEndpoint")

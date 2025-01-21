@@ -3,9 +3,9 @@ using TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsman;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Validations;
 
-public class UpdateCraftsmanCommandValidator : AbstractValidator<UpdateCraftsmanCommand>
+public class UpdateCraftsmanProfileCommandValidator : AbstractValidator<UpdateCraftsmanCommand>
 {
-    public UpdateCraftsmanCommandValidator()
+    public UpdateCraftsmanProfileCommandValidator()
     {
         RuleFor(x => x.CraftsmanId)
             .NotEqual(Guid.Empty).WithMessage("Craftsman ID cannot be an empty GUID.");

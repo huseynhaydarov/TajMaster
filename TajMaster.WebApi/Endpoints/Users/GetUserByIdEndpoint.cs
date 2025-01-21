@@ -12,9 +12,10 @@ public class GetUserByIdEndpoint : ICarterModule
         app.MapGet("/api/users/{id:guid}", async (ISender mediator, Guid id) =>
             {
                 var user = await mediator.Send(new GetUserByIdQuery(id));
-                
+
                 return Results.Ok(user);
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithName("GetUserByIdEndpoint")
             .WithTags("Users")
             .Produces<UserSummaryDto>();

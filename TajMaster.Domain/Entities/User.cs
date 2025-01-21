@@ -1,5 +1,4 @@
 ﻿using TajMaster.Domain.Abstractions;
-using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Domain.Entities;
 

@@ -6,7 +6,7 @@ using TajMaster.Application.UseCases.OrderStatuses.OrderStatusDtos;
 namespace TajMaster.Application.UseCases.OrderStatuses.Queries.GetOrderStatusByCode;
 
 public class GetOrderStatusByCodeQueryHandler(
-    IApplicationDbContext context) 
+    IApplicationDbContext context)
     : IQueryHandler<GetOrderStatusByCodeQuery, OrderStatusDto>
 {
     public async Task<OrderStatusDto> Handle(GetOrderStatusByCodeQuery request, CancellationToken cancellationToken)

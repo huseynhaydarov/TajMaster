@@ -8,7 +8,7 @@ using TajMaster.Domain.Entities;
 namespace TajMaster.Application.UseCases.Services.Commands.Create;
 
 public class CreateServiceCommandHandler(
-    IApplicationDbContext context, 
+    IApplicationDbContext context,
     IMapper mapper)
     : IRequestHandler<CreateServiceCommand, Guid>
 {
@@ -18,24 +18,21 @@ public class CreateServiceCommandHandler(
         var categories = await context.Categories
             .Where(c => categoryIds.Contains(c.Id))
             .ToListAsync(cancellationToken);
-        
-        if (categories.Count != categoryIds.Count)
-        {
-            throw new NotFoundException(nameof(Category));
-        }
-        
+
+        if (categories.Count != categoryIds.Count) throw new NotFoundException(nameof(Category));
+
         var service = mapper.Map<Service>(command);
-        
+
         service.CategoryServices = categories.Select(category => new CategoryService
         {
             CategoryId = category.Id,
             Category = category
         }).ToList();
-        
+
         context.Services.Add(service);
-        
+
         await context.SaveChangesAsync(cancellationToken);
-        
+
         return service.Id;
     }
 }

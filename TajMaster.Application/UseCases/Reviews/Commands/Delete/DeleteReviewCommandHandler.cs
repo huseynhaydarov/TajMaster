@@ -6,7 +6,7 @@ using TajMaster.Application.Exceptions;
 namespace TajMaster.Application.UseCases.Reviews.Commands.Delete;
 
 public class DeleteReviewCommandHandler(
-    IApplicationDbContext context) 
+    IApplicationDbContext context)
     : IRequestHandler<DeleteReviewCommand, bool>
 {
     public async Task<bool> Handle(DeleteReviewCommand command, CancellationToken cancellationToken)
@@ -14,10 +14,7 @@ public class DeleteReviewCommandHandler(
         var review = await context.Reviews
             .FirstOrDefaultAsync(r => r.Id == command.ReviewId, cancellationToken);
 
-        if (review == null)
-        {
-            throw new NotFoundException($"Review with ID {command.ReviewId} not found");
-        }
+        if (review == null) throw new NotFoundException($"Review with ID {command.ReviewId} not found");
 
         context.Reviews.Remove(review);
 

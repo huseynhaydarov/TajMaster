@@ -13,10 +13,10 @@ public class CartStatusConfiguration : IEntityTypeConfiguration<CartStatus>
         builder.Property(cs => cs.Name).IsRequired().HasMaxLength(50);
         builder.Property(cs => cs.Code).IsRequired().HasMaxLength(50);
         builder.Property(cs => cs.IsActive).IsRequired();
-        
+
         builder.HasData(
             new CartStatus
-            { 
+            {
                 Id = CartEnum.Created.Id,
                 Name = CartEnum.Created.Name,
                 Code = CartEnum.Created.Code,
@@ -33,8 +33,15 @@ public class CartStatusConfiguration : IEntityTypeConfiguration<CartStatus>
             {
                 Id = CartEnum.Inactive.Id,
                 Name = CartEnum.Inactive.Name,
-                Code = CartEnum.Inactive.Code, 
+                Code = CartEnum.Inactive.Code,
                 IsActive = CartEnum.Inactive.IsActive
+            },
+            new CartStatus
+            {
+                Id = CartEnum.Archived.Id,
+                Name = CartEnum.Archived.Name,
+                Code = CartEnum.Archived.Code,
+                IsActive = CartEnum.Archived.IsActive
             }
         );
     }

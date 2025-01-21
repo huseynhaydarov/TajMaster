@@ -19,11 +19,9 @@ public class GetServicesByCategoryEndpoint : ICarterModule
                 var services = await sender.Send(query);
 
                 var serviceDto = services as ServiceSummaryDto[] ?? services.ToArray();
-                
+
                 if (!serviceDto.Any())
-                {
                     return Results.NotFound(new { Message = $"No services found for category ID {categoryId}." });
-                }
 
                 return Results.Ok(serviceDto);
             })

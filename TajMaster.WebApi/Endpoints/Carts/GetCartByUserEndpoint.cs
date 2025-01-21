@@ -1,7 +1,7 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TajMaster.Application.UseCases.Cart.Queries;
+using TajMaster.Application.UseCases.Carts.Queries;
 
 namespace TajMaster.WebApi.Endpoints.Carts;
 
@@ -9,12 +9,9 @@ public class GetCartByUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/carts/{userId:guid}", async (ISender mediator, [FromRoute] Guid userId, [FromQuery] string? cartStatusName) =>
+        app.MapGet("/api/carts/{userId:guid}", async (ISender mediator, [FromRoute] Guid userId) =>
             {
-                // Default to "Active" if cartStatusName is not provided
-                cartStatusName ??= "Active";
-
-                var cart = await mediator.Send(new GetCartByUserIdQuery(userId, cartStatusName));
+                var cart = await mediator.Send(new GetCartByUserIdQuery(userId));
                 return Results.Ok(cart);
             })
             .WithName("GetCartEndpoint")

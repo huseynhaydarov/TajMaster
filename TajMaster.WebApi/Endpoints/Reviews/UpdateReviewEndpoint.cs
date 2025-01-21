@@ -9,17 +9,15 @@ public class UpdateReviewEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/reviews/{id:guid}", async (ISender mediator, Guid id, [FromBody] UpdateReviewCommand command) =>
-            {
-                if (id != command.ReviewId)
+        app.MapPut("/api/reviews/{id:guid}",
+                async (ISender mediator, Guid id, [FromBody] UpdateReviewCommand command) =>
                 {
-                    return Results.BadRequest(new { message = "Review id mismatch." });
-                }
-                
-                var result = await mediator.Send(command);
-                
-                return result ? Results.NoContent() : Results.NotFound();
-            })
+                    if (id != command.ReviewId) return Results.BadRequest(new { message = "Review id mismatch." });
+
+                    var result = await mediator.Send(command);
+
+                    return result ? Results.NoContent() : Results.NotFound();
+                })
             .WithName("UpdateReviewEndpoint")
             .WithTags("Reviews");
     }

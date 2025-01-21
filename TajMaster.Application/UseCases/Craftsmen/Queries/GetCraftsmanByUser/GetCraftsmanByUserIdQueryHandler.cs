@@ -18,10 +18,7 @@ public class GetCraftsmanByUserIdQueryHandler(
             .Where(cr => cr.UserId == request.UserId)
             .ToListAsync(cancellationToken);
 
-        if (!craftsmen.Any())
-        {
-            throw new NotFoundException($"No craftsmen found for user with ID: {request.UserId}");
-        }
+        if (!craftsmen.Any()) throw new NotFoundException($"No craftsmen found for user with ID: {request.UserId}");
 
         return craftsmen.Select(craftsman => new CraftsmanDto(
             craftsman.Id,

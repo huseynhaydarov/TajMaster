@@ -19,11 +19,9 @@ public class GetReviewsByCraftsmanIdQueryHandler(
             .Include(r => r.Craftsman)
             .Where(r => r.CraftsmanId == request.CraftsmanId)
             .ToListAsync(cancellationToken);
-        
+
         if (!reviews.Any())
-        {
             throw new NotFoundException($"No reviews found for craftsman with ID: {request.CraftsmanId}");
-        }
 
         return reviews.ToReviewDtoList();
     }

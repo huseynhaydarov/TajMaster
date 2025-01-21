@@ -11,21 +11,16 @@ public class GetReviewsByCraftsman : ICarterModule
     {
         app.MapGet("/api/reviews/craftsman/{Id:guid}", async (Guid craftsmanId, ISender sender) =>
             {
-                if (craftsmanId == Guid.Empty)
-                {
-                    return Results.BadRequest(new { Message = "Invalid craftsman ID." });
-                }
+                if (craftsmanId == Guid.Empty) return Results.BadRequest(new { Message = "Invalid craftsman ID." });
 
                 var query = new GetReviewsByCraftsmanIdQuery(craftsmanId);
 
                 var reviews = await sender.Send(query);
 
                 var reviewDto = reviews as ReviewDto[] ?? reviews.ToArray();
-                
+
                 if (!reviewDto.Any())
-                {
                     return Results.NotFound(new { Message = $"No reviews found for craftsman ID {craftsmanId}." });
-                }
 
                 return Results.Ok(reviewDto);
             })

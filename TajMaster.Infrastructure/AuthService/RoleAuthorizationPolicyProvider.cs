@@ -10,9 +10,9 @@ public class RoleAuthorizationPolicyProvider(IOptions<AuthorizationOptions> opti
 
     public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {
-        var role = UserRoleEnum.List().FirstOrDefault(r => 
+        var role = UserRoleEnum.List().FirstOrDefault(r =>
             string.Equals(r.Name, policyName, StringComparison.OrdinalIgnoreCase));
-        
+
         if (role != null)
         {
             var policy = new AuthorizationPolicyBuilder()
@@ -20,13 +20,17 @@ public class RoleAuthorizationPolicyProvider(IOptions<AuthorizationOptions> opti
                 .Build();
             return Task.FromResult<AuthorizationPolicy?>(policy);
         }
-        
+
         return _defaultProvider.GetPolicyAsync(policyName);
     }
-    
-    public Task<AuthorizationPolicy> GetDefaultPolicyAsync() =>
-        _defaultProvider.GetDefaultPolicyAsync();
 
-    public Task<AuthorizationPolicy?> GetFallbackPolicyAsync() =>
-        _defaultProvider.GetFallbackPolicyAsync();
+    public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
+    {
+        return _defaultProvider.GetDefaultPolicyAsync();
+    }
+
+    public Task<AuthorizationPolicy?> GetFallbackPolicyAsync()
+    {
+        return _defaultProvider.GetFallbackPolicyAsync();
+    }
 }

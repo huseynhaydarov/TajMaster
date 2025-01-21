@@ -8,13 +8,13 @@ using TajMaster.Application.UseCases.Reviews.ReviewExtensions;
 namespace TajMaster.Application.UseCases.Reviews.Queries.GetReviews;
 
 public class GetReviewsQueryHandler(
-    IApplicationDbContext context) 
+    IApplicationDbContext context)
     : IQueryHandler<GetReviewsQuery, PaginatedResult<ReviewDto>>
 {
     public async Task<PaginatedResult<ReviewDto>> Handle(GetReviewsQuery query, CancellationToken cancellationToken)
     {
         var pagingParams = query.PagingParameters;
-        
+
         var request = context.Reviews
             .AsNoTracking()
             .AsQueryable();
@@ -22,7 +22,7 @@ public class GetReviewsQueryHandler(
         request = pagingParams.OrderByDescending == true
             ? request.OrderByDescending(s => s.Id)
             : request.OrderBy(u => u.Id);
-        
+
         var totalCount = await request.CountAsync(cancellationToken);
 
         var reviewDto = request.ToReviewDtoList();

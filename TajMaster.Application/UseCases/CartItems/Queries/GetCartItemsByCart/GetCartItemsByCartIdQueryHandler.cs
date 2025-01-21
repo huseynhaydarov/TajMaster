@@ -4,7 +4,7 @@ using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.CartItem.CartItemDTos;
 
-namespace TajMaster.Application.UseCases.CartItem.Queries.GetCartItemsByCart;
+namespace TajMaster.Application.UseCases.CartItems.Queries.GetCartItemsByCart;
 
 public class GetCartItemsByCartIdQueryHandler(
     IApplicationDbContext context)
@@ -17,10 +17,10 @@ public class GetCartItemsByCartIdQueryHandler(
             .Include(ci => ci.Service)
             .Where(ci => ci.CartId == request.CartId)
             .ToListAsync(cancellationToken);
-        
+
         if (cartItems == null || !cartItems.Any())
             throw new NotFoundException($"No cart items found for cart with ID: {request.CartId}");
-        
+
         return cartItems.Select(cartItem => new CartItemDto(
             cartItem.CartId,
             cartItem.Service.Title,

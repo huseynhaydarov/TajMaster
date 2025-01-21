@@ -14,15 +14,12 @@ public class UpdateCraftsmanAvailabilityCommandHandler(
         var craftsmen = await context.Craftsmen
             .FirstOrDefaultAsync(cr => cr.Id == command.CraftsmanId, cancellationToken);
 
-        if (craftsmen == null)
-        {
-            throw new NotFoundException($"Craftsman with ID {command.CraftsmanId} not found.");
-        }
+        if (craftsmen == null) throw new NotFoundException($"Craftsman with ID {command.CraftsmanId} not found.");
 
         craftsmen.IsAvialable = command.IsAvailable;
 
         context.Craftsmen.Update(craftsmen);
-        
+
         await context.SaveChangesAsync(cancellationToken);
 
         return await Task.FromResult(true);

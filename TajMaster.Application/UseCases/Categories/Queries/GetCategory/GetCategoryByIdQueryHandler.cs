@@ -8,7 +8,7 @@ using TajMaster.Domain.Entities;
 namespace TajMaster.Application.UseCases.Categories.Queries.GetCategory;
 
 public class GetCategoryByIdQueryHandler(
-    IApplicationDbContext context, 
+    IApplicationDbContext context,
     ILogger<GetCategoryByIdQueryHandler> logger)
     : IRequestHandler<GetCategoryByIdQuery, Category>
 {
@@ -22,7 +22,7 @@ public class GetCategoryByIdQueryHandler(
             if (category == null)
             {
                 logger.LogWarning("Category with ID {CategoryId} not found.", command.CategoryId);
-                
+
                 throw new NotFoundException("Category with ID " + command.CategoryId + " not found.");
             }
 
