@@ -15,6 +15,7 @@ public class RegisterUserEndpoint : ICarterModule
 
                 return Results.Created($"/api/users/{newUser}", new { Id = newUser });
             })
+            .RequireAuthorization().AllowAnonymous()
             .WithName("RegisterUserEndpoint")
             .WithTags("Users");
     }

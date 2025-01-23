@@ -24,6 +24,7 @@ public class GetReviewsByCraftsman : ICarterModule
 
                 return Results.Ok(reviewDto);
             })
+            .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("GetReviewsByCraftsmanEndpoint")
             .WithTags("Reviews")
             .Produces<IEnumerable<ReviewDto>>();

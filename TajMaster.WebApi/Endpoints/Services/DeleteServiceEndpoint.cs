@@ -15,6 +15,7 @@ public class DeleteServiceEndpoint : ICarterModule
 
                 return result ? Results.NoContent() : Results.NotFound();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteServiceEndpoint")
             .WithTags("Services");
     }

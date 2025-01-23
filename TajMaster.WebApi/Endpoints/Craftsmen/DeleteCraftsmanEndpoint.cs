@@ -15,6 +15,7 @@ public class DeleteCraftsmanEndpoint : ICarterModule
 
                 return result ? Results.NoContent() : Results.NotFound(new { message = "Craftsmen not found." });
             })
+            .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("DeleteCraftsmanEndpoint")
             .WithTags("Craftsmen");
     }

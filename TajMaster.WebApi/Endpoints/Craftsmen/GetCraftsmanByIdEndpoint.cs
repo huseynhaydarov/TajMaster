@@ -14,6 +14,7 @@ public class GetCraftsmanByIdEndpoint : ICarterModule
 
                 return Results.Ok(craftsman);
             })
+            .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("GetCraftsmanByIdEndpoint")
             .WithTags("Craftsmen");
     }

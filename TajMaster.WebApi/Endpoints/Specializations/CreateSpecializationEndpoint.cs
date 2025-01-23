@@ -15,6 +15,7 @@ public class CreateSpecializationEndpoint : ICarterModule
 
                 return Results.Created($"/api/specializations/{newSpecialization}", new { Id = newSpecialization });
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateSpecializationEndpoint")
             .WithTags("Specializations");
         ;

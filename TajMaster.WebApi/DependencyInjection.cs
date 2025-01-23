@@ -60,7 +60,10 @@ public static class DependencyInjection
         {
             options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
             options.AddPolicy("CustomerPolicy", policy => policy.RequireRole("Customer"));
-            options.AddPolicy("AdminOrCustomer", policy => policy.RequireRole("Admin", "Customer"));
+            options.AddPolicy("AdminOrCustomerPolicy", policy => policy.RequireRole("Admin", "Customer"));
+            options.AddPolicy("CraftsmanPolicy", policy => policy.RequireRole("Craftsman"));
+            options.AddPolicy("AdminOrCraftsmanPolicy", policy => policy.RequireRole("Admin", "Craftsman"));
+            options.AddPolicy("AdminOrCraftsmanOrCustomerPolicy", policy => policy.RequireRole("Admin", "Craftsman", "Customer") );
         });
 
         services.AddEndpointsApiExplorer();

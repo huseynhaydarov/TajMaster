@@ -24,6 +24,7 @@ public class CompleteCraftsmanProfileEndpoint : ICarterModule
 
                 return Results.Created($"api/craftsmen/{newCraftsman}", new { Id = newCraftsman });
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CompleteCraftsmanProfileEndpoint")
             .WithTags("Craftsmen")
             .Accepts<CompleteCraftsmanProfileCommand>("multipart/form-data")

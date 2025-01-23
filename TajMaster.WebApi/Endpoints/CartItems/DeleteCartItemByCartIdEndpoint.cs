@@ -19,6 +19,7 @@ public class DeleteCartItemByCartIdEndpoint : ICarterModule
                     ? Results.Ok($"Cart items for cart ID {cartId} have been deleted.")
                     : Results.NotFound($"No cart items found for cart ID {cartId}");
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithName("DeleteCartItemByCartIdEndpoint")
             .WithTags("Carts");
     }

@@ -24,6 +24,7 @@ public class GetReviewsByUserEndpoint : ICarterModule
 
                 return Results.Ok(reviewDto);
             })
+            .RequireAuthorization("AdminOrCustomerPolicy")
             .WithName("GetReviewsByUserEndpoint")
             .WithTags("Reviews")
             .Produces<IEnumerable<ReviewDto>>();

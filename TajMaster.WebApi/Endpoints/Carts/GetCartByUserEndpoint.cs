@@ -14,6 +14,7 @@ public class GetCartByUserEndpoint : ICarterModule
                 var cart = await mediator.Send(new GetCartByUserIdQuery(userId));
                 return Results.Ok(cart);
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithName("GetCartEndpoint")
             .WithTags("Carts");
     }

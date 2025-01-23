@@ -15,7 +15,7 @@ public class GetUserByIdEndpoint : ICarterModule
 
                 return Results.Ok(user);
             })
-            /*.RequireAuthorization("CustomerPolicy")*/
+            .RequireAuthorization("AdminOrCustomerPolicy")
             .WithName("GetUserByIdEndpoint")
             .WithTags("Users")
             .Produces<UserSummaryDto>();

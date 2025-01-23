@@ -15,6 +15,7 @@ public class CreateReviewEndpoint : ICarterModule
 
                 return Results.Created($"/api/reviews/{newReview}", new { id = newReview });
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithName("CreateReviewEndpoint")
             .WithTags("Reviews");
     }

@@ -1,6 +1,6 @@
 ﻿namespace TajMaster.Domain.Abstractions;
 
-public class BaseEntity
+public abstract class BaseEntity
 {
     public Guid Id { get; init; } = Guid.NewGuid();
 }

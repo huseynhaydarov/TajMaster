@@ -17,6 +17,7 @@ public class UpdateUserEndpoint : ICarterModule
 
                 return result ? Results.NoContent() : Results.NotFound();
             })
+            .RequireAuthorization("AdminOrCustomerPolicy")
             .WithName("UpdateUserEndpoint")
             .WithTags("Users");
     }

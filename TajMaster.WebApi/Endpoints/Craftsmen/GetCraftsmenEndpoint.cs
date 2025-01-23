@@ -16,6 +16,7 @@ public class GetCraftsmenEndpoint : ICarterModule
 
                 return Results.Ok(results);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("GetCraftsmenEndpoint")
             .Produces<PaginatedResult<CraftsmanDto>>()
             .WithTags("Craftsmen");

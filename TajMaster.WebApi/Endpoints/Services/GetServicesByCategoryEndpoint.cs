@@ -29,6 +29,7 @@ public class GetServicesByCategoryEndpoint : ICarterModule
 
                 return Results.Ok(serviceDtos);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("GetServicesByCategoryEndpoint")
             .WithTags("Services")
             .Produces<IEnumerable<ServiceSummaryDto>>(); // Updated to match the return type

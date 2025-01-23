@@ -15,6 +15,7 @@ public class DeleteUserEndpoint : ICarterModule
 
                 return result ? Results.NoContent() : Results.NotFound();
             })
+            .RequireAuthorization("AdminOrCustomerPolicy")
             .WithName("DeleteUserEndpoint")
             .WithTags("Users");
     }

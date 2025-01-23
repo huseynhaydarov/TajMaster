@@ -14,6 +14,7 @@ public class GetReviewByIdEndpoint : ICarterModule
 
                 return Results.Ok(review);
             })
+            .RequireAuthorization("AdminOrCustomerPolicy")
             .WithName("GetReviewByIdEndpoint")
             .WithTags("Reviews");
     }

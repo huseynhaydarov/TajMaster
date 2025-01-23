@@ -20,6 +20,7 @@ public class GetCraftsmenByUserEndpoint : ICarterModule
 
                 return Results.Ok(craftsmen );
             })
+            .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("GetCraftsmenByUserEndpoint")
             .Produces<IEnumerable<CraftsmanDto>>()
             .WithTags("Craftsmen");

@@ -19,6 +19,7 @@ public class UpdateSpecializationEndpoint : ICarterModule
 
                     return result ? Results.Ok() : Results.BadRequest();
                 })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateSpecializationEndpoint")
             .WithTags("Specializations");
     }

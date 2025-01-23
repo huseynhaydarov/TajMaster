@@ -15,6 +15,7 @@ public class CreateServiceEndpoint : ICarterModule
 
                 return Results.Created($"api/services/{newService}", new { Id = newService });
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateServiceEndpoint")
             .WithTags("Services");
     }

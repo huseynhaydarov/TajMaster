@@ -15,6 +15,7 @@ public class CreateOrderEndpoint : ICarterModule
 
                 return Results.Created($"/api/orders/{newOrder}", new { Id = newOrder });
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithName("CreateOrderEndpoint")
             .WithTags("Orders");
     }

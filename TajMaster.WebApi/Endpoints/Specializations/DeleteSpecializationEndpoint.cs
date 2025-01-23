@@ -14,6 +14,7 @@ public class DeleteSpecializationEndpoint : ICarterModule
 
                 return result ? Results.NoContent() : Results.NotFound();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteSpecializationEndpoint")
             .WithTags("Specializations");
     }

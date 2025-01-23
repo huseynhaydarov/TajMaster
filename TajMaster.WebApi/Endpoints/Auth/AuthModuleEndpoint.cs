@@ -83,6 +83,7 @@ public class AuthModuleEndpoint : ICarterModule
                     return Results.Unauthorized();
                 }
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithTags("Auth")
             .WithOpenApi();
     }

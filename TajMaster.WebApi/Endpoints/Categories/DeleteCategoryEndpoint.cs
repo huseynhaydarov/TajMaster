@@ -15,6 +15,7 @@ public class DeleteCategoryEndpoint : ICarterModule
 
                 return result ? Results.NoContent() : Results.NotFound(new { message = "Category not found." });
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteCategoryEndpoint")
             .WithTags("Categories");
     }

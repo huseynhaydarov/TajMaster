@@ -32,6 +32,7 @@ public class LoginAuthEndpoint : ICarterModule
                     result.Role
                 });
             })
+            .RequireAuthorization().AllowAnonymous()
             .WithName("Login")
             .WithTags("Auth")
             .WithOpenApi();

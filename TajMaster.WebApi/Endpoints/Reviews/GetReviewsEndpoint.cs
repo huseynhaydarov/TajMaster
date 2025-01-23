@@ -16,6 +16,7 @@ public class GetReviewsEndpoint : ICarterModule
 
                 return Results.Ok(results);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("GetReviewsEndpoint")
             .WithTags("Reviews")
             .Produces<PaginatedResult<ReviewDto>>();

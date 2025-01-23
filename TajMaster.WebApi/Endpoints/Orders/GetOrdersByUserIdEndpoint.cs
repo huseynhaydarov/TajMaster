@@ -29,6 +29,7 @@ public class GetOrdersByUserIdEndpoint : ICarterModule
                 
                 return Results.Ok(orderDto);
             })
+            .RequireAuthorization("AdminOrCustomerPolicy")
             .WithName("GetOrdersByUserEndpoint")
             .WithTags("Orders")
             .Produces<IEnumerable<OrderDetailDto>>();

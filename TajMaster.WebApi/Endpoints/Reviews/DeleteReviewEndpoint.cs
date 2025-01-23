@@ -15,6 +15,7 @@ public class DeleteReviewEndpoint : ICarterModule
 
                 return result ? Results.NoContent() : Results.NotFound();
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithName("DeleteReviewEndpoint")
             .WithTags("Reviews");
     }

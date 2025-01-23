@@ -20,6 +20,7 @@ public class UpdateCraftsmanAvailabilityEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("UpdateCraftsmanAvailabilityEndpoint")
             .WithTags("Craftsmen");
     }

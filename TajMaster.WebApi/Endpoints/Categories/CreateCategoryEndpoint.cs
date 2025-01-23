@@ -15,6 +15,7 @@ public class CreateCategoryEndpoint : ICarterModule
 
                 return Results.Created($"/api/categories/{newCategory}", new { Id = newCategory });
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateCategoryEndpoint")
             .WithTags("Categories");
     }

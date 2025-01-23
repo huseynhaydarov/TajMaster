@@ -15,6 +15,7 @@ public class AddCartItemEndpoint : ICarterModule
 
                 return Results.Created($"/api/carts/items/{cartItemId}", new { Id = cartItemId });
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithName("AddCartItemEndpoint")
             .WithTags("Carts");
     }

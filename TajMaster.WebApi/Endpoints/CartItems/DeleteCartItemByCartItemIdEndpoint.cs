@@ -17,6 +17,7 @@ public class DeleteCartItemByCartItemIdEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithName("DeleteCartItemByCartItemIdEndpoint")
             .WithTags("Carts");
     }

@@ -18,6 +18,7 @@ public class UpdateReviewEndpoint : ICarterModule
 
                     return result ? Results.NoContent() : Results.NotFound();
                 })
+            .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("UpdateReviewEndpoint")
             .WithTags("Reviews");
     }

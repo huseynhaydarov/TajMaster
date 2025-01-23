@@ -16,6 +16,7 @@ public class GetOrdersEndpoint : ICarterModule
 
                 return Results.Ok(results);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("GetOrdersEndpoint")
             .WithTags("Orders")
             .Produces<PaginatedResult<OrderSummaryDto>>();

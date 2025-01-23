@@ -16,6 +16,7 @@ public class GetUsersEndpoint : ICarterModule
 
                 return Results.Ok(results);
             })
+            .RequireAuthorization("AdminOrCustomerPolicy")
             .WithName("GetUsersEndpoint")
             .WithTags("Users")
             .Produces<PaginatedResult<UserDetailDto>>();

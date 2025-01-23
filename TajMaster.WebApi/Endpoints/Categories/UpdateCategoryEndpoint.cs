@@ -17,6 +17,7 @@ public class UpdateCategoryEndpoint : ICarterModule
 
                     return result ? Results.NoContent() : Results.NotFound();
                 })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateCategoryEndpoint")
             .WithTags("Categories");
     }

@@ -17,6 +17,7 @@ public class UpdateServiceEndpoint : ICarterModule
 
                 return result ? Results.NoContent() : Results.NotFound();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateServiceEndpoint")
             .WithTags("Services");
     }

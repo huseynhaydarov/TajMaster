@@ -17,6 +17,7 @@ public class UpdateCraftsmanEndpoint : ICarterModule
 
                 return result ? Results.NoContent() : Results.NotFound();
             })
+            .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("UpdateCraftsmanEndpoint")
             .WithTags("Craftsmen");
     }

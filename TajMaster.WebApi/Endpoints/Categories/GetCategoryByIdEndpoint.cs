@@ -17,6 +17,7 @@ public class GetCategoryByIdEndpoint : ICarterModule
 
                 return Results.Ok(category);
             })
+            .RequireAuthorization("AdminOrCraftsmanOrCustomerPolicy")
             .WithName("GetCategoryByIdEndpoint")
             .WithTags("Categories")
             .Produces<CategoryDto>()

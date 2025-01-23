@@ -14,6 +14,7 @@ public class CreateCraftsmenEndpoint : ICarterModule
 
                 return Results.Created($"api/users/craftsmen/{result}", new { Id = result });
             })
+            .RequireAuthorization().AllowAnonymous()
             .WithName("CreateCraftsmanEndpoint")
             .WithTags("Craftsmen");
     }

@@ -24,6 +24,7 @@ public class GetCartItemByCartEndpoint : ICarterModule
 
                 return Results.Ok(cartItemDto);
             })
+            .RequireAuthorization("CustomerPolicy")
             .WithName("GetCartItemsByCartEndpoint")
             .WithTags("CartItems")
             .Produces<IEnumerable<CartItemDto>>();
