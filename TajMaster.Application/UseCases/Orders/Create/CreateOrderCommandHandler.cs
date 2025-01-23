@@ -1,52 +1,60 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
 using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Application.UseCases.Orders.Create;
 
-public class CreateOrderCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateOrderCommand, Guid>
+public class CreateOrderCommandHandler(
+    IApplicationDbContext context)
+    : IRequestHandler<CreateOrderCommand, Guid>
 {
     public async Task<Guid> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {
-        var cart = await unitOfWork.CartRepository.GetCartByUserIdAsync(command.UserId);
-        if (cart == null || !cart.CartItems.Any())
-            throw new InvalidOperationException("Cart is empty or not found.");
+        var cart = await context.Carts
+            .Include(c => c.CartItems)
+            .Include(c => c.CartStatus)
+            .FirstOrDefaultAsync(c => c.UserId == command.UserId, cancellationToken);
+
+        if (cart == null || !cart.CartItems.Any()) throw new NotFoundException("Cart is empty or not found.");
+
+        var archivedStatus = await context.CartStatuses
+            .FirstOrDefaultAsync(cs => cs.Name == CartEnum.Archived.Name, cancellationToken);
+
+        if (archivedStatus == null) throw new NotFoundException("Cart status 'Archived' not found.");
+
+        var pendingStatus = await context.OrderStatuses
+            .FirstOrDefaultAsync(os => os.Name == OrderEnum.Pending.Name, cancellationToken);
+
+        if (pendingStatus == null) throw new NotFoundException("Order status 'Pending' not found.");
 
         var order = new Order
         {
             UserId = command.UserId,
             Address = command.Address,
             AppointmentDate = command.AppointmentDate,
-            CraftsmanId = command.CraftsmanId,
-            Status = OrderStatus.Pending,
-            TotalPrice = cart.Subtotal
+            OrderStatus = pendingStatus,
+            TotalPrice = cart.Subtotal,
+            OrderItems = cart.CartItems.Select(cartItem => new OrderItem
+            {
+                ServiceId = cartItem.ServiceId,
+                Quantity = cartItem.Quantity,
+                Price = cartItem.Price
+            }).ToList()
         };
 
-        var orderItems = cart.CartItems.Select(cartItem => new OrderItem
-        {
-            ServiceId = cartItem.ServiceId,
-            Quantity = cartItem.Quantity,
-            Price = cartItem.Price
-        }).ToList();
+        // Explicitly remove the CartItems
+        context.CartItems.RemoveRange(cart.CartItems);
 
-        order.OrderItems = orderItems;
+        // Update cart status
+        cart.CartStatus = archivedStatus;
 
-        cart.CartStatus = CartStatus.completed;
-        
-        foreach (var cartItem in cart.CartItems.ToList())
-            await unitOfWork.CartItemRepository.DeleteAsync(cartItem,
-                cancellationToken);
-        
-        cart.CartItems.Clear();
-        
-        await unitOfWork.CartRepository.UpdateAsync(cart);
-        
-        cart.CartStatus = CartStatus.archived;
-        
-        order = await unitOfWork.OrderRepository.CreateAsync(order, cancellationToken);
-        
-        await unitOfWork.CompleteAsync(cancellationToken);
+        context.Carts.Update(cart);
+        context.Orders.Add(order);
+
+        await context.SaveChangesAsync(cancellationToken);
 
         return order.Id;
     }

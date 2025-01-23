@@ -5,16 +5,18 @@ using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Categories.Commands.Create;
 
-public class CreateCategoryCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+public class CreateCategoryCommandHandler(
+    IApplicationDbContext context,
+    IMapper mapper)
     : IRequestHandler<CreateCategoryCommand, Guid>
 {
     public async Task<Guid> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
     {
         var category = mapper.Map<Category>(command);
 
-        category = await unitOfWork.CategoryRepository.CreateAsync(category, cancellationToken);
+        context.Categories.Add(category);
 
-        await unitOfWork.CompleteAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return category.Id;
     }

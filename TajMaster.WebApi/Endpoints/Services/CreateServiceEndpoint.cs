@@ -11,8 +11,9 @@ public class CreateServiceEndpoint : ICarterModule
     {
         app.MapPost("/api/services", async (ISender mediator, [FromBody] CreateServiceCommand command) =>
             {
-                var serviceId = await mediator.Send(command);
-                return Results.Created($"/services/{serviceId}", new { Id = serviceId });
+                var newService = await mediator.Send(command);
+
+                return Results.Created($"api/services/{newService}", new { Id = newService });
             })
             .WithName("CreateServiceEndpoint")
             .WithTags("Services");

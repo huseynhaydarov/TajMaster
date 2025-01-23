@@ -1,26 +1,28 @@
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Reviews.ReviewDtos;
 using TajMaster.Application.UseCases.Reviews.ReviewExtensions;
-using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Reviews.Queries.GetReviewsByCraftsman;
 
-public class GetReviewsByCraftsmanIdQueryHandler(IUnitOfWork unitOfWork)
+public class GetReviewsByCraftsmanIdQueryHandler(
+    IApplicationDbContext context)
     : IQueryHandler<GetReviewsByCraftsmanIdQuery, IEnumerable<ReviewDto>>
 {
     public async Task<IEnumerable<ReviewDto>> Handle(GetReviewsByCraftsmanIdQuery request,
         CancellationToken cancellationToken)
     {
-        var reviews =
-            await unitOfWork.ReviewRepository.GetReviewsByCraftsmanIdAsNoTracking(request.CraftsmanId,
-                cancellationToken);
+        var reviews = await context.Reviews
+            .AsNoTracking()
+            .Include(r => r.Craftsman)
+            .Where(r => r.CraftsmanId == request.CraftsmanId)
+            .ToListAsync(cancellationToken);
 
-        var enumerable = reviews as Review[] ?? reviews.ToArray();
-        if (reviews == null || !enumerable.Any())
+        if (!reviews.Any())
             throw new NotFoundException($"No reviews found for craftsman with ID: {request.CraftsmanId}");
 
-        return enumerable.ToReviewDtoList();
+        return reviews.ToReviewDtoList();
     }
 }

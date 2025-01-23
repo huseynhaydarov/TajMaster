@@ -1,34 +1,29 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
-using TajMaster.Domain.Entities;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmanByUser;
 
-public class GetCraftsmanByUserIdQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<GetCraftsmanByUserIdQuery, IEnumerable<CraftsmanDto>>
+public class GetCraftsmanByUserIdQueryHandler(
+    IApplicationDbContext context)
+    : IRequestHandler<GetCraftsmanByUserIdQuery, CraftsmanDto>
 {
-    public async Task<IEnumerable<CraftsmanDto>> Handle(GetCraftsmanByUserIdQuery request,
+    public async Task<CraftsmanDto> Handle(GetCraftsmanByUserIdQuery request,
         CancellationToken cancellationToken)
     {
-        var craftsmen =
-            await unitOfWork.CraftsmanRepository.GetCraftsmanByUserIdAsNoTrackingAsync(request.UserId,
-                cancellationToken);
+        var craftsman = await context.Craftsmen
+            .Include(cr => cr.User)
+            .Include(cr => cr.Specialization)
+            .FirstOrDefaultAsync(cr => cr.UserId == request.UserId, cancellationToken);
 
-        var enumerable = craftsmen as Craftsman[] ?? craftsmen.ToArray();
-        if (craftsmen == null || !enumerable.Any())
+        if (craftsman == null)
+        {
             throw new NotFoundException($"No craftsman found for user with ID: {request.UserId}");
+        }
 
-        return enumerable.Select(craftsman => new CraftsmanDto(
-            craftsman.Id,
-            craftsman.Specialization.ToString(),
-            craftsman.Experience,
-            craftsman.Rating,
-            craftsman.Description,
-            craftsman.ProfilePicture,
-            craftsman.IsAvialable,
-            craftsman.ProfileVerified
-        )).ToList();
+        return craftsman.MapToCraftsmanDto();
     }
 }

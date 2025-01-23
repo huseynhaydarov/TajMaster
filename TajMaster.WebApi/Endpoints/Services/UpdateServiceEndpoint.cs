@@ -11,8 +11,10 @@ public class UpdateServiceEndpoint : ICarterModule
     {
         app.MapPut("/api/services/{id}", async (ISender mediator, Guid id, [FromBody] UpdateServiceCommand command) =>
             {
-                if (id != command.ServiceId) return Results.BadRequest();
+                if (id != command.ServiceId) return Results.BadRequest(new { message = "Service ID mismatch." });
+
                 var result = await mediator.Send(command);
+
                 return result ? Results.NoContent() : Results.NotFound();
             })
             .WithName("UpdateServiceEndpoint")

@@ -1,4 +1,4 @@
-using TajMaster.Application.UseCases.Categories.CategoryDto;
+using TajMaster.Application.UseCases.Categories.CategoryDtos;
 
 namespace TajMaster.Application.UseCases.Services.ServiceDtos;
 

@@ -15,17 +15,9 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.Property(c => c.Description)
             .HasMaxLength(500)
             .IsRequired();
-        builder.HasMany(c => c.Services)
-            .WithMany(c => c.Categories)
-            .UsingEntity<Dictionary<string, object>>(
-                "CategoryServices",
-                j => j.HasOne<Service>()
-                    .WithMany()
-                    .HasForeignKey("ServiceId")
-                    .OnDelete(DeleteBehavior.Cascade),
-                j => j.HasOne<Category>()
-                    .WithMany()
-                    .HasForeignKey("CategoryId")
-                    .OnDelete(DeleteBehavior.Cascade));
+        builder.HasMany(c => c.CategoryServices)
+            .WithOne(cs => cs.Category)
+            .HasForeignKey(cs => cs.CategoryId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

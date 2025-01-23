@@ -1,19 +1,27 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
-using TajMaster.Domain.Entities;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsman;
 
-public class GetCraftsmanByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetCraftsmanByIdQuery, Craftsman>
+public class GetCraftsmanByIdQueryHandler(
+    IApplicationDbContext context)
+    : IRequestHandler<GetCraftsmanByIdQuery, CraftsmanDto>
 {
-    public async Task<Craftsman> Handle(GetCraftsmanByIdQuery request, CancellationToken cancellationToken)
+    public async Task<CraftsmanDto> Handle(GetCraftsmanByIdQuery query, CancellationToken cancellationToken)
     {
-        var craftsman = await unitOfWork.CraftsmanRepository.GetByIdAsync(request.CraftsmanId, cancellationToken);
+        var craftsman = await context.Craftsmen
+            .Include(cr => cr.Specialization)
+            .FirstOrDefaultAsync(cr => cr.Id == query.CraftsmanId, cancellationToken);
 
         if (craftsman == null)
-            throw new NotFoundException($"Craftsman with ID {request.CraftsmanId} not found.");
+        {
+            throw new NotFoundException($"Craftsman with ID {query.CraftsmanId} not found.");
+        }
 
-        return craftsman;
+        return craftsman.MapToCraftsmanDto();
     }
 }

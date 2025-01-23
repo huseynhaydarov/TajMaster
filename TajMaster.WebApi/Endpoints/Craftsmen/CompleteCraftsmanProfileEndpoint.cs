@@ -14,16 +14,17 @@ public class CompleteCraftsmanProfileEndpoint : ICarterModule
 
                 var command = new CompleteCraftsmanProfileCommand(
                     Guid.Parse(form["userId"]!),
-                    int.Parse(form["specialization"].ToString()),
+                    form["specialization"].ToString(),
                     int.Parse(form["experience"]!),
                     form["about"].ToString(),
                     form.Files.GetFile("profilePicture")
                 );
 
-                var craftsmanId = await mediator.Send(command);
-                return Results.Created($"/craftsmen/{craftsmanId}", new { Id = craftsmanId });
+                var newCraftsman = await mediator.Send(command);
+
+                return Results.Created($"api/craftsmen/{newCraftsman}", new { Id = newCraftsman });
             })
-            .WithName("CreateCraftsmanEndpoint")
+            .WithName("CompleteCraftsmanProfileEndpoint")
             .WithTags("Craftsmen")
             .Accepts<CompleteCraftsmanProfileCommand>("multipart/form-data")
             .Produces<int>(201)

@@ -38,16 +38,15 @@ public static class UserMappingExtensions
             user.Email,
             user.Phone,
             user.Address,
-            user.Roles.ToString() ?? "",
+            user.UserRole.Name,
             user.RegisteredDate,
             user.IsActive,
             user.Orders?.Select(order => new OrderSummaryDto(
                 order.Id,
                 order.UserId,
-                order.CraftsmanId,
                 order.AppointmentDate,
                 order.Address,
-                order.Status.ToString(),
+                order.OrderStatus.Name,
                 order.TotalPrice
             )).ToList() ?? [],
             user.Reviews?.Select(review => new ReviewDto(

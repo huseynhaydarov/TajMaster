@@ -8,9 +8,10 @@ public class GetServiceByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/services/{id}", async (ISender mediator, Guid id) =>
+        app.MapGet("/api/services/{id:guid}", async (ISender mediator, Guid id) =>
             {
                 var user = await mediator.Send(new GetServiceByIdQuery(id));
+
                 return Results.Ok(user);
             })
             .WithName("GetServiceByIdEndpoint")

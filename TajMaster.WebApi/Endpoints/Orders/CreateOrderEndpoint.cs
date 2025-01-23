@@ -11,8 +11,9 @@ public class CreateOrderEndpoint : ICarterModule
     {
         app.MapPost("/api/orders", async (ISender mediator, [FromBody] CreateOrderCommand command) =>
             {
-                var orderId = await mediator.Send(command);
-                return Results.Created($"/orders/{orderId}", new { Id = orderId });
+                var newOrder = await mediator.Send(command);
+
+                return Results.Created($"/api/orders/{newOrder}", new { Id = newOrder });
             })
             .WithName("CreateOrderEndpoint")
             .WithTags("Orders");

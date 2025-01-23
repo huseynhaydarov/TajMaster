@@ -23,18 +23,10 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
             .WithMany(s => s.Services)
             .HasForeignKey(c => c.CraftsmanId)
             .OnDelete(DeleteBehavior.Restrict);
-        builder.HasMany(c => c.Categories)
-            .WithMany(c => c.Services)
-            .UsingEntity<Dictionary<string, object>>(
-                "CategoryServices",
-                j => j.HasOne<Category>()
-                    .WithMany()
-                    .HasForeignKey("CategoryId")
-                    .OnDelete(DeleteBehavior.Cascade),
-                j => j.HasOne<Service>()
-                    .WithMany()
-                    .HasForeignKey("ServiceId")
-                    .OnDelete(DeleteBehavior.Cascade));
+        builder.HasMany(s => s.CategoryServices)
+            .WithOne(cs => cs.Service)
+            .HasForeignKey(cs => cs.ServiceId)
+            .OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(s => s.OrderItems)
             .WithOne(c => c.Service)
             .HasForeignKey(s => s.ServiceId)

@@ -9,11 +9,13 @@ public class GetUserByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/users/{id}", async (ISender mediator, Guid id) =>
+        app.MapGet("/api/users/{id:guid}", async (ISender mediator, Guid id) =>
             {
                 var user = await mediator.Send(new GetUserByIdQuery(id));
+
                 return Results.Ok(user);
             })
+            /*.RequireAuthorization("CustomerPolicy")*/
             .WithName("GetUserByIdEndpoint")
             .WithTags("Users")
             .Produces<UserSummaryDto>();

@@ -10,7 +10,9 @@ public class BlobService(BlobServiceClient blobServiceClient) : IBlobService
     public async Task<string> UploadFileAsync(IFormFile file, string containerName)
     {
         if (file == null)
+        {
             throw new ArgumentNullException(nameof(file), "File cannot be null.");
+        }
 
         var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
         await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob);

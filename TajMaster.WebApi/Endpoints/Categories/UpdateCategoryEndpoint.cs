@@ -9,12 +9,14 @@ public class UpdateCategoryEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/categories/{id}", async (ISender mediator, Guid id, [FromBody] UpdateCategoryCommand command) =>
-            {
-                if (id != command.CategoryId) return Results.BadRequest();
-                var result = await mediator.Send(command);
-                return result ? Results.NoContent() : Results.NotFound();
-            })
+        app.MapPut("/api/categories/{id:guid}",
+                async (ISender mediator, Guid id, [FromBody] UpdateCategoryCommand command) =>
+                {
+                    if (id != command.CategoryId) return Results.BadRequest(new { message = "Category ID mismatch." });
+                    var result = await mediator.Send(command);
+
+                    return result ? Results.NoContent() : Results.NotFound();
+                })
             .WithName("UpdateCategoryEndpoint")
             .WithTags("Categories");
     }

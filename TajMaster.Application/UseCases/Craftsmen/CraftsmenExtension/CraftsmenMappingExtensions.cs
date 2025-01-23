@@ -9,7 +9,7 @@ public static class CraftsmenMappingExtensions
     {
         return new CraftsmanDto(
             craftsman.Id,
-            craftsman.Specialization.ToString(),
+            craftsman.Specialization.Name,
             craftsman.Experience,
             craftsman.Rating,
             craftsman.Description,
@@ -19,8 +19,8 @@ public static class CraftsmenMappingExtensions
         );
     }
 
-    public static IEnumerable<CraftsmanDto> CraftsmanDtos(this IEnumerable<Craftsman> craftsmen)
+    public static IEnumerable<CraftsmanDto> ToCraftsmanDtos(this IEnumerable<Craftsman> craftsmen)
     {
-        return craftsmen.Select(user => user.MapToCraftsmanDto());
+        return craftsmen.Select(craftsman => craftsman.MapToCraftsmanDto());
     }
 }

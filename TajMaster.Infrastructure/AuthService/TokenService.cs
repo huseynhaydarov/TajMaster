@@ -13,14 +13,14 @@ namespace TajMaster.Infrastructure.AuthService;
 public class TokenService(IOptions<JwtSettings> jwtSettings) : ITokenService
 {
     private readonly JwtSettings _jwtSettings = jwtSettings.Value;
-    
+
     public string GenerateJwtToken(User user)
     {
         var securityKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_jwtSettings.SecretKey!));
-        
+
         var credentials = new SigningCredentials(
-            securityKey, 
+            securityKey,
             SecurityAlgorithms.HmacSha256);
 
         var claims = new List<Claim>
@@ -28,13 +28,13 @@ public class TokenService(IOptions<JwtSettings> jwtSettings) : ITokenService
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email!),
             new(ClaimTypes.Name, user.FullName),
-            new(ClaimTypes.Role, user.Roles.ToString())
+            new(ClaimTypes.Role, user.UserRole.Name)
         };
 
         var token = new JwtSecurityToken(
-            issuer: _jwtSettings.Issuer,
-            audience: _jwtSettings.Audience,
-            claims: claims,
+            _jwtSettings.Issuer,
+            _jwtSettings.Audience,
+            claims,
             expires: DateTime.UtcNow.AddMinutes(_jwtSettings.ExpirationMinutes),
             signingCredentials: credentials);
 
@@ -66,31 +66,24 @@ public class TokenService(IOptions<JwtSettings> jwtSettings) : ITokenService
         var tokenHandler = new JwtSecurityTokenHandler();
         try
         {
-            // Disable automatic claim mapping to preserve claim names like "sub"
             tokenHandler.InboundClaimTypeMap.Clear();
-            
+
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
 
             if (validatedToken is not JwtSecurityToken jwtToken ||
                 !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-            {
                 throw new SecurityTokenException("Invalid token");
-            }
 
-            // Log all claims for debugging
             foreach (var claim in principal.Claims)
-            {
                 Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-            }
 
             return principal;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Token validation failed: {ex.Message}");
-            
+
             return null;
         }
     }
-
 }

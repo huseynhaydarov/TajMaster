@@ -9,7 +9,7 @@ public class Service : BaseEntity
     public decimal BasePrice { get; set; }
     public Guid CraftsmanId { get; set; }
     public Craftsman Craftsman { get; set; } = null!;
-    public List<Category> Categories { get; set; } = [];
+    public ICollection<CategoryService> CategoryServices { get; set; } = new List<CategoryService>();
     public List<OrderItem> OrderItems { get; set; } = [];
     public List<CartItem> CartItems { get; set; } = [];
 }

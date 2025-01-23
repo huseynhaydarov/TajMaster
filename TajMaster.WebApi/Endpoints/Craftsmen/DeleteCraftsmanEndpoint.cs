@@ -9,9 +9,10 @@ public class DeleteCraftsmanEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/api/craftsman/{id}", async (ISender mediator, [FromRoute] Guid id) =>
+        app.MapDelete("/api/craftsman/{id:guid}", async (ISender mediator, [FromRoute] Guid id) =>
             {
                 var result = await mediator.Send(new DeleteCraftsmanCommand(id));
+
                 return result ? Results.NoContent() : Results.NotFound(new { message = "Craftsmen not found." });
             })
             .WithName("DeleteCraftsmanEndpoint")

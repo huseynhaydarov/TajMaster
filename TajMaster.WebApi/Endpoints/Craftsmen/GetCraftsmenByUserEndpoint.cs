@@ -9,7 +9,7 @@ public class GetCraftsmenByUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/craftsmen/user/{Id}", async (Guid userId, ISender sender) =>
+        app.MapGet("/api/craftsmen/user/{userId:guid}", async (Guid userId, ISender sender) =>
             {
                 if (userId == Guid.Empty)
                     return Results.BadRequest(new { Message = "UserId must be a positive integer." });
@@ -18,11 +18,7 @@ public class GetCraftsmenByUserEndpoint : ICarterModule
 
                 var craftsmen = await sender.Send(query);
 
-                var craftsmanDto = craftsmen as CraftsmanDto[] ?? craftsmen.ToArray();
-                if (!craftsmanDto.Any())
-                    return Results.NotFound(new { Message = $"No craftsmen found for user ID {userId}." });
-
-                return Results.Ok(craftsmanDto);
+                return Results.Ok(craftsmen );
             })
             .WithName("GetCraftsmenByUserEndpoint")
             .Produces<IEnumerable<CraftsmanDto>>()

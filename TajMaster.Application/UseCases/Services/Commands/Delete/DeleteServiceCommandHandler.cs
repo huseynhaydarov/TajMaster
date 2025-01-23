@@ -1,19 +1,24 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Exceptions;
 
 namespace TajMaster.Application.UseCases.Services.Commands.Delete;
 
-public class DeleteServiceCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteServiceCommand, bool>
+public class DeleteServiceCommandHandler(
+    IApplicationDbContext context)
+    : IRequestHandler<DeleteServiceCommand, bool>
 {
-    public async Task<bool> Handle(DeleteServiceCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteServiceCommand command, CancellationToken cancellationToken)
     {
-        var service = await unitOfWork.ServiceRepository.GetByIdAsync(request.ServiceId, cancellationToken);
+        var service = await context.Services
+            .FirstOrDefaultAsync(s => s.Id == command.ServiceId, cancellationToken);
 
-        if (service == null) return await Task.FromResult(false);
+        if (service == null) throw new NotFoundException($"Service with ID {command.ServiceId} not found");
 
-        await unitOfWork.ServiceRepository.DeleteAsync(service, cancellationToken);
+        context.Services.Remove(service);
 
-        await unitOfWork.CompleteAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return await Task.FromResult(true);
     }

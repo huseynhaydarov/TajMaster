@@ -5,7 +5,7 @@ namespace TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraft
 
 public record CompleteCraftsmanProfileCommand(
     Guid UserId,
-    int Specialization,
+    string Specialization,
     int Experience,
     string? About,
     IFormFile? ProfilePicture

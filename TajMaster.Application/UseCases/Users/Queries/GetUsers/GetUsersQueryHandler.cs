@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
@@ -6,17 +7,29 @@ using TajMaster.Application.UseCases.Users.UserExtensions;
 
 namespace TajMaster.Application.UseCases.Users.Queries.GetUsers;
 
-public class GetUsersQueryHandler(IUnitOfWork unitOfWork)
+public class GetUsersQueryHandler(
+    IApplicationDbContext context)
     : IQueryHandler<GetUsersQuery, PaginatedResult<UserSummaryDto>>
 {
-    public async Task<PaginatedResult<UserSummaryDto>> Handle(GetUsersQuery request,
+    public async Task<PaginatedResult<UserSummaryDto>> Handle(GetUsersQuery query,
         CancellationToken cancellationToken)
     {
-        var pagingParams = request.PagingParameters;
+        var pagingParams = query.PagingParameters;
 
-        var paginatedUsers = await unitOfWork.UserRepository.GetAllAsync(pagingParams, cancellationToken);
+        var request = context.Users
+            .AsNoTracking()
+            .AsQueryable();
 
-        var totalCount = paginatedUsers.Count;
+        request = pagingParams.OrderByDescending == true
+            ? request.OrderByDescending(u => u.FullName)
+            : request.OrderBy(u => u.FullName);
+
+        var totalCount = await request.CountAsync(cancellationToken);
+
+        var paginatedUsers = await request
+            .Skip(pagingParams.Skip)
+            .Take(pagingParams.Take)
+            .ToListAsync(cancellationToken);
 
         var usersDto = paginatedUsers.ToUserDtoList();
 
