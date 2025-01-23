@@ -63,8 +63,8 @@ public class CompleteCraftsmanProfileCommandHandler(
 
         var specialization = await context.Specializations
             .AsNoTracking()
-            .FirstOrDefaultAsync(sp => string.Equals(sp.Name, profileCommand.Specialization, 
-                StringComparison.OrdinalIgnoreCase), cancellationToken);
+            .FirstOrDefaultAsync(sp => sp.Name.ToLower() == 
+                                       profileCommand.Specialization.ToLower(), cancellationToken);
 
 
         if (specialization == null)
