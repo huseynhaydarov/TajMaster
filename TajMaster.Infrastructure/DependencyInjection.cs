@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TajMaster.Application.Common.Interfaces;
 using TajMaster.Application.Common.Interfaces.BlobStorage;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Interfaces.PasswordHasher;
+using TajMaster.Infrastructure.CacheService;
 using TajMaster.Infrastructure.Persistence.Data;
 using TajMaster.Infrastructure.Storage;
 
@@ -34,6 +36,13 @@ public static class DependencyInjection
 
         services.AddScoped<IBlobService, BlobService>();
 
+        services.AddSingleton<ICacheService, DistributedCacheService>();
+        services.AddStackExchangeRedisCache(redisOptions =>
+        {
+            string? connection = configuration.GetConnectionString("RedisConnectionString");
+            redisOptions.Configuration = connection;
+        });
+        
         return services;
     }
 }

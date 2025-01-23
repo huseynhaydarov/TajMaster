@@ -14,7 +14,7 @@ public class GetServiceByIdEndpoint : ICarterModule
 
                 return Results.Ok(user);
             })
-            .RequireAuthorization("AdminPolicy")
+            /*.RequireAuthorization("AdminPolicy")*/
             .WithName("GetServiceByIdEndpoint")
             .WithTags("Services");
     }

@@ -17,10 +17,6 @@ public interface IApplicationDbContext
     DbSet<Cart> Carts { get; }
     DbSet<CartStatus> CartStatuses { get; }
     DbSet<CartItem> CartItems { get; }
-    
-    DbContext DbContext { get; }
-    DatabaseFacade Database { get; }
-
     DbSet<Specialization> Specializations { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
