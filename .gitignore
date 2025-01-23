@@ -8,3 +8,8 @@ riderModule.iml
 # Ignore JetBrains user-specific settings files
 *.DotSettings.user
 
+# JetBrains IDEs (Rider, IntelliJ IDEA, PhpStorm)
+.idea/
+
+# Visual Studio
+.vs/
