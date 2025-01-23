@@ -18,17 +18,26 @@ public class CreateOrderCommandHandler(
             .Include(c => c.CartStatus)
             .FirstOrDefaultAsync(c => c.UserId == command.UserId, cancellationToken);
 
-        if (cart == null || !cart.CartItems.Any()) throw new NotFoundException("Cart is empty or not found.");
+        if (cart == null || !cart.CartItems.Any())
+        {
+            throw new NotFoundException("Cart is empty or not found.");
+        }
 
         var archivedStatus = await context.CartStatuses
             .FirstOrDefaultAsync(cs => cs.Name == CartEnum.Archived.Name, cancellationToken);
 
-        if (archivedStatus == null) throw new NotFoundException("Cart status 'Archived' not found.");
+        if (archivedStatus == null)
+        {
+            throw new NotFoundException("Cart status 'Archived' not found.");
+        }
 
         var pendingStatus = await context.OrderStatuses
             .FirstOrDefaultAsync(os => os.Name == OrderEnum.Pending.Name, cancellationToken);
 
-        if (pendingStatus == null) throw new NotFoundException("Order status 'Pending' not found.");
+        if (pendingStatus == null)
+        {
+            throw new NotFoundException("Order status 'Pending' not found.");
+        }
 
         var order = new Order
         {
@@ -45,10 +54,8 @@ public class CreateOrderCommandHandler(
             }).ToList()
         };
 
-        // Explicitly remove the CartItems
         context.CartItems.RemoveRange(cart.CartItems);
-
-        // Update cart status
+        
         cart.CartStatus = archivedStatus;
 
         context.Carts.Update(cart);
