@@ -9,24 +9,28 @@ public class GetServicesByCategoryEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/services/category/{Id:guid}", async (Guid categoryId, ISender sender) =>
+        app.MapGet("/api/services/category/{categoryId:guid}", async (Guid categoryId, ISender sender) =>
             {
                 if (categoryId == Guid.Empty)
+                {
                     return Results.BadRequest(new { Message = "Invalid category ID." });
+                }
 
                 var query = new GetServicesByCategoryQuery(categoryId);
 
                 var services = await sender.Send(query);
 
-                var serviceDto = services as ServiceSummaryDto[] ?? services.ToArray();
+                var serviceDtos = services as ServiceSummaryDto[] ?? services.ToArray();
 
-                if (!serviceDto.Any())
+                if (!serviceDtos.Any())
+                {
                     return Results.NotFound(new { Message = $"No services found for category ID {categoryId}." });
+                }
 
-                return Results.Ok(serviceDto);
+                return Results.Ok(serviceDtos);
             })
             .WithName("GetServicesByCategoryEndpoint")
             .WithTags("Services")
-            .Produces<IEnumerable<ServiceDetailDto>>();
+            .Produces<IEnumerable<ServiceSummaryDto>>(); // Updated to match the return type
     }
 }

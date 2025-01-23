@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
-using TajMaster.Application.UseCases.CartItem.CartItemDTos;
+using TajMaster.Application.UseCases.CartItems.CartItemDTos;
 
 namespace TajMaster.Application.UseCases.CartItems.Queries.GetCartItemsByCart;
 

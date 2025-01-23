@@ -5,13 +5,19 @@ using TajMaster.Application.Exceptions;
 
 namespace TajMaster.Application.UseCases.Users.Commands.Delete;
 
-public class DeleteUserCommandHandler(IApplicationDbContext context) : IRequestHandler<DeleteUserCommand, bool>
+public class DeleteUserCommandHandler(
+    IApplicationDbContext context) 
+    : IRequestHandler<DeleteUserCommand, bool>
 {
     public async Task<bool> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await context.Users.FirstOrDefaultAsync(u => u.Id == command.UserId, cancellationToken);
+        var user = await context.Users
+            .FirstOrDefaultAsync(u => u.Id == command.UserId, cancellationToken);
 
-        if (user == null) throw new NotFoundException($"User with ID {command.UserId} not found");
+        if (user == null)
+        {
+            throw new NotFoundException($"User with ID {command.UserId} not found");
+        }
 
         context.Users.Remove(user);
 

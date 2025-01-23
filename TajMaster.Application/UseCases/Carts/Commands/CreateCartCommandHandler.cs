@@ -16,7 +16,10 @@ public class CreateCartCommandHandler(
             .AsNoTracking()
             .FirstOrDefaultAsync(cs => cs.Id == CartEnum.Created.Id, cancellationToken);
 
-        if (cartStatus == null) throw new InvalidOperationException("Cart status 'Active' not found.");
+        if (cartStatus == null)
+        {
+            throw new InvalidOperationException("Cart status 'Active' not found.");
+        }
 
         var newCart = new Cart
         {

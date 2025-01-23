@@ -1,4 +1,4 @@
-using TajMaster.Application.UseCases.CartItem.CartItemDTos;
+using TajMaster.Application.UseCases.CartItems.CartItemDTos;
 using TajMaster.Application.UseCases.CartItems.CartItemExtensions;
 using TajMaster.Application.UseCases.Carts.CartDtos;
 using TajMaster.Domain.Entities;

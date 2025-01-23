@@ -17,11 +17,14 @@ public class GetServicesByCategoryQueryHandler(
         var services = await context.Services
             .AsNoTracking()
             .Include(service => service.CategoryServices)
+            .ThenInclude(service => service.Category)
             .Where(service => service.CategoryServices.Any(category => category.CategoryId == query.CategoryId))
             .ToListAsync(cancellationToken);
 
         if (services == null || !services.Any())
+        {
             throw new NotFoundException($"No services found for category with ID {query.CategoryId}");
+        }
 
         return services.ToServiceDtoList();
     }

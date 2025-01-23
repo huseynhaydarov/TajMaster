@@ -6,28 +6,45 @@ using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.SearchCraftsmen;
 
-public class SearchCraftsmenQueryHandler(IApplicationDbContext context)
-    : IRequestHandler<SearchCraftsmenQuery, List<CraftsmanDto>>
+public class SearchCraftsmenQueryHandler(
+    IApplicationDbContext context)
+    : IRequestHandler<SearchCraftsmenQuery, IEnumerable<CraftsmanDto>>
 {
-    public async Task<List<CraftsmanDto>> Handle(SearchCraftsmenQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<CraftsmanDto>> Handle(SearchCraftsmenQuery request, CancellationToken cancellationToken)
     {
-        var query = context.Craftsmen.AsNoTracking();
+        var craftsman = context.Craftsmen
+            .Include(c => c.Specialization)
+            .AsNoTracking();
+        
+        if (!string.IsNullOrWhiteSpace(request.Specialization))
+        {
+            craftsman = craftsman.Where(c =>
+                EF.Functions.Like(c.Specialization.Name, 
+                    $"%{request.Specialization}%"));
+        }
 
-        if (!string.IsNullOrEmpty(request.Specialization))
-            query = query.Where(c =>
-                EF.Functions.Like(c.Specialization.ToString()!, $"%{request.Specialization}%"));
-
-        if (request.Availability.HasValue) query = query.Where(c => c.IsAvialable == request.Availability.Value);
+        if (request.Availability.HasValue)
+        {
+            craftsman = craftsman.Where(c => c.IsAvialable == request.Availability.Value);
+        }
 
         if (request.ProfileVerified.HasValue)
-            query = query.Where(c => c.ProfileVerified == request.ProfileVerified.Value);
+        {
+            craftsman = craftsman.Where(c => c.ProfileVerified == request.ProfileVerified.Value);
+        }
 
-        if (request.MinExperience.HasValue) query = query.Where(c => c.Experience >= request.MinExperience.Value);
+        if (request.MinExperience.HasValue)
+        {
+            craftsman = craftsman.Where(c => c.Experience >= request.MinExperience.Value);
+        }
 
-        if (request.MinRating.HasValue) query = query.Where(c => c.Rating >= request.MinRating.Value);
-
-        var result = await query.ToListAsync(cancellationToken);
-
-        return result.ToCraftsmanDtos().ToList();
+        if (request.MinRating.HasValue)
+        {
+            craftsman = craftsman.Where(c => c.Rating >= request.MinRating.Value);
+        }
+        
+        var craftsmen = await craftsman.ToListAsync(cancellationToken);
+        
+        return craftsmen.ToCraftsmanDtos();
     }
 }

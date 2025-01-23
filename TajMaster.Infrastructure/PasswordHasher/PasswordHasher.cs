@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using TajMaster.Application.Common.Interfaces.PasswordHasher;
+using TajMaster.Infrastructure.Persistence.Data;
 
 namespace TajMaster.Infrastructure.PasswordHasher;
 

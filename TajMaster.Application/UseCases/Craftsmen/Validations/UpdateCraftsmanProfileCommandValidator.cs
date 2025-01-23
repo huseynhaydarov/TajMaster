@@ -10,12 +10,8 @@ public class UpdateCraftsmanProfileCommandValidator : AbstractValidator<UpdateCr
         RuleFor(x => x.CraftsmanId)
             .NotEqual(Guid.Empty).WithMessage("Craftsman ID cannot be an empty GUID.");
 
-        RuleFor(x => x.UserId)
-            .NotEqual(Guid.Empty).WithMessage("Id cannot be an empty GUID.");
-
         RuleFor(x => x.Specialization)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("Specialization must be a valid enumeration value.");
+            .NotEmpty().WithMessage("Specialization cannot be an empty string.");
 
         RuleFor(x => x.Experience)
             .GreaterThanOrEqualTo(0)
@@ -30,10 +26,6 @@ public class UpdateCraftsmanProfileCommandValidator : AbstractValidator<UpdateCr
             .MaximumLength(255)
             .When(x => !string.IsNullOrEmpty(x.ProfilePicture))
             .WithMessage("Profile picture URL cannot exceed 255 characters.");
-
-        RuleFor(x => x.IsAvailable)
-            .NotNull()
-            .WithMessage("IsAvailable must be specified.");
 
         RuleFor(x => x.ProfileVerified)
             .NotNull()

@@ -25,7 +25,10 @@ public class CreateUserCommandHandler(
             var existingUser = await context.Users
                 .FirstOrDefaultAsync(u => u.Email == command.Email, cancellationToken);
 
-            if (existingUser != null) throw new ConflictException("The email address is already in use.");
+            if (existingUser != null)
+            {
+                throw new ConflictException("The email address is already in use.");
+            }
         }
 
         var user = mapper.Map<User>(command);

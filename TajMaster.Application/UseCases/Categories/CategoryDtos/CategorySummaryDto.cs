@@ -1,6 +1,6 @@
 using TajMaster.Application.UseCases.Services.ServiceDtos;
 
-namespace TajMaster.Application.UseCases.Categories.CategoryDto;
+namespace TajMaster.Application.UseCases.Categories.CategoryDtos;
 
 public record CategorySummaryDto(
     Guid CategoryId,

@@ -14,12 +14,14 @@ public class UpdateSpecializationCommandHandler(IApplicationDbContext context)
             .FirstOrDefaultAsync(s => s.Id == command.SpecializationId, cancellationToken);
 
         if (specialization == null)
+        {
             throw new NotFoundException($"Specialization with ID {command.SpecializationId} not found");
+        }
 
         context.Specializations.Update(specialization);
 
         await context.SaveChangesAsync(cancellationToken);
 
-        return true;
+        return await Task.FromResult(true);
     }
 }

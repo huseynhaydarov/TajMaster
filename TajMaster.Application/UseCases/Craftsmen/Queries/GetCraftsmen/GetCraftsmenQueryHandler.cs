@@ -7,7 +7,8 @@ using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmen;
 
-public class GetCraftsmenQueryHandler(IApplicationDbContext context)
+public class GetCraftsmenQueryHandler(
+    IApplicationDbContext context)
     : IQueryHandler<GetCraftsmenQuery, PaginatedResult<CraftsmanDto>>
 {
     public async Task<PaginatedResult<CraftsmanDto>> Handle(GetCraftsmenQuery request,
@@ -17,13 +18,9 @@ public class GetCraftsmenQueryHandler(IApplicationDbContext context)
 
         var query = context.Craftsmen
             .AsNoTracking()
+            .Include(c => c.User)
             .Include(c => c.Specialization)
             .AsQueryable();
-
-        if (pagingParams.OrderByDescending == true)
-            query = query.OrderByDescending(c => c.Id);
-        else
-            query = query.OrderBy(c => c.Id);
 
         var totalCount = await query.CountAsync(cancellationToken);
 

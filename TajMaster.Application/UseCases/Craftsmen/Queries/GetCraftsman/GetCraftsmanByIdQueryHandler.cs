@@ -17,7 +17,10 @@ public class GetCraftsmanByIdQueryHandler(
             .Include(cr => cr.Specialization)
             .FirstOrDefaultAsync(cr => cr.Id == query.CraftsmanId, cancellationToken);
 
-        if (craftsman == null) throw new NotFoundException($"Craftsman with ID {query.CraftsmanId} not found.");
+        if (craftsman == null)
+        {
+            throw new NotFoundException($"Craftsman with ID {query.CraftsmanId} not found.");
+        }
 
         return craftsman.MapToCraftsmanDto();
     }

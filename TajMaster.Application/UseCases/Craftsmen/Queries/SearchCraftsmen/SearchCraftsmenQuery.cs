@@ -6,7 +6,6 @@ namespace TajMaster.Application.UseCases.Craftsmen.Queries.SearchCraftsmen;
 public record SearchCraftsmenQuery(
     string? Specialization,
     bool? Availability,
-    bool? ProfileVerified, // Filter by profile verification
-    int? MinExperience, // Minimum experience filter
-    int? MinRating // Minimum rating filter
-) : IQuery<List<CraftsmanDto>>;
+    bool? ProfileVerified, 
+    int? MinExperience, 
+    int? MinRating) : IQuery<IEnumerable<CraftsmanDto>>;

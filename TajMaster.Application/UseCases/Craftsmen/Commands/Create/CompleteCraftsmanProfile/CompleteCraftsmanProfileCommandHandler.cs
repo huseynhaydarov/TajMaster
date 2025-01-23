@@ -19,15 +19,24 @@ public class CompleteCraftsmanProfileCommandHandler(
 {
     public async Task<Guid> Handle(CompleteCraftsmanProfileCommand profileCommand, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Starting to process CreateCraftsmanCommand for UserId: {UserId}", profileCommand.UserId);
+        logger.LogInformation($"Starting to process CreateCraftsmanCommand for UserId: " +
+                              "{UserId}", profileCommand.UserId);
 
-        var user = await context.Users.FirstOrDefaultAsync(u => u.Id == profileCommand.UserId, cancellationToken);
-        if (user == null) throw new NotFoundException($"User with Id {profileCommand.UserId} not found.");
+        var user = await context.Users
+            .FirstOrDefaultAsync(u => u.Id == profileCommand.UserId, cancellationToken);
+        
+        if (user == null)
+        {
+            throw new NotFoundException($"User with Id {profileCommand.UserId} not found.");
+        }
 
         if (user.UserRoleId != UserRoleEnum.Craftsman.Id)
+        {
             throw new InvalidOperationException("The user is not eligible to become a craftsman.");
+        }
 
         string? profilePictureUrl = null;
+        
         if (profileCommand.ProfilePicture != null)
         {
             logger.LogInformation(
@@ -54,10 +63,14 @@ public class CompleteCraftsmanProfileCommandHandler(
 
         var specialization = await context.Specializations
             .AsNoTracking()
-            .FirstOrDefaultAsync(sp => sp.Name == profileCommand.Specialization, cancellationToken);
+            .FirstOrDefaultAsync(sp => string.Equals(sp.Name, profileCommand.Specialization, 
+                StringComparison.OrdinalIgnoreCase), cancellationToken);
+
 
         if (specialization == null)
+        {
             throw new NotFoundException($"Specialization with Name {profileCommand.Specialization} not found.");
+        }
 
         var craftsman = mapper.Map<Craftsman>(profileCommand);
 
@@ -67,7 +80,8 @@ public class CompleteCraftsmanProfileCommandHandler(
         craftsman.ProfilePicture = profilePictureUrl;
         craftsman.ProfileVerified = true;
 
-        context.Craftsmen.Add(craftsman);
+        await context.Craftsmen.AddAsync(craftsman, cancellationToken);
+        
         await context.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation("Successfully created craftsman with ID: {CraftsmanId}", craftsman.Id);

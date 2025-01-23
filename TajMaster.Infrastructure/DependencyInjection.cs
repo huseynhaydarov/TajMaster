@@ -20,7 +20,9 @@ public static class DependencyInjection
         var storageConnectionString = configuration.GetConnectionString("StorageAccount");
 
         if (string.IsNullOrEmpty(storageConnectionString))
-            throw new ArgumentNullException("Storage account connection string cannot be null or empty.");
+        {
+            throw new ArgumentNullException($"Storage account connection string cannot be null or empty.");
+        }
 
         services.AddDbContext<ApplicationDbContext>((db, options) => { options.UseNpgsql(connectionString); });
 

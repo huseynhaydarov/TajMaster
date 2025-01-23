@@ -16,7 +16,10 @@ public class UpdateServiceCommandHandler(
         var service = await context.Services
             .FirstOrDefaultAsync(s => s.Id == command.ServiceId, cancellationToken);
 
-        if (service == null) throw new NotFoundException($"Service with ID {command.ServiceId} was not found");
+        if (service == null)
+        {
+            throw new NotFoundException($"Service with ID {command.ServiceId} was not found");
+        }
 
         mapper.Map(command, service);
 

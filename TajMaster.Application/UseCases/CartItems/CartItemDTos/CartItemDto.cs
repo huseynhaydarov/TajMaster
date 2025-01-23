@@ -1,4 +1,4 @@
-namespace TajMaster.Application.UseCases.CartItem.CartItemDTos;
+namespace TajMaster.Application.UseCases.CartItems.CartItemDTos;
 
 public record CartItemDto(
     Guid CartItemId,

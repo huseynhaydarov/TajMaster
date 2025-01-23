@@ -3,32 +3,27 @@ using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmanByUser;
 
 public class GetCraftsmanByUserIdQueryHandler(
     IApplicationDbContext context)
-    : IRequestHandler<GetCraftsmanByUserIdQuery, IEnumerable<CraftsmanDto>>
+    : IRequestHandler<GetCraftsmanByUserIdQuery, CraftsmanDto>
 {
-    public async Task<IEnumerable<CraftsmanDto>> Handle(GetCraftsmanByUserIdQuery request,
+    public async Task<CraftsmanDto> Handle(GetCraftsmanByUserIdQuery request,
         CancellationToken cancellationToken)
     {
-        var craftsmen = await context.Craftsmen
+        var craftsman = await context.Craftsmen
             .Include(cr => cr.User)
-            .Where(cr => cr.UserId == request.UserId)
-            .ToListAsync(cancellationToken);
+            .Include(cr => cr.Specialization)
+            .FirstOrDefaultAsync(cr => cr.UserId == request.UserId, cancellationToken);
 
-        if (!craftsmen.Any()) throw new NotFoundException($"No craftsmen found for user with ID: {request.UserId}");
+        if (craftsman == null)
+        {
+            throw new NotFoundException($"No craftsman found for user with ID: {request.UserId}");
+        }
 
-        return craftsmen.Select(craftsman => new CraftsmanDto(
-            craftsman.Id,
-            craftsman.Specialization.ToString() ?? string.Empty,
-            craftsman.Experience,
-            craftsman.Rating,
-            craftsman.Description,
-            craftsman.ProfilePicture,
-            craftsman.IsAvialable,
-            craftsman.ProfileVerified
-        )).ToList();
+        return craftsman.MapToCraftsmanDto();
     }
 }

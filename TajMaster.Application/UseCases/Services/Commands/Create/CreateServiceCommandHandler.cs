@@ -19,14 +19,16 @@ public class CreateServiceCommandHandler(
             .Where(c => categoryIds.Contains(c.Id))
             .ToListAsync(cancellationToken);
 
-        if (categories.Count != categoryIds.Count) throw new NotFoundException(nameof(Category));
+        if (categories.Count != categoryIds.Count)
+        {
+            throw new NotFoundException(nameof(Category));
+        }
 
         var service = mapper.Map<Service>(command);
 
         service.CategoryServices = categories.Select(category => new CategoryService
         {
             CategoryId = category.Id,
-            Category = category
         }).ToList();
 
         context.Services.Add(service);

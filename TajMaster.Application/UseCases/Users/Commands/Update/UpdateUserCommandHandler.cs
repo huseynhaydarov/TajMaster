@@ -13,11 +13,18 @@ public class UpdateUserCommandHandler(
 {
     public async Task<bool> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await context.Users.FirstOrDefaultAsync(u => u.Id == command.UserId, cancellationToken);
+        var user = await context.Users
+            .FirstOrDefaultAsync(u => u.Id == command.UserId, cancellationToken);
 
-        if (user?.Email == command.Email) throw new ConflictException("Email already exists");
+        if (user?.Email == command.Email)
+        {
+            throw new ConflictException("Email already exists");
+        }
 
-        if (user == null) throw new NotFoundException($"User with ID {command.UserId} not found.");
+        if (user == null)
+        {
+            throw new NotFoundException($"User with ID {command.UserId} not found.");
+        }
 
         mapper.Map(command, user);
 

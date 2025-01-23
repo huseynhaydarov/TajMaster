@@ -11,7 +11,8 @@ public class Cart : BaseEntity
 
     public CartStatus CartStatus { get; set; } = null!;
 
-    [NotMapped] public decimal Subtotal => CartItems?.Sum(x => x.Price * x.Quantity) ?? 0;
+    [NotMapped]
+    public decimal Subtotal => CartItems?.Sum(x => x.Price) ?? 0; 
 
     public User User { get; set; } = null!;
     public List<CartItem> CartItems { get; set; } = new();

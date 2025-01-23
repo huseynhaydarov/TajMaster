@@ -14,15 +14,14 @@ public class GetAllSpecializationsQueryHandler(
         CancellationToken cancellationToken)
     {
         var pagingParams = query.PagingParameters;
-
-        // Query Specializations with AsNoTracking for read-only operation
+        
         var request = context.Specializations
             .AsNoTracking()
             .AsQueryable();
 
         request = (bool)pagingParams.OrderByDescending!
-            ? request.OrderByDescending(s => s.Id)
-            : request.OrderBy(s => s.Id);
+            ? request.OrderByDescending(s => s.Name)
+            : request.OrderBy(s => s.Name);
 
         var totalCount = await request.CountAsync(cancellationToken);
 

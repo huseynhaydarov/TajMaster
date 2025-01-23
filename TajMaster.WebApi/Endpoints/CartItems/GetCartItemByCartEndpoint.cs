@@ -1,6 +1,6 @@
 using Carter;
 using MediatR;
-using TajMaster.Application.UseCases.CartItem.CartItemDTos;
+using TajMaster.Application.UseCases.CartItems.CartItemDTos;
 using TajMaster.Application.UseCases.CartItems.Queries.GetCartItemsByCart;
 
 namespace TajMaster.WebApi.Endpoints.CartItems;

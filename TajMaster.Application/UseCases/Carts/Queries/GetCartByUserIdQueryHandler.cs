@@ -21,7 +21,10 @@ public class GetCartByUserIdQueryHandler(
             .FirstOrDefaultAsync(c => c.UserId == request.UserId, cancellationToken);
 
 
-        if (cart == null) throw new NotFoundException($"Cart for user ID {request.UserId} not found.");
+        if (cart == null)
+        {
+            throw new NotFoundException($"Cart for user ID {request.UserId} not found.");
+        }
 
         return cart.ToCartDto();
     }

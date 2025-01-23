@@ -17,10 +17,16 @@ public class GetOrdersByUserQueryHandler(
         var orders = await context.Orders
             .AsNoTracking()
             .Include(r => r.User)
+            .Include(o => o.OrderStatus)
+            .Include(r => r.OrderItems)
+            .ThenInclude(s => s.Service)
             .Where(r => r.UserId == query.UserId)
             .ToListAsync(cancellationToken);
 
-        if (!orders.Any()) throw new NotFoundException($"No orders found for user with ID: {query.UserId}");
+        if (!orders.Any())
+        {
+            throw new NotFoundException($"No orders found for user with ID: {query.UserId}");
+        }
 
         return orders.ToOrderDetailDtoList();
     }

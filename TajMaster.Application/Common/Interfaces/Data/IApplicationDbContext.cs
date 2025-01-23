@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.Common.Interfaces.Data;
@@ -16,6 +17,9 @@ public interface IApplicationDbContext
     DbSet<Cart> Carts { get; }
     DbSet<CartStatus> CartStatuses { get; }
     DbSet<CartItem> CartItems { get; }
+    
+    DbContext DbContext { get; }
+    DatabaseFacade Database { get; }
 
     DbSet<Specialization> Specializations { get; }
 

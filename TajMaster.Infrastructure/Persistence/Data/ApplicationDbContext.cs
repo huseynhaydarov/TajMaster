@@ -22,6 +22,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<CartStatus> CartStatuses => Set<CartStatus>();
     public DbSet<CartItem> CartItems => Set<CartItem>();
     public DbSet<Specialization> Specializations => Set<Specialization>();
+    
+    public DbContext DbContext => this;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -15,10 +15,14 @@ public class GetCraftsmenBySpecializationQueryHandler(
     {
         var craftsmen = await context.Craftsmen
             .AsNoTracking()
-            .Where(cr => cr.Specialization.ToString() == query.Specialization)
+            .Include(c => c.Specialization)
+            .Where(cr => cr.Specialization.Name.ToLower() == query.Specialization.ToLower())
             .ToListAsync(cancellationToken);
 
-        if (!craftsmen.Any()) return new List<CraftsmanDto>();
+        if (!craftsmen.Any())
+        {
+            return new List<CraftsmanDto>();
+        }
 
         return craftsmen.ToCraftsmanDtos().ToList();
     }

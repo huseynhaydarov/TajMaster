@@ -7,7 +7,8 @@ using TajMaster.Application.UseCases.Users.UserExtensions;
 
 namespace TajMaster.Application.UseCases.Users.Queries.GetUsers;
 
-public class GetUsersQueryHandler(IApplicationDbContext context)
+public class GetUsersQueryHandler(
+    IApplicationDbContext context)
     : IQueryHandler<GetUsersQuery, PaginatedResult<UserSummaryDto>>
 {
     public async Task<PaginatedResult<UserSummaryDto>> Handle(GetUsersQuery query,
@@ -17,13 +18,11 @@ public class GetUsersQueryHandler(IApplicationDbContext context)
 
         var request = context.Users
             .AsNoTracking()
-            .Include(u => u.Orders)
-            .Include(u => u.Reviews)
             .AsQueryable();
 
         request = pagingParams.OrderByDescending == true
-            ? request.OrderByDescending(u => u.Id)
-            : request.OrderBy(u => u.Id);
+            ? request.OrderByDescending(u => u.FullName)
+            : request.OrderBy(u => u.FullName);
 
         var totalCount = await request.CountAsync(cancellationToken);
 

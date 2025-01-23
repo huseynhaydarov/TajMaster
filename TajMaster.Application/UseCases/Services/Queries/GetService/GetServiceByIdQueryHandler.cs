@@ -14,9 +14,14 @@ public class GetUserByIdQueryHandler(
     public async Task<ServiceDetailDto> Handle(GetServiceByIdQuery query, CancellationToken cancellationToken)
     {
         var user = await context.Services
+            .Include(s => s.CategoryServices)
+            .ThenInclude(s => s.Category)
             .FirstOrDefaultAsync(s => s.Id == query.ServiceId, cancellationToken);
 
-        if (user == null) throw new NotFoundException($"Service with ID {query.ServiceId} not found.");
+        if (user == null)
+        {
+            throw new NotFoundException($"Service with ID {query.ServiceId} not found.");
+        }
 
         return user.ToServiceDto();
     }

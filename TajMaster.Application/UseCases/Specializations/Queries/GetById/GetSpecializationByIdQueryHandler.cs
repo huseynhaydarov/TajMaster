@@ -17,7 +17,9 @@ public class GetSpecializationByIdQueryHandler(
             .FirstOrDefaultAsync(s => s.Id == query.SpecializationId, cancellationToken);
 
         if (specialization == null)
+        {
             throw new NotFoundException($"Specialization with ID {query.SpecializationId} not found");
+        }
 
         var specializationDto = new SpecializationDto(
             specialization.Id,
