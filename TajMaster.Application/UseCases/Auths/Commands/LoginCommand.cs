@@ -1,7 +1,7 @@
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.UseCases.Auths.AuthDTOs;
 
-namespace TajMaster.Application.UseCases.Auths;
+namespace TajMaster.Application.UseCases.Auths.Commands;
 
 public record LoginCommand : ICommand<AuthResponse>
 {

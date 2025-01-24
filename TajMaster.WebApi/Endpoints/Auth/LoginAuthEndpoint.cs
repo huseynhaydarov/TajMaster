@@ -2,6 +2,7 @@ using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TajMaster.Application.UseCases.Auths;
+using TajMaster.Application.UseCases.Auths.Commands;
 
 namespace TajMaster.WebApi.Endpoints.Auth;
 

@@ -32,7 +32,10 @@ void ConfigureMiddleware(WebApplication app)
     {
         app.UseDeveloperExceptionPage();
         app.UseSwagger();
-        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "TajMaster API v1"); });
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "TajMaster API v1");
+        });
     }
     else
     {

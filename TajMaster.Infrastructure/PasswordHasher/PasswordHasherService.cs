@@ -4,7 +4,7 @@ using TajMaster.Infrastructure.Persistence.Data;
 
 namespace TajMaster.Infrastructure.PasswordHasher;
 
-public sealed class PasswordHasher : IPasswordHasher
+public sealed class PasswordHasherService : IPasswordHasher
 {
     private const int SaltSize = 16;
     private const int HashSize = 32;

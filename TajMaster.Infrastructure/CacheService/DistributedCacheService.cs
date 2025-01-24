@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Caching.Distributed;
 using TajMaster.Application.Common.Interfaces;
+using TajMaster.Application.Common.Interfaces.CacheService;
 
 namespace TajMaster.Infrastructure.CacheService;
 

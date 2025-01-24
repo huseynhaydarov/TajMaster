@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 
-namespace TajMaster.Application.UseCases.CartItem.Commands.Delete.DeleteByCart;
+namespace TajMaster.Application.UseCases.CartItems.Commands.Delete.DeleteByCart;
 
 public class DeleteCartItemsByCartIdCommandHandler(
     IApplicationDbContext context)

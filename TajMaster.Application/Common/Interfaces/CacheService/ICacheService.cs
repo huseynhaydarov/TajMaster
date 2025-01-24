@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 
-namespace TajMaster.Application.Common.Interfaces;
+namespace TajMaster.Application.Common.Interfaces.CacheService;
 
 public interface ICacheService
 {

@@ -6,6 +6,7 @@ using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Services.ServiceDtos;
 using TajMaster.Application.UseCases.Services.ServiceExtensions;
 using TajMaster.Application.Common.Interfaces;
+using TajMaster.Application.Common.Interfaces.CacheService;
 
 namespace TajMaster.Application.UseCases.Services.Queries.GetService
 {

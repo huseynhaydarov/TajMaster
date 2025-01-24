@@ -4,9 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TajMaster.Application.Common.Interfaces;
 using TajMaster.Application.Common.Interfaces.BlobStorage;
+using TajMaster.Application.Common.Interfaces.CacheService;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Interfaces.PasswordHasher;
 using TajMaster.Infrastructure.CacheService;
+using TajMaster.Infrastructure.PasswordHasher;
 using TajMaster.Infrastructure.Persistence.Data;
 using TajMaster.Infrastructure.Storage;
 
@@ -28,7 +30,7 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>((db, options) => { options.UseNpgsql(connectionString); });
 
-        services.AddSingleton<IPasswordHasher, PasswordHasher.PasswordHasher>();
+        services.AddSingleton<IPasswordHasher, PasswordHasherService>();
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 

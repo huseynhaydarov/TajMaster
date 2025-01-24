@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
-namespace TajMaster.Application.UseCases.CartItem.Commands.Delete.DeleteByCartItem;
+namespace TajMaster.Application.UseCases.CartItems.Commands.Delete.DeleteByCartItem;
 
 public class DeleteCartItemCommandHandler(
     IApplicationDbContext context)

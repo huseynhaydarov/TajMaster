@@ -6,6 +6,7 @@ using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Categories.CategoryDtos;
 using TajMaster.Application.Common.Interfaces;
+using TajMaster.Application.Common.Interfaces.CacheService;
 
 namespace TajMaster.Application.UseCases.Categories.Queries.GetCategory
 {

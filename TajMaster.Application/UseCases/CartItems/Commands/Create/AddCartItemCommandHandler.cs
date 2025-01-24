@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
+using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.CartItems.Commands.Create;
 
@@ -41,7 +42,7 @@ public class AddCartItemCommandHandler(
         }
         else
         {
-            var newCartItem = new Domain.Entities.CartItem
+            var newCartItem = new CartItem
             {
                 CartId = request.CartId,
                 ServiceId = request.ServiceId,

@@ -5,7 +5,7 @@ using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Application.Common.Interfaces.PasswordHasher;
 using TajMaster.Application.UseCases.Auths.AuthDTOs;
 
-namespace TajMaster.Application.UseCases.Auths;
+namespace TajMaster.Application.UseCases.Auths.Commands;
 
 public class LoginCommandHandler(
     IApplicationDbContext context,

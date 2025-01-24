@@ -66,7 +66,7 @@ public class AuthModuleEndpoint : ICarterModule
                         HttpOnly = true,
                         Secure = true,
                         SameSite = SameSiteMode.Strict,
-                        Expires = DateTime.UtcNow.AddDays(14)
+                        Expires = DateTime.Now.AddDays(14)
                     });
 
                     return Results.Ok(new
