@@ -17,31 +17,31 @@ public class CartStatusConfiguration : IEntityTypeConfiguration<CartStatus>
         builder.HasData(
             new CartStatus
             {
-                Id = CartEnum.Created.Id,
-                Name = CartEnum.Created.Name,
-                Code = CartEnum.Created.Code,
-                IsActive = CartEnum.Created.IsActive
+                Id = CartStatusEnum.Created.Id,
+                Name = CartStatusEnum.Created.Name,
+                Code = CartStatusEnum.Created.Code,
+                IsActive = CartStatusEnum.Created.IsActive
             },
             new CartStatus
             {
-                Id = CartEnum.Active.Id,
-                Name = CartEnum.Active.Name,
-                Code = CartEnum.Active.Code,
-                IsActive = CartEnum.Active.IsActive
+                Id = CartStatusEnum.Active.Id,
+                Name = CartStatusEnum.Active.Name,
+                Code = CartStatusEnum.Active.Code,
+                IsActive = CartStatusEnum.Active.IsActive
             },
             new CartStatus
             {
-                Id = CartEnum.Inactive.Id,
-                Name = CartEnum.Inactive.Name,
-                Code = CartEnum.Inactive.Code,
-                IsActive = CartEnum.Inactive.IsActive
+                Id = CartStatusEnum.Inactive.Id,
+                Name = CartStatusEnum.Inactive.Name,
+                Code = CartStatusEnum.Inactive.Code,
+                IsActive = CartStatusEnum.Inactive.IsActive
             },
             new CartStatus
             {
-                Id = CartEnum.Archived.Id,
-                Name = CartEnum.Archived.Name,
-                Code = CartEnum.Archived.Code,
-                IsActive = CartEnum.Archived.IsActive
+                Id = CartStatusEnum.Archived.Id,
+                Name = CartStatusEnum.Archived.Name,
+                Code = CartStatusEnum.Archived.Code,
+                IsActive = CartStatusEnum.Archived.IsActive
             }
         );
     }

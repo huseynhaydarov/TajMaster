@@ -18,45 +18,38 @@ public class OrderStatusConfiguration : IEntityTypeConfiguration<OrderStatus>
         builder.HasData(
             new OrderStatus
             {
-                Id = OrderEnum.Pending.Id,
-                Name = OrderEnum.Pending.Name,
-                Code = OrderEnum.Pending.Code,
-                IsActive = OrderEnum.Pending.IsActive
+                Id = OrderStatusEnum.Pending.Id,
+                Name = OrderStatusEnum.Pending.Name,
+                Code = OrderStatusEnum.Pending.Code,
+                IsActive = OrderStatusEnum.Pending.IsActive
             },
             new OrderStatus
             {
-                Id = OrderEnum.Accepted.Id,
-                Name = OrderEnum.Accepted.Name,
-                Code = OrderEnum.Accepted.Code,
-                IsActive = OrderEnum.Accepted.IsActive
+                Id = OrderStatusEnum.Accepted.Id,
+                Name = OrderStatusEnum.Accepted.Name,
+                Code = OrderStatusEnum.Accepted.Code,
+                IsActive = OrderStatusEnum.Accepted.IsActive
             },
             new OrderStatus
             {
-                Id = OrderEnum.Shipped.Id,
-                Name = OrderEnum.Shipped.Name,
-                Code = OrderEnum.Shipped.Code,
-                IsActive = OrderEnum.Shipped.IsActive
+                Id = OrderStatusEnum.Cancelled.Id,
+                Name = OrderStatusEnum.Cancelled.Name,
+                Code = OrderStatusEnum.Cancelled.Code,
+                IsActive = OrderStatusEnum.Cancelled.IsActive
             },
             new OrderStatus
             {
-                Id = OrderEnum.Cancelled.Id,
-                Name = OrderEnum.Cancelled.Name,
-                Code = OrderEnum.Cancelled.Code,
-                IsActive = OrderEnum.Cancelled.IsActive
+                Id = OrderStatusEnum.Completed.Id,
+                Name = OrderStatusEnum.Completed.Name,
+                Code = OrderStatusEnum.Completed.Code,
+                IsActive = OrderStatusEnum.Completed.IsActive
             },
             new OrderStatus
             {
-                Id = OrderEnum.Completed.Id,
-                Name = OrderEnum.Completed.Name,
-                Code = OrderEnum.Completed.Code,
-                IsActive = OrderEnum.Completed.IsActive
-            },
-            new OrderStatus
-            {
-                Id = OrderEnum.InProgress.Id,
-                Name = OrderEnum.InProgress.Name,
-                Code = OrderEnum.InProgress.Code,
-                IsActive = OrderEnum.InProgress.IsActive
+                Id = OrderStatusEnum.InProgress.Id,
+                Name = OrderStatusEnum.InProgress.Name,
+                Code = OrderStatusEnum.InProgress.Code,
+                IsActive = OrderStatusEnum.InProgress.IsActive
             }
         );
     }

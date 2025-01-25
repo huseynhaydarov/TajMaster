@@ -14,7 +14,7 @@ public class CreateCartCommandHandler(
     {
         var cartStatus = await context.CartStatuses
             .AsNoTracking()
-            .FirstOrDefaultAsync(cs => cs.Id == CartEnum.Created.Id, cancellationToken);
+            .FirstOrDefaultAsync(cs => cs.Id == CartStatusEnum.Created.Id, cancellationToken);
 
         if (cartStatus == null)
         {

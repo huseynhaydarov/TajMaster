@@ -24,7 +24,7 @@ public class CreateOrderCommandHandler(
         }
 
         var archivedStatus = await context.CartStatuses
-            .FirstOrDefaultAsync(cs => cs.Name == CartEnum.Archived.Name, cancellationToken);
+            .FirstOrDefaultAsync(cs => cs.Name == CartStatusEnum.Archived.Name, cancellationToken);
 
         if (archivedStatus == null)
         {
@@ -32,7 +32,7 @@ public class CreateOrderCommandHandler(
         }
 
         var pendingStatus = await context.OrderStatuses
-            .FirstOrDefaultAsync(os => os.Name == OrderEnum.Pending.Name, cancellationToken);
+            .FirstOrDefaultAsync(os => os.Name == OrderStatusEnum.Pending.Name, cancellationToken);
 
         if (pendingStatus == null)
         {
