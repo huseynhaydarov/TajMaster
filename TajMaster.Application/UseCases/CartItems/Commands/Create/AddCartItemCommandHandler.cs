@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
+using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Application.UseCases.CartItems.Commands.Create;
 
@@ -15,10 +16,16 @@ public class AddCartItemCommandHandler(
         var cart = await context.Carts
             .Include(c => c.CartItems)
             .FirstOrDefaultAsync(c => c.Id == request.CartId, cancellationToken);
-
+        
         if (cart == null)
         {
             throw new NotFoundException("Cart not found.");
+        }
+        
+        if (cart.CartStatus.Id == CartStatusEnum.Archived.Id)
+        {
+            cart.CartStatus.Id = CartStatusEnum.Active.Id;
+            context.Carts.Update(cart);
         }
         
         var service = await context.Services
@@ -35,8 +42,7 @@ public class AddCartItemCommandHandler(
         if (existingItem != null)
         {
             existingItem.Quantity += 1;
-            
-            existingItem.Price = service.BasePrice * existingItem.Quantity; 
+            existingItem.Price = service.BasePrice * existingItem.Quantity;
 
             context.CartItems.Update(existingItem);
         }
@@ -44,16 +50,18 @@ public class AddCartItemCommandHandler(
         {
             var newCartItem = new CartItem
             {
-                CartId = request.CartId,
+                CartId = cart.Id,
                 ServiceId = request.ServiceId,
                 Quantity = 1,
-                Price = service.BasePrice 
+                Price = service.BasePrice
             };
+
             await context.CartItems.AddAsync(newCartItem, cancellationToken);
         }
         
         await context.SaveChangesAsync(cancellationToken);
         
-        return request.CartId;
+        return cart.Id;
     }
 }
+

@@ -316,13 +316,6 @@ namespace TajMaster.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("29d3b5ac-308f-4b9f-88cc-f50e85ebd62f"),
-                            Code = "order-shipped",
-                            IsActive = true,
-                            Name = "Отправлен"
-                        },
-                        new
-                        {
                             Id = new Guid("82b4051c-24b8-4a4e-9c75-5b892556d5a7"),
                             Code = "order-cancelled",
                             IsActive = false,

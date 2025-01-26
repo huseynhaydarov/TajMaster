@@ -59,6 +59,7 @@ public class CreateOrderCommandHandler(
         cart.CartStatus = archivedStatus;
 
         context.Carts.Update(cart);
+       
         context.Orders.Add(order);
 
         await context.SaveChangesAsync(cancellationToken);
