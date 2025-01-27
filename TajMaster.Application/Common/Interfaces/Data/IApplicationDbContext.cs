@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.Common.Interfaces.Data;

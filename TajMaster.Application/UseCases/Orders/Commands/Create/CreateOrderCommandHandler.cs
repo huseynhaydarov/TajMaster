@@ -5,7 +5,7 @@ using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
 using TajMaster.Domain.Enumerations;
 
-namespace TajMaster.Application.UseCases.Orders.Create;
+namespace TajMaster.Application.UseCases.Orders.Commands.Create;
 
 public class CreateOrderCommandHandler(
     IApplicationDbContext context)
@@ -15,8 +15,12 @@ public class CreateOrderCommandHandler(
     {
         var cart = await context.Carts
             .Include(c => c.CartItems)
+            .ThenInclude(s => s.Service)
             .Include(c => c.CartStatus)
             .FirstOrDefaultAsync(c => c.UserId == command.UserId, cancellationToken);
+        
+        
+        var craftsmanId = cart!.CartItems.FirstOrDefault()?.Service?.CraftsmanId;
 
         if (cart == null || !cart.CartItems.Any())
         {
@@ -42,6 +46,7 @@ public class CreateOrderCommandHandler(
         var order = new Order
         {
             UserId = command.UserId,
+            CraftsmanId = (Guid)craftsmanId!,
             Address = command.Address,
             AppointmentDate = command.AppointmentDate,
             OrderStatus = pendingStatus,

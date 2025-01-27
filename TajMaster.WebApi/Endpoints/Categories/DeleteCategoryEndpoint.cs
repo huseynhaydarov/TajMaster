@@ -11,9 +11,9 @@ public class DeleteCategoryEndpoint : ICarterModule
     {
         app.MapDelete("/api/category/{id:guid}", async (ISender mediator, [FromRoute] Guid id) =>
             {
-                var result = await mediator.Send(new DeleteCategoryCommand(id));
+                await mediator.Send(new DeleteCategoryCommand(id));
 
-                return result ? Results.NoContent() : Results.NotFound(new { message = "Category not found." });
+                return Results.NoContent();
             })
             .RequireAuthorization("AdminPolicy")
             .WithName("DeleteCategoryEndpoint")

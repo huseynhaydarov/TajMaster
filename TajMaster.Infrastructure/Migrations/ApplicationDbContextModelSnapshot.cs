@@ -224,7 +224,7 @@ namespace TajMaster.Infrastructure.Migrations
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("CraftsmanId")
+                    b.Property<Guid>("CraftsmanId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("OrderStatusId")
@@ -600,9 +600,11 @@ namespace TajMaster.Infrastructure.Migrations
 
             modelBuilder.Entity("TajMaster.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("TajMaster.Domain.Entities.Craftsman", null)
+                    b.HasOne("TajMaster.Domain.Entities.Craftsman", "Craftsman")
                         .WithMany("Orders")
-                        .HasForeignKey("CraftsmanId");
+                        .HasForeignKey("CraftsmanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TajMaster.Domain.Entities.OrderStatus", "OrderStatus")
                         .WithMany("Orders")
@@ -615,6 +617,8 @@ namespace TajMaster.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Craftsman");
 
                     b.Navigation("OrderStatus");
 

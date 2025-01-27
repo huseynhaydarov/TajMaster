@@ -21,6 +21,7 @@ public static class OrderMappingExtensions
         return new OrderDetailDto(
             order.Id,
             order.UserId,
+            order.CraftsmanId,
             order.AppointmentDate,
             order.Address,
             order.OrderStatus.Name,
@@ -39,6 +40,7 @@ public static class OrderMappingExtensions
         return new OrderSummaryDto(
             order.Id,
             order.UserId,
+            order.CraftsmanId,
             order.AppointmentDate,
             order.Address,
             order.OrderStatus.Name,

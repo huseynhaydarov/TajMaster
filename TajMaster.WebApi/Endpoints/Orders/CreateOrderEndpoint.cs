@@ -1,7 +1,7 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TajMaster.Application.UseCases.Orders.Create;
+using TajMaster.Application.UseCases.Orders.Commands.Create;
 
 namespace TajMaster.WebApi.Endpoints.Orders;
 

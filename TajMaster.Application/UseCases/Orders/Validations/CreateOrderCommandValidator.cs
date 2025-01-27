@@ -1,5 +1,5 @@
 using FluentValidation;
-using TajMaster.Application.UseCases.Orders.Create;
+using TajMaster.Application.UseCases.Orders.Commands.Create;
 
 namespace TajMaster.Application.UseCases.Orders.Validations;
 

@@ -9,9 +9,9 @@ namespace TajMaster.Application.UseCases.Categories.Commands.Delete;
 public class DeleteCategoryQueryHandler(
     IApplicationDbContext context,
     ILogger<DeleteCategoryQueryHandler> logger)
-    : IRequestHandler<DeleteCategoryCommand, bool>
+    : IRequestHandler<DeleteCategoryCommand>
 {
-    public async Task<bool> Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
+    public async Task Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
     {
         try
         {
@@ -30,8 +30,7 @@ public class DeleteCategoryQueryHandler(
             context.Categories.Remove(category);
 
             await context.SaveChangesAsync(cancellationToken);
-
-            return await Task.FromResult(true);
+            
         }
         catch (Exception ex)
         {

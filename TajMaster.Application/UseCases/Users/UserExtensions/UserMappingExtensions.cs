@@ -44,6 +44,7 @@ public static class UserMappingExtensions
             user.Orders?.Select(order => new OrderSummaryDto(
                 order.Id,
                 order.UserId,
+                order.CraftsmanId,
                 order.AppointmentDate,
                 order.Address,
                 order.OrderStatus.Name,
