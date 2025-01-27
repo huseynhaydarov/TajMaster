@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Carts.CartDtos;
@@ -9,7 +10,7 @@ namespace TajMaster.Application.UseCases.Carts.Queries;
 
 public class GetCartByUserIdQueryHandler(
     IApplicationDbContext context)
-    : IRequestHandler<GetCartByUserIdQuery, CartDto>
+    : IQueryHandler<GetCartByUserIdQuery, CartDto>
 {
     public async Task<CartDto> Handle(GetCartByUserIdQuery request, CancellationToken cancellationToken)
     {

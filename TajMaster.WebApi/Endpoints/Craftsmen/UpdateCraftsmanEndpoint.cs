@@ -9,13 +9,18 @@ public class UpdateCraftsmanEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/craftsman/{id:guid}", async (ISender mediator, Guid id,
+        app.MapPut("/api/craftsman/{id:guid}", async (Guid id,
+                ISender mediator,
                 [FromBody] UpdateCraftsmanCommand command) =>
             {
-                if (id != command.CraftsmanId) return Results.BadRequest();
-                var result = await mediator.Send(command);
+                if (id != command.CraftsmanId)
+                {
+                    return Results.BadRequest();
+                } 
+                
+                await mediator.Send(command);
 
-                return result ? Results.NoContent() : Results.NotFound();
+                return Results.NoContent();
             })
             .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("UpdateCraftsmanEndpoint")

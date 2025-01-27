@@ -9,7 +9,8 @@ public class CreateOrderEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/orders", async (ISender mediator, [FromBody] CreateOrderCommand command) =>
+        app.MapPost("/api/orders", async ([FromBody] CreateOrderCommand command, 
+                ISender mediator) =>
             {
                 var newOrder = await mediator.Send(command);
 

@@ -9,7 +9,7 @@ public class CreateReviewEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/reviews", async (ISender mediator, [FromBody] CreateReviewCommand command) =>
+        app.MapPost("/api/reviews", async ([FromBody] CreateReviewCommand command, ISender mediator) =>
             {
                 var newReview = await mediator.Send(command);
 

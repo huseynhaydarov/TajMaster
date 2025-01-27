@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
@@ -9,9 +10,9 @@ namespace TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateCraftsm
 public class UpdateCraftsmanCommandHandler(
     IApplicationDbContext context, 
     IMapper mapper) 
-    : IRequestHandler<UpdateCraftsmanCommand, bool>
+    : ICommandHandler<UpdateCraftsmanCommand, Unit>
 {
-    public async Task<bool> Handle(UpdateCraftsmanCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateCraftsmanCommand command, CancellationToken cancellationToken)
     {
         var craftsman = await context.Craftsmen
             .Include(cr => cr.Specialization) 
@@ -42,6 +43,6 @@ public class UpdateCraftsmanCommandHandler(
         
         await context.SaveChangesAsync(cancellationToken);
 
-        return await Task.FromResult(true);
+        return Unit.Value;
     }
 }

@@ -16,7 +16,8 @@ public class UpdateCraftsmanAvailabilityEndpoint : ICarterModule
                 CancellationToken cancellationToken
             ) =>
             {
-                await mediator.Send(new UpdateCraftsmanAvailabilityCommand(id, isAvailable), cancellationToken);
+                await mediator.Send(new UpdateCraftsmanAvailabilityCommand(id, isAvailable), 
+                    cancellationToken);
 
                 return Results.NoContent();
             })

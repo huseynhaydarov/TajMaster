@@ -15,5 +15,5 @@ public class Cart : BaseEntity
     public decimal Subtotal => CartItems?.Sum(x => x.Price) ?? 0; 
 
     public User User { get; set; } = null!;
-    public List<CartItem> CartItems { get; set; } = new();
+    public List<CartItem> CartItems { get; set; } = [];
 }

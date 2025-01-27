@@ -10,9 +10,13 @@ public class OrderStatusConfiguration : IEntityTypeConfiguration<OrderStatus>
     public void Configure(EntityTypeBuilder<OrderStatus> builder)
     {
         builder.HasKey(os => os.Id);
+        
         builder.Property(os => os.Id).IsRequired();
+        
         builder.Property(os => os.Name).IsRequired().HasMaxLength(50);
+        
         builder.Property(os => os.Code).IsRequired().HasMaxLength(50);
+        
         builder.Property(os => os.IsActive).IsRequired();
 
         builder.HasData(

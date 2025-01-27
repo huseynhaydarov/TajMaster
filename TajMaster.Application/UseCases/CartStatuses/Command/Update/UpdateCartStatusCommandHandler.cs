@@ -9,9 +9,9 @@ namespace TajMaster.Application.UseCases.CartStatuses.Command.Update;
 public class UpdateCartStatusCommandHandler(
     IApplicationDbContext context,
     IMapper mapper)
-    : IRequestHandler<UpdateCartStatusCommand, bool>
+    : IRequestHandler<UpdateCartStatusCommand, Unit>
 {
-    public async Task<bool> Handle(UpdateCartStatusCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateCartStatusCommand command, CancellationToken cancellationToken)
     {
         var cartStatus = await context.CartStatuses
             .FirstOrDefaultAsync(cs => cs.Id == command.CartStatusId, cancellationToken);
@@ -22,6 +22,6 @@ public class UpdateCartStatusCommandHandler(
 
         await context.SaveChangesAsync(cancellationToken);
 
-        return await Task.FromResult(true);
+        return Unit.Value;
     }
 }

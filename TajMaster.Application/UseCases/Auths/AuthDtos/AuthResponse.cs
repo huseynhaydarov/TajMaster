@@ -1,4 +1,4 @@
-namespace TajMaster.Application.UseCases.Auths.AuthDTOs;
+namespace TajMaster.Application.UseCases.Auths.AuthDtos;
 
 public record AuthResponse(
     bool Success,

@@ -6,7 +6,7 @@ using TajMaster.Application.UseCases.Orders.Commands.Update;
 namespace TajMaster.WebApi.Endpoints.Orders;
 
 public class UpdateOrderStatusEndpoint : ICarterModule
-{
+{ 
     public void AddRoutes(IEndpointRouteBuilder app)
     {
             app.MapPatch("/api/orders/{orderId:guid}/status", async (

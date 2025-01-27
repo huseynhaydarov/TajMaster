@@ -12,10 +12,10 @@ public class GetCraftsmenBySpecializationEndpoint : ICarterModule
     {
         app.MapGet("/api/craftsmen/specialization/{specialization}", async (
                 [FromRoute] string specialization,
-                IMediator mediator) =>
+                ISender mediator) =>
             {
-                var craftsmen = await mediator.Send(
-                    new GetCraftsmenBySpecializationQuery(specialization));
+                var craftsmen = await mediator
+                    .Send(new GetCraftsmenBySpecializationQuery(specialization));
 
                 return craftsmen.Any()
                     ? Results.Ok(craftsmen)

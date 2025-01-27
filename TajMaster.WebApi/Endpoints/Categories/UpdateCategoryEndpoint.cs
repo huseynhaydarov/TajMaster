@@ -10,12 +10,15 @@ public class UpdateCategoryEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/api/categories/{id:guid}",
-                async (ISender mediator, Guid id, [FromBody] UpdateCategoryCommand command) =>
+                async (Guid id, [FromBody] UpdateCategoryCommand command, ISender mediator) =>
                 {
-                    if (id != command.CategoryId) return Results.BadRequest(new { message = "Category ID mismatch." });
-                    var result = await mediator.Send(command);
+                    if (id != command.CategoryId)
+                    {
+                        return Results.BadRequest();
+                    } 
+                    await mediator.Send(command);
 
-                    return result ? Results.NoContent() : Results.NotFound();
+                    return Results.NoContent();
                 })
             .RequireAuthorization("AdminPolicy")
             .WithName("UpdateCategoryEndpoint")

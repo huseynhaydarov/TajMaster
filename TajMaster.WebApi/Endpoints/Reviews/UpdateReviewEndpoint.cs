@@ -10,13 +10,16 @@ public class UpdateReviewEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/api/reviews/{id:guid}",
-                async (ISender mediator, Guid id, [FromBody] UpdateReviewCommand command) =>
+                async (Guid id, [FromBody] UpdateReviewCommand command, ISender mediator) =>
                 {
-                    if (id != command.ReviewId) return Results.BadRequest(new { message = "Review id mismatch." });
+                    if (id != command.ReviewId)
+                    {
+                        return Results.BadRequest();
+                    }
 
-                    var result = await mediator.Send(command);
+                    await mediator.Send(command);
 
-                    return result ? Results.NoContent() : Results.NotFound();
+                    return Results.NoContent();
                 })
             .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("UpdateReviewEndpoint")

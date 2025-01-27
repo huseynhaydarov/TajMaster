@@ -28,7 +28,8 @@ public class CustomExceptionHandlerMiddleware(
 
     private async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
     {
-        logger.LogError(exception, "Unhandled exception occurred. TraceId: {TraceId}", httpContext.TraceIdentifier);
+        logger.LogError(exception, "Unhandled exception occurred. " +
+                                   "TraceId: {TraceId}", httpContext.TraceIdentifier);
 
         (string Detail, string Title, int StatusCode) details;
 

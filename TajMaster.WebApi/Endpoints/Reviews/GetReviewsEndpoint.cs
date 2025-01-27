@@ -10,9 +10,11 @@ public class GetReviewsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/reviews", async ([AsParameters] PagingParameters pagingParameters, ISender mediator) =>
+        app.MapGet("/api/reviews", async ([AsParameters] PagingParameters pagingParameters, 
+                ISender mediator) =>
             {
-                var results = await mediator.Send(new GetReviewsQuery(pagingParameters));
+                var results = await mediator
+                    .Send(new GetReviewsQuery(pagingParameters));
 
                 return Results.Ok(results);
             })

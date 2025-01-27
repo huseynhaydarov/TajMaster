@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
 using TajMaster.Domain.Enumerations;
 
@@ -18,7 +19,7 @@ public class CreateCartCommandHandler(
 
         if (cartStatus == null)
         {
-            throw new InvalidOperationException("Cart status 'Active' not found.");
+            throw new NotFoundException("Cart status 'Active' not found.");
         }
 
         var newCart = new Cart

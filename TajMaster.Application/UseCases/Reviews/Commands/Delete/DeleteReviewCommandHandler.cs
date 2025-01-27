@@ -7,9 +7,9 @@ namespace TajMaster.Application.UseCases.Reviews.Commands.Delete;
 
 public class DeleteReviewCommandHandler(
     IApplicationDbContext context)
-    : IRequestHandler<DeleteReviewCommand, bool>
+    : IRequestHandler<DeleteReviewCommand, Unit>
 {
-    public async Task<bool> Handle(DeleteReviewCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteReviewCommand command, CancellationToken cancellationToken)
     {
         var review = await context.Reviews
             .FirstOrDefaultAsync(r => r.Id == command.ReviewId, cancellationToken);
@@ -19,7 +19,7 @@ public class DeleteReviewCommandHandler(
         context.Reviews.Remove(review);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

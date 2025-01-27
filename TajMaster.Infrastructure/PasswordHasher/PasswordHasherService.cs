@@ -1,6 +1,5 @@
 using System.Security.Cryptography;
 using TajMaster.Application.Common.Interfaces.PasswordHasher;
-using TajMaster.Infrastructure.Persistence.Data;
 
 namespace TajMaster.Infrastructure.PasswordHasher;
 
@@ -15,17 +14,24 @@ public sealed class PasswordHasherService : IPasswordHasher
     public string HashPassword(string password)
     {
         var salt = RandomNumberGenerator.GetBytes(SaltSize);
-        var hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, Iterations, Algorithm, HashSize);
+        var hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, 
+            Iterations, Algorithm, HashSize);
         return $"{Convert.ToHexString(hash)}-{Convert.ToHexString(salt)}";
     }
 
     public bool VerifyHash(string password, string hashedPassword)
     {
         if (string.IsNullOrEmpty(hashedPassword) || !hashedPassword.Contains('-'))
+        {
             throw new ArgumentException("Invalid hashed password format.", nameof(hashedPassword));
+        }
 
         string[] parts = hashedPassword.Split('-');
-        if (parts.Length != 2) throw new ArgumentException("Invalid hashed password format.", nameof(hashedPassword));
+       
+        if (parts.Length != 2)
+        {
+            throw new ArgumentException("Invalid hashed password format.", nameof(hashedPassword));
+        }
 
         try
         {
@@ -33,8 +39,7 @@ public sealed class PasswordHasherService : IPasswordHasher
             var salt = Convert.FromHexString(parts[1]);
 
             var inputHash = Rfc2898DeriveBytes.Pbkdf2(password, salt, Iterations, Algorithm, HashSize);
-
-            // Use FixedTimeEquals for timing-attack resistance
+            
             return CryptographicOperations.FixedTimeEquals(inputHash, hash);
         }
         catch (FormatException)

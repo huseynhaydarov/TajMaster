@@ -9,9 +9,9 @@ namespace TajMaster.Application.UseCases.Services.Commands.Update;
 public class UpdateServiceCommandHandler(
     IApplicationDbContext context,
     IMapper mapper)
-    : IRequestHandler<UpdateServiceCommand, bool>
+    : IRequestHandler<UpdateServiceCommand, Unit>
 {
-    public async Task<bool> Handle(UpdateServiceCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateServiceCommand command, CancellationToken cancellationToken)
     {
         var service = await context.Services
             .FirstOrDefaultAsync(s => s.Id == command.ServiceId, cancellationToken);
@@ -26,7 +26,7 @@ public class UpdateServiceCommandHandler(
         context.Services.Update(service);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

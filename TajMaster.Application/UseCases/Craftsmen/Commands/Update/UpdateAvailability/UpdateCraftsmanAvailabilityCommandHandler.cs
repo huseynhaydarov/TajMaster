@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
@@ -7,9 +8,9 @@ namespace TajMaster.Application.UseCases.Craftsmen.Commands.Update.UpdateAvailab
 
 public class UpdateCraftsmanAvailabilityCommandHandler(
     IApplicationDbContext context)
-    : IRequestHandler<UpdateCraftsmanAvailabilityCommand, bool>
+    : ICommandHandler<UpdateCraftsmanAvailabilityCommand, Unit>
 {
-    public async Task<bool> Handle(UpdateCraftsmanAvailabilityCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateCraftsmanAvailabilityCommand command, CancellationToken cancellationToken)
     {
         var craftsmen = await context.Craftsmen
             .FirstOrDefaultAsync(cr => cr.Id == command.CraftsmanId, cancellationToken);
@@ -24,7 +25,7 @@ public class UpdateCraftsmanAvailabilityCommandHandler(
         context.Craftsmen.Update(craftsmen);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

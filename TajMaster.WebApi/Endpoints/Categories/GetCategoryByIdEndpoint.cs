@@ -13,11 +13,14 @@ public class GetCategoryByIdEndpoint : ICarterModule
             {
                 var category = await mediator.Send(new GetCategoryByIdQuery(id));
 
-                if (category == null!) return Results.NotFound(new { Message = $"Category with ID {id} not found." });
+                if (category == null!)
+                {
+                    return Results.NotFound();
+                }
 
                 return Results.Ok(category);
             })
-            /*.RequireAuthorization("AdminOrCraftsmanOrCustomerPolicy")*/
+            .RequireAuthorization("AdminOrCraftsmanOrCustomerPolicy")
             .WithName("GetCategoryByIdEndpoint")
             .WithTags("Categories")
             .Produces<CategoryDto>()

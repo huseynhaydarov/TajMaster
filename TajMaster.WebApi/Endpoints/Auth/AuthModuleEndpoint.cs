@@ -3,10 +3,11 @@ using Carter;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Interfaces.IdentityService;
+using TajMaster.Application.Exceptions;
 
 namespace TajMaster.WebApi.Endpoints.Auth;
 
-public class AuthModuleEndpoint : ICarterModule
+public class AuthModuleEndpoint(ILogger<AuthModuleEndpoint> logger) : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
@@ -14,29 +15,34 @@ public class AuthModuleEndpoint : ICarterModule
             {
                 try
                 {
-                    if (!context.Request.Cookies.ContainsKey("RefreshToken")) return Results.Unauthorized();
+                    if (!context.Request.Cookies.ContainsKey("RefreshToken"))
+                    {
+                        return Results.BadRequest();
+                    }
 
                     var rawHeader = context.Request.Headers["Authorization"].FirstOrDefault();
 
                     if (string.IsNullOrEmpty(rawHeader) || !rawHeader.StartsWith("Bearer "))
                     {
-                        Console.WriteLine("Authorization header is missing or invalid.");
+                        logger.LogInformation("Authorization header is missing or invalid.");
 
                         throw new InvalidOperationException();
                     }
 
-                    var accessToken = rawHeader.Substring("Bearer ".Length).Trim(); // Extract the token
-                    Console.WriteLine($"Parsed Access Token: {accessToken}");
+                    var accessToken = rawHeader.Substring("Bearer ".Length).Trim();
+                    
+                    logger.LogInformation($"Parsed Access Token: {accessToken}");
 
 
                     var tokenService = context.RequestServices.GetRequiredService<ITokenService>();
+                    
                     var dbContext = context.RequestServices.GetRequiredService<IApplicationDbContext>();
 
                     var principal = tokenService.GetPrincipalFromExpiredToken(accessToken);
 
                     if (principal == null)
                     {
-                        Console.WriteLine("Failed to extract claims.");
+                        logger.LogInformation("Failed to extract claims.");
 
                         throw new NullReferenceException();
                     }
@@ -47,18 +53,22 @@ public class AuthModuleEndpoint : ICarterModule
 
                     if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
                     {
-                        Console.WriteLine("Invalid user ID in token");
+                        logger.LogInformation("Invalid user ID in token");
 
-                        throw new InvalidOperationException();
+                        throw new NotFoundException("User not found");
                     }
 
                     var user = await dbContext.Users
                         .Include(u => u.UserRole)
                         .FirstOrDefaultAsync(u => u.Id == userId);
 
-                    if (user == null) throw new NullReferenceException($"User with ID {userId} could not be found.");
+                    if (user == null)
+                    {
+                        throw new NotFoundException($"User with ID {userId} could not be found.");
+                    }
 
                     var newAccessToken = tokenService.GenerateJwtToken(user);
+                    
                     var newRefreshToken = tokenService.GenerateRefreshToken();
 
                     context.Response.Cookies.Append("RefreshToken", newRefreshToken, new CookieOptions
@@ -79,7 +89,7 @@ public class AuthModuleEndpoint : ICarterModule
                 }
                 catch (Exception ex)
                 {
-                    await Console.Error.WriteLineAsync(ex.Message);
+                    logger.LogInformation(ex.Message);
                     return Results.Unauthorized();
                 }
             })

@@ -9,15 +9,14 @@ public class DeleteCartItemByCartIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/cart/{cartId:guid}/items", async ([FromRoute] Guid cartId, ISender mediator) =>
+        app.MapDelete("/cart/{cartId:guid}/items", async ([FromRoute] Guid cartId, 
+                ISender mediator) =>
             {
                 var command = new DeleteCartItemsByCartIdCommand(cartId);
+                
+                await mediator.Send(command);
 
-                var result = await mediator.Send(command);
-
-                return result
-                    ? Results.Ok($"Cart items for cart ID {cartId} have been deleted.")
-                    : Results.NotFound($"No cart items found for cart ID {cartId}");
+                return Results.NoContent();
             })
             .RequireAuthorization("CustomerPolicy")
             .WithName("DeleteCartItemByCartIdEndpoint")

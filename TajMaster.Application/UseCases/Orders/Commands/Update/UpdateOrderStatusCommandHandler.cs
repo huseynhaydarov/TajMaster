@@ -7,9 +7,9 @@ namespace TajMaster.Application.UseCases.Orders.Commands.Update;
 
 public class UpdateOrderStatusCommandHandler(
     IApplicationDbContext context) 
-    : IRequestHandler<UpdateOrderStatusCommand, bool>
+    : IRequestHandler<UpdateOrderStatusCommand, Unit>
 {
-    public async Task<bool> Handle(UpdateOrderStatusCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateOrderStatusCommand command, CancellationToken cancellationToken)
     {
        
         var order = await context.Orders
@@ -34,7 +34,7 @@ public class UpdateOrderStatusCommandHandler(
         context.Orders.Update(order);
         
         await context.SaveChangesAsync(cancellationToken);
-
-        return true;
+        
+        return Unit.Value;
     }
 }

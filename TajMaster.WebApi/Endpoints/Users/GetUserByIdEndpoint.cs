@@ -9,7 +9,7 @@ public class GetUserByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/users/{id:guid}", async (ISender mediator, Guid id) =>
+        app.MapGet("/api/users/{id:guid}", async (Guid id, ISender mediator) =>
             {
                 var user = await mediator.Send(new GetUserByIdQuery(id));
 

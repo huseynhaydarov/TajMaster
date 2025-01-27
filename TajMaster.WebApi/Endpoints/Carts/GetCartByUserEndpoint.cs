@@ -9,9 +9,11 @@ public class GetCartByUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/carts/{userId:guid}", async (ISender mediator, [FromRoute] Guid userId) =>
+        app.MapGet("/api/carts/{userId:guid}", async ([FromRoute] Guid userId, 
+                ISender mediator) =>
             {
                 var cart = await mediator.Send(new GetCartByUserIdQuery(userId));
+                
                 return Results.Ok(cart);
             })
             .RequireAuthorization("CustomerPolicy")

@@ -9,7 +9,7 @@ public class RegisterUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/users", async (ISender mediator, [FromBody] CreateUserCommand command) =>
+        app.MapPost("/api/users", async ([FromBody] CreateUserCommand command, ISender mediator) =>
             {
                 var newUser = await mediator.Send(command);
 

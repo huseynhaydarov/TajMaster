@@ -9,9 +9,9 @@ namespace TajMaster.Application.UseCases.OrderStatuses.Commands.Update;
 public class UpdateOrderStatusCommandHandler(
     IApplicationDbContext context,
     IMapper mapper)
-    : IRequestHandler<UpdateOrderStatusCommand, bool>
+    : IRequestHandler<UpdateOrderStatusCommand, Unit>
 {
-    public async Task<bool> Handle(UpdateOrderStatusCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateOrderStatusCommand command, CancellationToken cancellationToken)
     {
         var orderStatus = await context.OrderStatuses
             .FirstOrDefaultAsync(cs => cs.Id == command.OrderStatusId, cancellationToken);
@@ -21,7 +21,7 @@ public class UpdateOrderStatusCommandHandler(
         mapper.Map(command, orderStatus);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

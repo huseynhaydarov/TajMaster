@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
@@ -7,9 +8,9 @@ namespace TajMaster.Application.UseCases.Craftsmen.Commands.Delete;
 
 public class DeleteCraftsmanCommandHandler(
     IApplicationDbContext context)
-    : IRequestHandler<DeleteCraftsmanCommand, bool>
+    : ICommandHandler<DeleteCraftsmanCommand, Unit>
 {
-    public async Task<bool> Handle(DeleteCraftsmanCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteCraftsmanCommand command, CancellationToken cancellationToken)
     {
         var craftsman = await context.Craftsmen.FirstOrDefaultAsync(cr => cr.Id == command.CraftsmanId,
             cancellationToken);
@@ -19,7 +20,7 @@ public class DeleteCraftsmanCommandHandler(
         context.Craftsmen.Remove(craftsman);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

@@ -1,5 +1,5 @@
 using TajMaster.Application.Common.Interfaces.CQRS;
-using TajMaster.Application.UseCases.CartItems.CartItemDTos;
+using TajMaster.Application.UseCases.CartItems.CartItemDtos;
 
 namespace TajMaster.Application.UseCases.CartItems.Queries.GetCartItemsByCart;
 

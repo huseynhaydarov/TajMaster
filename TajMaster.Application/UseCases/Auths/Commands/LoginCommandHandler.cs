@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Application.Common.Interfaces.PasswordHasher;
-using TajMaster.Application.UseCases.Auths.AuthDTOs;
+using TajMaster.Application.UseCases.Auths.AuthDtos;
 
 namespace TajMaster.Application.UseCases.Auths.Commands;
 

@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
@@ -9,7 +10,7 @@ namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsman;
 
 public class GetCraftsmanByIdQueryHandler(
     IApplicationDbContext context)
-    : IRequestHandler<GetCraftsmanByIdQuery, CraftsmanDto>
+    : IQueryHandler<GetCraftsmanByIdQuery, CraftsmanDto>
 {
     public async Task<CraftsmanDto> Handle(GetCraftsmanByIdQuery query, CancellationToken cancellationToken)
     {
@@ -21,7 +22,7 @@ public class GetCraftsmanByIdQueryHandler(
         {
             throw new NotFoundException($"Craftsman with ID {query.CraftsmanId} not found.");
         }
-
+        
         return craftsman.MapToCraftsmanDto();
     }
 }

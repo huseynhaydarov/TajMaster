@@ -9,9 +9,13 @@ public class GetReviewsByCraftsman : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/reviews/craftsman/{Id:guid}", async (Guid craftsmanId, ISender sender) =>
+        app.MapGet("/api/reviews/craftsman/{Id:guid}", async (Guid craftsmanId, 
+                ISender sender) =>
             {
-                if (craftsmanId == Guid.Empty) return Results.BadRequest(new { Message = "Invalid craftsman ID." });
+                if (craftsmanId == Guid.Empty)
+                {
+                    return Results.BadRequest();
+                }
 
                 var query = new GetReviewsByCraftsmanIdQuery(craftsmanId);
 
@@ -20,7 +24,9 @@ public class GetReviewsByCraftsman : ICarterModule
                 var reviewDto = reviews as ReviewDto[] ?? reviews.ToArray();
 
                 if (!reviewDto.Any())
-                    return Results.NotFound(new { Message = $"No reviews found for craftsman ID {craftsmanId}." });
+                {
+                    return Results.NotFound();
+                }
 
                 return Results.Ok(reviewDto);
             })

@@ -9,13 +9,17 @@ public class UpdateServiceEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/services/{id}", async (ISender mediator, Guid id, [FromBody] UpdateServiceCommand command) =>
+        app.MapPut("/api/services/{id}", async (Guid id, [FromBody] UpdateServiceCommand command, 
+                ISender mediator) =>
             {
-                if (id != command.ServiceId) return Results.BadRequest(new { message = "Service ID mismatch." });
+                if (id != command.ServiceId)
+                {
+                    return Results.BadRequest();
+                }
+                
+                await mediator.Send(command);
 
-                var result = await mediator.Send(command);
-
-                return result ? Results.NoContent() : Results.NotFound();
+                return Results.NoContent();
             })
             .RequireAuthorization("AdminPolicy")
             .WithName("UpdateServiceEndpoint")

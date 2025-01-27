@@ -7,19 +7,22 @@ namespace TajMaster.Application.UseCases.CartItems.Commands.Delete.DeleteByCartI
 
 public class DeleteCartItemCommandHandler(
     IApplicationDbContext context)
-    : IRequestHandler<DeleteCartItemCommand, bool>
+    : IRequestHandler<DeleteCartItemCommand, Unit>
 {
-    public async Task<bool> Handle(DeleteCartItemCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteCartItemCommand request, CancellationToken cancellationToken)
     {
         var cartItem = await context.CartItems
             .FirstOrDefaultAsync(ci => ci.Id == request.CartItemId, cancellationToken);
 
-        if (cartItem == null) throw new NotFoundException($"Cart item with ID {request.CartItemId} not found.");
+        if (cartItem == null)
+        {
+            throw new NotFoundException($"Cart item with ID {request.CartItemId} not found.");
+        }
 
         context.CartItems.Remove(cartItem);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

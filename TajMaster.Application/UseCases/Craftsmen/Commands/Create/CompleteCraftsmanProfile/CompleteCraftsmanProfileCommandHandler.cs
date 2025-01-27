@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TajMaster.Application.Common.Interfaces.BlobStorage;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
@@ -15,7 +16,7 @@ public class CompleteCraftsmanProfileCommandHandler(
     IMapper mapper,
     IBlobService blobService,
     ILogger<CompleteCraftsmanProfileCommandHandler> logger)
-    : IRequestHandler<CompleteCraftsmanProfileCommand, Guid>
+    : ICommandHandler<CompleteCraftsmanProfileCommand, Guid>
 {
     public async Task<Guid> Handle(CompleteCraftsmanProfileCommand profileCommand, CancellationToken cancellationToken)
     {

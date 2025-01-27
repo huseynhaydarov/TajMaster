@@ -1,14 +1,15 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
-using TajMaster.Application.UseCases.CartItems.CartItemDTos;
+using TajMaster.Application.UseCases.CartItems.CartItemDtos;
 
 namespace TajMaster.Application.UseCases.CartItems.Queries.GetCartItemsByCart;
 
 public class GetCartItemsByCartIdQueryHandler(
     IApplicationDbContext context)
-    : IRequestHandler<GetCartItemsByCartIdQuery, IEnumerable<CartItemDto>>
+    : IQueryHandler<GetCartItemsByCartIdQuery, IEnumerable<CartItemDto>>
 {
     public async Task<IEnumerable<CartItemDto>> Handle(GetCartItemsByCartIdQuery request,
         CancellationToken cancellationToken)

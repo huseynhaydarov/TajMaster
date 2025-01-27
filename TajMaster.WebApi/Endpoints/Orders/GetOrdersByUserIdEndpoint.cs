@@ -9,11 +9,12 @@ public class GetOrdersByUserIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/orders/user/{userId:guid}", async (Guid userId, ISender sender) =>
+        app.MapGet("/api/orders/user/{userId:guid}", async (Guid userId, 
+                ISender sender) =>
             {
                 if (userId == Guid.Empty)
                 {
-                    return Results.BadRequest(new { Message = "Invalid user ID." });
+                    return Results.BadRequest();
                 }
                 
                 var query = new GetOrdersByUserIdQuery(userId);
@@ -24,7 +25,7 @@ public class GetOrdersByUserIdEndpoint : ICarterModule
 
                 if (!orderDto.Any())
                 {
-                    return Results.NotFound(new { Message = $"No orders found for user ID {userId}." });
+                    return Results.NotFound();
                 }
                 
                 return Results.Ok(orderDto);

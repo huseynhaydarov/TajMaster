@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 
@@ -9,9 +10,9 @@ namespace TajMaster.Application.UseCases.Reviews.Commands.Update;
 public class UpdateReviewCommandHandler(
     IApplicationDbContext context,
     IMapper mapper)
-    : IRequestHandler<UpdateReviewCommand, bool>
+    : ICommandHandler<UpdateReviewCommand, Unit>
 {
-    public async Task<bool> Handle(UpdateReviewCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateReviewCommand command, CancellationToken cancellationToken)
     {
         var review = await context.Reviews.FirstOrDefaultAsync(r => r.Id == command.ReviewId, cancellationToken);
 
@@ -22,7 +23,7 @@ public class UpdateReviewCommandHandler(
         context.Reviews.Update(review);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

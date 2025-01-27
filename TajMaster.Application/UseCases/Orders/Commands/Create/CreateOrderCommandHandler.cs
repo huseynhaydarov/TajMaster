@@ -1,5 +1,5 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
@@ -9,7 +9,7 @@ namespace TajMaster.Application.UseCases.Orders.Commands.Create;
 
 public class CreateOrderCommandHandler(
     IApplicationDbContext context)
-    : IRequestHandler<CreateOrderCommand, Guid>
+    : ICommandHandler<CreateOrderCommand, Guid>
 {
     public async Task<Guid> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {

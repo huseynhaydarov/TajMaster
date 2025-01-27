@@ -9,9 +9,13 @@ public class GetReviewsByUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/reviews/user/{Id:guid}", async (Guid userId, ISender sender) =>
+        app.MapGet("/api/reviews/user/{Id:guid}", async (Guid userId, 
+                ISender sender) =>
             {
-                if (userId == Guid.Empty) return Results.BadRequest(new { Message = "Invalid user ID." });
+                if (userId == Guid.Empty)
+                {
+                    return Results.BadRequest();
+                }
 
                 var query = new GetReviewsByCustomerIdQuery(userId);
 
@@ -20,7 +24,9 @@ public class GetReviewsByUserEndpoint : ICarterModule
                 var reviewDto = reviews as ReviewDto[] ?? reviews.ToArray();
 
                 if (!reviewDto.Any())
-                    return Results.NotFound(new { Message = $"No reviews found for user ID {userId}." });
+                {
+                    return Results.NotFound();
+                }
 
                 return Results.Ok(reviewDto);
             })

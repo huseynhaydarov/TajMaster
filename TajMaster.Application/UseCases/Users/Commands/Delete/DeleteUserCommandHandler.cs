@@ -7,9 +7,9 @@ namespace TajMaster.Application.UseCases.Users.Commands.Delete;
 
 public class DeleteUserCommandHandler(
     IApplicationDbContext context) 
-    : IRequestHandler<DeleteUserCommand, bool>
+    : IRequestHandler<DeleteUserCommand, Unit>
 {
-    public async Task<bool> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
     {
         var user = await context.Users
             .FirstOrDefaultAsync(u => u.Id == command.UserId, cancellationToken);
@@ -22,7 +22,7 @@ public class DeleteUserCommandHandler(
         context.Users.Remove(user);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

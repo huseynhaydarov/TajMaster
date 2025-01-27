@@ -11,7 +11,9 @@ namespace TajMaster.WebApi;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApiServices(
+        this IServiceCollection services, 
+        IConfiguration configuration)
     {
         services.AddCarter();
         services.AddAntiforgery();
@@ -35,20 +37,23 @@ public static class DependencyInjection
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings!.Issuer,
                     ValidAudience = jwtSettings.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey!)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                        .GetBytes(jwtSettings.SecretKey!)),
                     ClockSkew = TimeSpan.Zero
                 };
                 options.Events = new JwtBearerEvents
                 {
                     OnAuthenticationFailed = context =>
                     {
-                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+                        var logger = context.HttpContext.RequestServices
+                            .GetRequiredService<ILogger<Program>>();
                         logger.LogError("Authentication failed: {Error}", context.Exception.Message);
                         return Task.CompletedTask;
                     },
                     OnForbidden = context =>
                     {
-                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+                        var logger = context.HttpContext.RequestServices
+                            .GetRequiredService<ILogger<Program>>();
                         logger.LogWarning("Forbidden access attempt for path: {Path}",
                             context.HttpContext.Request.Path);
                         return Task.CompletedTask;
@@ -58,12 +63,18 @@ public static class DependencyInjection
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
-            options.AddPolicy("CustomerPolicy", policy => policy.RequireRole("Customer"));
-            options.AddPolicy("AdminOrCustomerPolicy", policy => policy.RequireRole("Admin", "Customer"));
-            options.AddPolicy("CraftsmanPolicy", policy => policy.RequireRole("Craftsman"));
-            options.AddPolicy("AdminOrCraftsmanPolicy", policy => policy.RequireRole("Admin", "Craftsman"));
-            options.AddPolicy("AdminOrCraftsmanOrCustomerPolicy", policy => policy.RequireRole("Admin", "Craftsman", "Customer") );
+            options.AddPolicy("AdminPolicy", policy 
+                => policy.RequireRole("Admin"));
+            options.AddPolicy("CustomerPolicy", policy 
+                => policy.RequireRole("Customer"));
+            options.AddPolicy("AdminOrCustomerPolicy", policy 
+                => policy.RequireRole("Admin", "Customer"));
+            options.AddPolicy("CraftsmanPolicy", policy 
+                => policy.RequireRole("Craftsman"));
+            options.AddPolicy("AdminOrCraftsmanPolicy", policy 
+                => policy.RequireRole("Admin", "Craftsman"));
+            options.AddPolicy("AdminOrCraftsmanOrCustomerPolicy", policy 
+                => policy.RequireRole("Admin", "Craftsman", "Customer") );
         });
 
         services.AddEndpointsApiExplorer();
@@ -73,7 +84,8 @@ public static class DependencyInjection
 
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                Description = "JWT Authorization header using the Bearer scheme. `Bearer Generated-JWT-Token`",
+                Description = "JWT Authorization header using the Bearer scheme. " +
+                              "`Bearer Generated-JWT-Token`",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey,

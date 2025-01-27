@@ -1,4 +1,5 @@
 using MediatR;
+using TajMaster.Application.Common.Interfaces.CQRS;
 
 namespace TajMaster.Application.UseCases.Services.Commands.Update;
 
@@ -9,4 +10,4 @@ public record UpdateServiceCommand(
     decimal? BasePrice,
     int? CraftsmanId,
     IList<Guid>? Categories)
-    : IRequest<bool>;
+    : ICommand<Unit>;

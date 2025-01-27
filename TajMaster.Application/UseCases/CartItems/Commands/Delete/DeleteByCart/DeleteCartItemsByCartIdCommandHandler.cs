@@ -6,9 +6,9 @@ namespace TajMaster.Application.UseCases.CartItems.Commands.Delete.DeleteByCart;
 
 public class DeleteCartItemsByCartIdCommandHandler(
     IApplicationDbContext context)
-    : IRequestHandler<DeleteCartItemsByCartIdCommand, bool>
+    : IRequestHandler<DeleteCartItemsByCartIdCommand, Unit>
 {
-    public async Task<bool> Handle(DeleteCartItemsByCartIdCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteCartItemsByCartIdCommand request, CancellationToken cancellationToken)
     {
         var cartItems = await context.CartItems
             .Where(ci => ci.CartId == request.CartId)
@@ -17,7 +17,7 @@ public class DeleteCartItemsByCartIdCommandHandler(
         context.CartItems.RemoveRange(cartItems);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

@@ -15,7 +15,10 @@ public class LoginAuthEndpoint : ICarterModule
             {
                 var result = await mediator.Send(command);
 
-                if (!result.Success) return Results.Unauthorized();
+                if (!result.Success)
+                {
+                    return Results.Unauthorized();
+                }
 
                 context.Response.Cookies.Append("RefreshToken", result.RefreshToken, new CookieOptions
                 {

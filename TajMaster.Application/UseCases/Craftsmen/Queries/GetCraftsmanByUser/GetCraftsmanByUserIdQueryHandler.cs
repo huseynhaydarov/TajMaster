@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
@@ -9,7 +10,7 @@ namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmanByUser;
 
 public class GetCraftsmanByUserIdQueryHandler(
     IApplicationDbContext context)
-    : IRequestHandler<GetCraftsmanByUserIdQuery, CraftsmanDto>
+    : IQueryHandler<GetCraftsmanByUserIdQuery, CraftsmanDto>
 {
     public async Task<CraftsmanDto> Handle(GetCraftsmanByUserIdQuery request,
         CancellationToken cancellationToken)

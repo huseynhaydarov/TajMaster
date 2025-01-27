@@ -1,7 +1,6 @@
 ﻿using MediatR;
-using TajMaster.Domain.Entities;
-using TajMaster.Domain.Enumerations;
+using TajMaster.Application.Common.Interfaces.CQRS;
 
 namespace TajMaster.Application.UseCases.Orders.Commands.Update;
 
-public record UpdateOrderStatusCommand(Guid OrderId, Guid OrderStatusId) : IRequest<bool>;
+public record UpdateOrderStatusCommand(Guid OrderId, Guid OrderStatusId) : ICommand<Unit>;

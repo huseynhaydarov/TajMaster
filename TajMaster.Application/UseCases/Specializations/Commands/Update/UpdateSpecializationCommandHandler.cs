@@ -6,9 +6,9 @@ using TajMaster.Application.Exceptions;
 namespace TajMaster.Application.UseCases.Specializations.Commands.Update;
 
 public class UpdateSpecializationCommandHandler(IApplicationDbContext context)
-    : IRequestHandler<UpdateSpecializationCommand, bool>
+    : IRequestHandler<UpdateSpecializationCommand, Unit>
 {
-    public async Task<bool> Handle(UpdateSpecializationCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateSpecializationCommand command, CancellationToken cancellationToken)
     {
         var specialization = await context.Specializations
             .FirstOrDefaultAsync(s => s.Id == command.SpecializationId, cancellationToken);
@@ -21,7 +21,7 @@ public class UpdateSpecializationCommandHandler(IApplicationDbContext context)
         context.Specializations.Update(specialization);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

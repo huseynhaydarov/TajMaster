@@ -10,14 +10,16 @@ public class UpdateSpecializationEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/api/specializations/{id:guid}",
-                async (ISender mediator, Guid id, [FromBody] UpdateSpecializationCommand command) =>
+                async (Guid id, [FromBody] UpdateSpecializationCommand command, ISender mediator) =>
                 {
                     if (id != command.SpecializationId)
-                        return Results.BadRequest(new { Error = "Specialization ID mismatch." });
+                    {
+                        return Results.BadRequest();
+                    }
+                    
+                    await mediator.Send(command);
 
-                    var result = await mediator.Send(command);
-
-                    return result ? Results.Ok() : Results.BadRequest();
+                   return Results.NoContent();
                 })
             .RequireAuthorization("AdminPolicy")
             .WithName("UpdateSpecializationEndpoint")

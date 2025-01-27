@@ -28,7 +28,10 @@ public static class DependencyInjection
             throw new ArgumentNullException($"Storage account connection string cannot be null or empty.");
         }
 
-        services.AddDbContext<ApplicationDbContext>((db, options) => { options.UseNpgsql(connectionString); });
+        services.AddDbContext<ApplicationDbContext>((db, options) =>
+        {
+            options.UseNpgsql(connectionString);
+        });
 
         services.AddSingleton<IPasswordHasher, PasswordHasherService>();
 
@@ -39,6 +42,7 @@ public static class DependencyInjection
         services.AddScoped<IBlobService, BlobService>();
 
         services.AddSingleton<ICacheService, DistributedCacheService>();
+       
         services.AddStackExchangeRedisCache(redisOptions =>
         {
             string? connection = configuration.GetConnectionString("RedisConnectionString");

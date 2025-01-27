@@ -10,9 +10,11 @@ public class GetUsersEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/users", async ([AsParameters] PagingParameters pagingParameters, ISender mediator) =>
+        app.MapGet("/api/users", async ([AsParameters] PagingParameters pagingParameters, 
+                ISender mediator) =>
             {
-                var results = await mediator.Send(new GetUsersQuery(pagingParameters));
+                var results = await mediator
+                    .Send(new GetUsersQuery(pagingParameters));
 
                 return Results.Ok(results);
             })

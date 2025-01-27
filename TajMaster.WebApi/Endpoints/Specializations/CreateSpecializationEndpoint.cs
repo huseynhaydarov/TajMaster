@@ -9,7 +9,8 @@ public class CreateSpecializationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/specializations", async (ISender mediator, [FromBody] CreateSpecializationCommand command) =>
+        app.MapPost("/api/specializations", async ([FromBody] CreateSpecializationCommand command, 
+                ISender mediator) =>
             {
                 var newSpecialization = await mediator.Send(command);
 

@@ -7,9 +7,9 @@ namespace TajMaster.Application.UseCases.OrderStatuses.Commands.Delete;
 
 public class DeleteOrderStatusCommandHandler(
     IApplicationDbContext context)
-    : IRequestHandler<DeleteOrderStatusCommand, bool>
+    : IRequestHandler<DeleteOrderStatusCommand, Unit>
 {
-    public async Task<bool> Handle(DeleteOrderStatusCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteOrderStatusCommand command, CancellationToken cancellationToken)
     {
         var orderStatus = await context.OrderStatuses
             .FirstOrDefaultAsync(cs => cs.Id == command.Id, cancellationToken);
@@ -19,7 +19,7 @@ public class DeleteOrderStatusCommandHandler(
         context.OrderStatuses.Remove(orderStatus);
 
         await context.SaveChangesAsync(cancellationToken);
-
-        return await Task.FromResult(true);
+        
+        return Unit.Value;
     }
 }

@@ -21,9 +21,4 @@ public class CartStatusEnum : BaseEnum
     {
         Id = id;
     }
-
-    public new static IEnumerable<CartStatusEnum> List()
-    {
-        return new[] { Created, Active, Inactive, Archived };
-    }
 }

@@ -9,11 +9,11 @@ public class DeleteCraftsmanEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/api/craftsman/{id:guid}", async (ISender mediator, [FromRoute] Guid id) =>
+        app.MapDelete("/api/craftsman/{id:guid}", async ([FromRoute] Guid id, ISender mediator) =>
             {
-                var result = await mediator.Send(new DeleteCraftsmanCommand(id));
+               await mediator.Send(new DeleteCraftsmanCommand(id));
 
-                return result ? Results.NoContent() : Results.NotFound(new { message = "Craftsmen not found." });
+                return Results.NoContent();
             })
             .RequireAuthorization("AdminOrCraftsmanPolicy")
             .WithName("DeleteCraftsmanEndpoint")

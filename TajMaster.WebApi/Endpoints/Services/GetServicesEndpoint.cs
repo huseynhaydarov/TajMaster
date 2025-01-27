@@ -10,9 +10,11 @@ public class GetServicesEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/services", async ([AsParameters] PagingParameters pagingParameters, ISender mediator) =>
+        app.MapGet("/api/services", async ([AsParameters] PagingParameters pagingParameters, 
+                ISender mediator) =>
             {
-                var results = await mediator.Send(new GetServicesQuery(pagingParameters));
+                var results = await mediator
+                    .Send(new GetServicesQuery(pagingParameters));
 
                 return Results.Ok(results);
             })

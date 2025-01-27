@@ -1,5 +1,6 @@
 using AutoMapper;
 using MediatR;
+using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Domain.Entities;
 
@@ -8,7 +9,7 @@ namespace TajMaster.Application.UseCases.Reviews.Commands.Create;
 public class CreateReviewCommandHandler(
     IApplicationDbContext context,
     IMapper mapper)
-    : IRequestHandler<CreateReviewCommand, Guid>
+    : ICommandHandler<CreateReviewCommand, Guid>
 {
     public async Task<Guid> Handle(CreateReviewCommand command, CancellationToken cancellationToken)
     {

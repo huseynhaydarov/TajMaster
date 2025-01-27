@@ -19,7 +19,6 @@ public class OrderStatusEnum : BaseEnum
     public static readonly OrderStatusEnum InProgress =
         new(Guid.Parse("d7a6c7a2-f742-4f6c-ae3d-0eb6f8f372ec"), "В процессе", "order-in-progress", true);
 
-
     private OrderStatusEnum(Guid id, string name, string code, bool isActive)
         : base(name, code, isActive)
     {

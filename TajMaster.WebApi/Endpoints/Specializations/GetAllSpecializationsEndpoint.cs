@@ -9,9 +9,11 @@ public class GetAllSpecializationsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/specializations", async ([AsParameters] PagingParameters pagingParameters, ISender mediator) =>
+        app.MapGet("/api/specializations", async ([AsParameters] PagingParameters pagingParameters, 
+                ISender mediator) =>
             {
-                var specializations = await mediator.Send(new GetAllSpecializationsQuery(pagingParameters));
+                var specializations = await mediator
+                    .Send(new GetAllSpecializationsQuery(pagingParameters));
 
                 return Results.Ok(specializations);
             })

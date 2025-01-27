@@ -1,6 +1,6 @@
 using Carter;
 using MediatR;
-using TajMaster.Application.UseCases.CartItems.CartItemDTos;
+using TajMaster.Application.UseCases.CartItems.CartItemDtos;
 using TajMaster.Application.UseCases.CartItems.Queries.GetCartItemsByCart;
 
 namespace TajMaster.WebApi.Endpoints.CartItems;
@@ -11,7 +11,10 @@ public class GetCartItemByCartEndpoint : ICarterModule
     {
         app.MapGet("/api/cartItems/cart/{cartId:guid}", async (Guid cartId, ISender sender) =>
             {
-                if (cartId == Guid.Empty) return Results.BadRequest(new { Message = "Invalid cart ID." });
+                if (cartId == Guid.Empty)
+                {
+                    return Results.BadRequest();
+                }
 
                 var query = new GetCartItemsByCartIdQuery(cartId);
 
@@ -20,7 +23,9 @@ public class GetCartItemByCartEndpoint : ICarterModule
                 var cartItemDto = carts as CartItemDto[] ?? carts.ToArray();
 
                 if (!cartItemDto.Any())
-                    return Results.NotFound(new { Message = $"No cartItems found for cart ID {cartId}." });
+                {
+                    return Results.NotFound();
+                }
 
                 return Results.Ok(cartItemDto);
             })

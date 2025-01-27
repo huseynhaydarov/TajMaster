@@ -9,9 +9,9 @@ namespace TajMaster.Application.UseCases.Categories.Commands.Delete;
 public class DeleteCategoryQueryHandler(
     IApplicationDbContext context,
     ILogger<DeleteCategoryQueryHandler> logger)
-    : IRequestHandler<DeleteCategoryCommand>
+    : IRequestHandler<DeleteCategoryCommand, Unit>
 {
-    public async Task Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
     {
         try
         {
@@ -37,5 +37,7 @@ public class DeleteCategoryQueryHandler(
             logger.LogError($"Error retrieving book: {ex.Message}");
             throw;
         }
+        
+        return Unit.Value;
     }
 }

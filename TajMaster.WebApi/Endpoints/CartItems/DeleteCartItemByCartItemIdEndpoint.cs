@@ -9,7 +9,8 @@ public class DeleteCartItemByCartItemIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/cart/items/{cartItemId:guid}", async ([FromRoute] Guid cartItemId, ISender mediator) =>
+        app.MapDelete("/cart/items/{cartItemId:guid}", async ([FromRoute] Guid cartItemId, 
+                ISender mediator) =>
             {
                 var command = new DeleteCartItemCommand(cartItemId);
 
