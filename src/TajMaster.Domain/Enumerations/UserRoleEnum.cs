@@ -22,7 +22,7 @@ public class UserRoleEnum : BaseEnum
         Id = id;
     }
 
-    public new static IEnumerable<UserRoleEnum> List()
+    public static IEnumerable<UserRoleEnum> List()
     {
         return new[] { Customer, Craftsman, Admin, Guest };
     }
