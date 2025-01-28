@@ -24,6 +24,11 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
         .AddApplicationServices(configuration)
         .AddInfrastructureServices(configuration)
         .AddApiServices(configuration);
+    
+    services.AddLogging(loggingBuilder =>
+    {
+        loggingBuilder.AddSeq();
+    });
 }
 
 void ConfigureMiddleware(WebApplication app)
