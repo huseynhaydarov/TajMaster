@@ -13,31 +13,23 @@ public class DeleteCategoryQueryHandler(
 {
     public async Task<Unit> Handle(DeleteCategoryCommand command, CancellationToken cancellationToken)
     {
-        try
+        var category = await context.Categories
+            .FirstOrDefaultAsync(c => c.Id == command.CategoryId, cancellationToken);
+
+        if (category == null)
         {
-            var category = await context.Categories
-                .FirstOrDefaultAsync(c => c.Id == command.CategoryId, cancellationToken);
+            logger.LogWarning("Category with ID {CategoryId} not found.", command.CategoryId);
 
-            if (category == null)
-            {
-                logger.LogWarning("Category with ID {CategoryId} not found.", command.CategoryId);
-
-                throw new NotFoundException($"Category with ID {command.CategoryId} not found");
-            }
-
-            logger.LogInformation("Deleting category with ID {CategoryId}.", command.CategoryId);
-
-            context.Categories.Remove(category);
-
-            await context.SaveChangesAsync(cancellationToken);
-            
+            throw new NotFoundException($"Category with ID {command.CategoryId} not found");
         }
-        catch (Exception ex)
-        {
-            logger.LogError($"Error retrieving book: {ex.Message}");
-            throw;
-        }
+
+        logger.LogInformation("Deleting category with ID {CategoryId}.", command.CategoryId);
+
+        context.Categories.Remove(category);
+
+        await context.SaveChangesAsync(cancellationToken);
         
         return Unit.Value;
     }
+       
 }

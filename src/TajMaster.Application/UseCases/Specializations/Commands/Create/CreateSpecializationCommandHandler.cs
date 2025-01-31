@@ -22,7 +22,7 @@ public class CreateSpecializationCommandHandler(
         
         await context.SaveChangesAsync(cancellationToken);
 
-        var cacheKey = "Specializations";
+        const string cacheKey = "Specializations";
         logger.LogInformation("Invalidating cache for key: {CacheKey} from cache.", cacheKey);
         await cache.RemoveAsync(cacheKey, cancellationToken);
 

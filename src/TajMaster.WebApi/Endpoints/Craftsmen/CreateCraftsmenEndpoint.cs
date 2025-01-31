@@ -8,9 +8,10 @@ public class CreateCraftsmenEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/users/craftsmen", async (CreateCraftsmanCommand command, ISender mediator) =>
+        app.MapPost("/api/users/craftsmen", async (CreateCraftsmanCommand command, ISender mediator,
+            CancellationToken cancellationToken) =>
             {
-                var result = await mediator.Send(command);
+                var result = await mediator.Send(command, cancellationToken);
 
                 return Results.Created($"api/users/craftsmen/{result}", new { Id = result });
             })

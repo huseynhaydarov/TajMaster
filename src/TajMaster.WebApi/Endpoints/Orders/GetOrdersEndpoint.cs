@@ -11,10 +11,10 @@ public class GetOrdersEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/api/orders", async ([AsParameters] PagingParameters pagingParameters, 
-                ISender mediator) =>
+                ISender mediator, CancellationToken cancellationToken) =>
             {
                 var results = await mediator
-                    .Send(new GetOrdersQuery(pagingParameters));
+                    .Send(new GetOrdersQuery(pagingParameters), cancellationToken);
 
                 return Results.Ok(results);
             })

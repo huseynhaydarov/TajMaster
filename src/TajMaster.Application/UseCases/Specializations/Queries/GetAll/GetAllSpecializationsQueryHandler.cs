@@ -19,7 +19,7 @@ public class GetAllSpecializationsQueryHandler(
     {
         var pagingParams = query.PagingParameters;
 
-        var cacheKey = "Specializations";
+        const string cacheKey = "Specializations";
 
         var specializationsCache = await cacheService.GetOrSetAsync(cacheKey, async () =>
         {

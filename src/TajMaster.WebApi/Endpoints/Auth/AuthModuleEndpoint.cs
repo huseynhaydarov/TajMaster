@@ -11,7 +11,8 @@ public class AuthModuleEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/auth/refresh-token", async (HttpContext context) =>
+        app.MapPost("/api/auth/refresh-token", async (HttpContext context, 
+                CancellationToken cancellationToken) =>
             {
                 try
                 {
@@ -58,7 +59,7 @@ public class AuthModuleEndpoint : ICarterModule
 
                     var user = await dbContext.Users
                         .Include(u => u.UserRole)
-                        .FirstOrDefaultAsync(u => u.Id == userId);
+                        .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken: cancellationToken);
 
                     if (user == null)
                     {

@@ -14,7 +14,10 @@ public class DeleteCartStatusCommandHandler(IApplicationDbContext context)
         var cartStatus = await context.CartStatuses
             .FirstOrDefaultAsync(cs => cs.Id == command.Id, cancellationToken);
 
-        if (cartStatus == null) throw new NotFoundException("No cart status found");
+        if (cartStatus == null)
+        {
+            throw new NotFoundException("No cart status found");
+        }
 
         context.CartStatuses.Remove(cartStatus);
 

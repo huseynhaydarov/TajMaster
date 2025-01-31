@@ -10,14 +10,14 @@ public class UpdateUserEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/api/users/{id}", async (Guid id, [FromBody] UpdateUserCommand command, 
-                ISender mediator) =>
+                ISender mediator, CancellationToken cancellationToken) =>
             {
                 if (id != command.UserId)
                 {
                     return Results.BadRequest();
                 }
 
-                await mediator.Send(command);
+                await mediator.Send(command, cancellationToken);
 
                 return Results.NoContent();
             })

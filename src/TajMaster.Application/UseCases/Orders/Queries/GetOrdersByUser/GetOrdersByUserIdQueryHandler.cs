@@ -19,7 +19,8 @@ public class GetOrdersByUserQueryHandler(
             .Include(r => r.User)
             .Include(o => o.OrderStatus)
             .Include(r => r.OrderItems)
-            .ThenInclude(s => s.Service)
+                .ThenInclude(s => s.Service)
+            .AsNoTracking()
             .Where(r => r.UserId == query.UserId)
             .ToListAsync(cancellationToken);
 

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.CartStatuses.CartStatusDtos;
 
 namespace TajMaster.Application.UseCases.CartStatuses.Queries.GetCartStatusByName;
@@ -15,8 +16,14 @@ public class GetCartStatusByNameQueryHandler(
             .AsNoTracking()
             .FirstOrDefaultAsync(cs => cs.Name == request.Name, cancellationToken);
 
-        return (cartStatus == null
-            ? null
-            : new CartStatusDto(cartStatus.Id, cartStatus.Name, cartStatus.Code))!;
+        if(cartStatus is null)
+        {
+            throw new NotFoundException("CartStatus master not found");
+        }
+        
+        return new CartStatusDto(
+            StatusId: cartStatus.Id,
+            Name: cartStatus.Name,
+            Code: cartStatus.Code);
     }
 }

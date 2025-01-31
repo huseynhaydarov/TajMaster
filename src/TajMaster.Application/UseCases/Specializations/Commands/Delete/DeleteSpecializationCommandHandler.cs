@@ -19,7 +19,7 @@ public class DeleteSpecializationCommandHandler(
             throw new NotFoundException($"Specialization with ID {command.SpecializationId} was not found");
         }
 
-        if (specialization.Craftsmen != null && specialization.Craftsmen.Any())
+        if (specialization.Craftsmen != null && specialization.Craftsmen.Count != 0)
         {
             throw new InvalidOperationException("This specialization is in use by craftsmen.");
         }

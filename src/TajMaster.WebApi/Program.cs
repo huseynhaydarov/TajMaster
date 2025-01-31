@@ -2,9 +2,9 @@ using Carter;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application;
 using TajMaster.Infrastructure;
-using TajMaster.Infrastructure.Middlewares;
 using TajMaster.Infrastructure.Persistence.Data;
 using TajMaster.WebApi;
+using TajMaster.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,11 +36,6 @@ void ConfigureMiddleware(WebApplication app)
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "TajMaster API v1");
-        });
     }
     else
     {
@@ -48,6 +43,12 @@ void ConfigureMiddleware(WebApplication app)
         app.UseHsts();
     }
 
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "TajMaster API v1");
+    });
+    
     app.UseRouting();
     app.UseAuthentication();
     app.UseAuthorization();

@@ -37,6 +37,12 @@ public class GetSpecializationByIdQueryHandler(
                     specializationEntity.Description);
             });
 
-        return specialization ?? throw new NullReferenceException("Specialization data is null.");
+        if (specialization == null)
+        {
+            logger.LogWarning("Specialization with ID {SpecializationId} not found.", query.SpecializationId);
+            throw new NotFoundException($"Specialization with ID {query.SpecializationId} not found.");
+        }
+        
+        return specialization;
     }
 }

@@ -21,6 +21,7 @@ public class GetOrdersQueryHandler(
             .Include(o => o.OrderStatus)
             .Include(o => o.OrderItems)
             .Include(o => o.Reviews)
+            .AsSplitQuery()
             .AsQueryable();
 
         request = pagingParams.OrderByDescending == true

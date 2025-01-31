@@ -19,8 +19,8 @@ public class GetCartByUserIdQueryHandler(
             .Include(c => c.CartStatus)
             .Include(c => c.CartItems)
             .ThenInclude(s => s.Service)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(c => c.UserId == request.UserId, cancellationToken);
-
 
         if (cart == null)
         {

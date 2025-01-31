@@ -20,7 +20,7 @@ public class GetCategoriesQueryHandler(
     {
         var pagingParams = request.PagingParameters;
 
-        var cacheKey = "Categories";
+        const string cacheKey = "Categories";
         
         var categoriesCache = await cacheService.GetOrSetAsync(cacheKey, async () =>
         {
@@ -29,6 +29,7 @@ public class GetCategoriesQueryHandler(
                 .AsNoTracking()
                 .Include(c => c.CategoryServices)
                     .ThenInclude(cs => cs.Service)
+                .AsSplitQuery()
                 .AsQueryable();
 
             var totalCount = await query.CountAsync(cancellationToken);

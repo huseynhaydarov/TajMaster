@@ -10,7 +10,7 @@ namespace TajMaster.Application.UseCases.Users.Commands.Update;
 public class UpdateUserCommandHandler(
     IApplicationDbContext context,
     IMapper mapper)
-    : IRequestHandler<UpdateUserCommand, Unit>
+    : ICommandHandler<UpdateUserCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
     {

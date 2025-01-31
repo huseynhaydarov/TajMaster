@@ -10,7 +10,7 @@ public class GetServicesByCategoryEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/api/services/category/{categoryId:guid}", async (Guid categoryId, 
-                ISender sender) =>
+                ISender sender, CancellationToken cancellationToken) =>
             {
                 if (categoryId == Guid.Empty)
                 {
@@ -19,7 +19,7 @@ public class GetServicesByCategoryEndpoint : ICarterModule
 
                 var query = new GetServicesByCategoryQuery(categoryId);
 
-                var services = await sender.Send(query);
+                var services = await sender.Send(query, cancellationToken);
 
                 var serviceDtos = services 
                     as ServiceSummaryDto[] ?? services.ToArray();

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Common.Pagination;
-using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmanDtos;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmen;
@@ -20,6 +20,7 @@ public class GetCraftsmenQueryHandler(
             .AsNoTracking()
             .Include(c => c.User)
             .Include(c => c.Specialization)
+            .AsSplitQuery()
             .AsQueryable();
 
         var totalCount = await query.CountAsync(cancellationToken);

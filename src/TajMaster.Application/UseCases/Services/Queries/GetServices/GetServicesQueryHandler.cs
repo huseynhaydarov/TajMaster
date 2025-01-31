@@ -20,7 +20,7 @@ public class GetServicesQueryHandler(
     {
         var pagingParams = request.PagingParameters;
 
-        var cacheKey = "Services";
+        const string cacheKey = "Services";
 
         var servicesCache = await cacheService.GetOrSetAsync(cacheKey, async () =>
         {
@@ -30,6 +30,7 @@ public class GetServicesQueryHandler(
                 .AsNoTracking()
                 .Include(s => s.CategoryServices)
                     .ThenInclude(cs => cs.Category)
+                .AsSplitQuery()
                 .AsQueryable();
             
             query = pagingParams.OrderByDescending == true

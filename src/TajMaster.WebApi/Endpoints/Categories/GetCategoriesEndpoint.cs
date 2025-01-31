@@ -11,10 +11,10 @@ public class GetCategoriesEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/api/categories", async ([AsParameters] PagingParameters pagingParameters, 
-                ISender mediator) =>
+                ISender mediator, CancellationToken cancellationToken) =>
             {
                 var results = await mediator
-                    .Send(new GetCategoriesQuery(pagingParameters));
+                    .Send(new GetCategoriesQuery(pagingParameters), cancellationToken);
 
                 return Results.Ok(results);
             })

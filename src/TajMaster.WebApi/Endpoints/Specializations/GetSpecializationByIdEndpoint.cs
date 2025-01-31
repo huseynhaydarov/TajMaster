@@ -8,9 +8,10 @@ public class GetSpecializationByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/specializations/{id:guid}", async (Guid id, ISender mediator) =>
+        app.MapGet("/api/specializations/{id:guid}", async (Guid id, ISender mediator, 
+                CancellationToken cancellationToken) =>
             {
-                var specialization = await mediator.Send(new GetSpecializationByIdQuery(id));
+                var specialization = await mediator.Send(new GetSpecializationByIdQuery(id), cancellationToken);
 
                 return Results.Ok(specialization);
             })

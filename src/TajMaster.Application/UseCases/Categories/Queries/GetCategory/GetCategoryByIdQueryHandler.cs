@@ -38,6 +38,10 @@ public class GetCategoryByIdQueryHandler(
                 );
             });
 
-        return category ?? throw new NullReferenceException();
+        if (category == null)
+        {
+            throw new NotFoundException($"Category with ID {command.CategoryId} not found.");
+        }
+        return category;
     }
 }

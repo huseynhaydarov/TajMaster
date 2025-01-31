@@ -1,4 +1,4 @@
-namespace TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
+namespace TajMaster.Application.UseCases.Craftsmen.CraftsmanDtos;
 
 public record CraftsmanDto(
     Guid CraftsmanId,

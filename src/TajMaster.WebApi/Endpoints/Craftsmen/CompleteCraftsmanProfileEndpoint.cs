@@ -8,9 +8,10 @@ public class CompleteCraftsmanProfileEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/craftsmen", async (HttpContext context, ISender mediator) =>
+        app.MapPost("/api/craftsmen", async (HttpContext context, ISender mediator,
+            CancellationToken cancellationToken) =>
             {
-                var form = await context.Request.ReadFormAsync();
+                var form = await context.Request.ReadFormAsync(cancellationToken);
 
                 var command = new CompleteCraftsmanProfileCommand(
                     Guid.Parse(form["userId"]!),
@@ -20,7 +21,7 @@ public class CompleteCraftsmanProfileEndpoint : ICarterModule
                     form.Files.GetFile("profilePicture")
                 );
 
-                var newCraftsman = await mediator.Send(command);
+                var newCraftsman = await mediator.Send(command, cancellationToken);
 
                 return Results.Created($"api/craftsmen/{newCraftsman}", new { Id = newCraftsman });
             })

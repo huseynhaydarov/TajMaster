@@ -19,4 +19,4 @@ public interface IApplicationDbContext
     DbSet<Specialization> Specializations { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-}
+} 

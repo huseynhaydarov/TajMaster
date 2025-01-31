@@ -50,7 +50,6 @@ public class GetServiceByIdQueryHandler(
         }
 
         logger.LogInformation("Successfully retrieved Service ID {ServiceId}.", query.ServiceId);
-
         return serviceDto;
     }
 }

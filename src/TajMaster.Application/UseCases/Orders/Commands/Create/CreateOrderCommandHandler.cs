@@ -17,6 +17,7 @@ public class CreateOrderCommandHandler(
             .Include(c => c.CartItems)
             .ThenInclude(s => s.Service)
             .Include(c => c.CartStatus)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(c => c.UserId == command.UserId, cancellationToken);
         
         

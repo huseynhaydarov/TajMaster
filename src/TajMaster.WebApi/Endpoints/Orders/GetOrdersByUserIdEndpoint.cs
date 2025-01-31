@@ -10,7 +10,7 @@ public class GetOrdersByUserIdEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/api/orders/user/{userId:guid}", async (Guid userId, 
-                ISender sender) =>
+                ISender sender, CancellationToken cancellationToken) =>
             {
                 if (userId == Guid.Empty)
                 {
@@ -19,7 +19,7 @@ public class GetOrdersByUserIdEndpoint : ICarterModule
                 
                 var query = new GetOrdersByUserIdQuery(userId);
                 
-                var orders = await sender.Send(query);
+                var orders = await sender.Send(query, cancellationToken);
                 
                 var orderDto = orders as OrderDetailDto[] ?? orders.ToArray();
 

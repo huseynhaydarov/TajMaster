@@ -16,7 +16,10 @@ public class UpdateCartStatusCommandHandler(
         var cartStatus = await context.CartStatuses
             .FirstOrDefaultAsync(cs => cs.Id == command.CartStatusId, cancellationToken);
 
-        if (cartStatus == null) throw new NotFoundException("Cart status could not be found");
+        if (cartStatus == null)
+        {
+            throw new NotFoundException("Cart status could not be found");
+        }
 
         mapper.Map(command, cartStatus);
 

@@ -10,9 +10,9 @@ public class CreateOrderEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/api/orders", async ([FromBody] CreateOrderCommand command, 
-                ISender mediator) =>
+                ISender mediator, CancellationToken token) =>
             {
-                var newOrder = await mediator.Send(command);
+                var newOrder = await mediator.Send(command, token);
 
                 return Results.Created($"/api/orders/{newOrder}", new { Id = newOrder });
             })

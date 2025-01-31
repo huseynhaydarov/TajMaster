@@ -16,7 +16,10 @@ public class UpdateOrderStatusCommandHandler(
         var orderStatus = await context.OrderStatuses
             .FirstOrDefaultAsync(cs => cs.Id == command.OrderStatusId, cancellationToken);
 
-        if (orderStatus == null) throw new NotFoundException("Order status could not be found");
+        if (orderStatus == null)
+        {
+            throw new NotFoundException("Order status could not be found");
+        }
 
         mapper.Map(command, orderStatus);
 

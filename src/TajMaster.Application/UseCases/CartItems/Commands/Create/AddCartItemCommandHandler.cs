@@ -17,6 +17,8 @@ public class AddCartItemCommandHandler(
         var cart = await context.Carts
             .Include(c => c.CartStatus)
             .Include(c => c.CartItems)
+            .AsNoTracking()
+            .AsNoTracking()
             .FirstOrDefaultAsync(c => c.Id == request.CartId, cancellationToken);
         
         if (cart == null)

@@ -1,7 +1,7 @@
 using FluentValidation;
 using TajMaster.Application.UseCases.OrderStatuses.Commands.Create;
 
-namespace TajMaster.Application.UseCases.OrderStatuses.OrderStatusDtos;
+namespace TajMaster.Application.UseCases.OrderStatuses.Validators;
 
 public class CreateOrderStatusCommandValidator : AbstractValidator<CreateOrderStatusCommand>
 {

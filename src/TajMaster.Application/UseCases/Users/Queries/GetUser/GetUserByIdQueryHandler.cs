@@ -16,8 +16,9 @@ public class GetUserByIdQueryHandler(
         var user = await context.Users
             .Include(u => u.UserRole)
             .Include(u => u.Orders)
-            .ThenInclude(o => o.OrderStatus)
+                .ThenInclude(o => o.OrderStatus)
             .Include(u => u.Reviews)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(u => u.Id == query.UserId, cancellationToken);
 
         if (user == null)

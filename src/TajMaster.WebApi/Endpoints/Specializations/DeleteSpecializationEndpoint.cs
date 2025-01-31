@@ -8,9 +8,10 @@ public class DeleteSpecializationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/api/specializations/{id:guid}", async (Guid id, ISender mediator) =>
+        app.MapDelete("/api/specializations/{id:guid}", async (Guid id, ISender mediator, 
+                CancellationToken cancellationToken) =>
             { 
-                await mediator.Send(new DeleteSpecializationCommand(id));
+                await mediator.Send(new DeleteSpecializationCommand(id), cancellationToken);
 
                 Results.NoContent();
             })

@@ -16,19 +16,22 @@ public class GetServicesByCategoryQueryHandler(
     ILogger<GetServicesByCategoryQueryHandler> logger)
     : IQueryHandler<GetServicesByCategoryQuery, IEnumerable<ServiceSummaryDto>>
 {
-    public async Task<IEnumerable<ServiceSummaryDto>> Handle(GetServicesByCategoryQuery query, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ServiceSummaryDto>> Handle(GetServicesByCategoryQuery query, 
+        CancellationToken cancellationToken)
     {
         var cacheKey = $"Services_ByCategory_{query.CategoryId}";
         
         var servicesDtoList = await cacheService.GetOrSetAsync(cacheKey,
             async () =>
             {
-                logger.LogInformation("Cache miss. Fetching services for Category ID {CategoryId} from the database.", query.CategoryId);
+                logger.LogInformation("Cache miss. Fetching services for Category ID {CategoryId} from the database.",
+                    query.CategoryId);
                 
                 var services = await context.Services
                     .AsNoTracking()
                     .Include(service => service.CategoryServices)
                         .ThenInclude(cs => cs.Category)
+                    .AsSplitQuery()
                     .Where(service => service.CategoryServices.Any(cs => cs.CategoryId == query.CategoryId))
                     .ToListAsync(cancellationToken);
 
@@ -49,8 +52,8 @@ public class GetServicesByCategoryQueryHandler(
         {
             throw new NullReferenceException("Retrieved services DTO list is null or empty.");
         }
-
-        logger.LogInformation("Successfully retrieved {ServiceCount} services for Category ID {CategoryId}.", servicesDtoList.Count(), query.CategoryId);
+        logger.LogInformation("Successfully retrieved {ServiceCount} services for Category ID {CategoryId}.",
+            servicesDtoList.Count, query.CategoryId);
 
         return servicesDtoList;
     }

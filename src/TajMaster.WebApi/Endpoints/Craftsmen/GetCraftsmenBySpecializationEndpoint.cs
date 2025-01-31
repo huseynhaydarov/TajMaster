@@ -1,7 +1,7 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmanDtos;
 using TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmenBySpecialization;
 
 namespace TajMaster.WebApi.Endpoints.Craftsmen;
@@ -12,10 +12,10 @@ public class GetCraftsmenBySpecializationEndpoint : ICarterModule
     {
         app.MapGet("/api/craftsmen/specialization/{specialization}", async (
                 [FromRoute] string specialization,
-                ISender mediator) =>
+                ISender mediator, CancellationToken cancellationToken) =>
             {
                 var craftsmen = await mediator
-                    .Send(new GetCraftsmenBySpecializationQuery(specialization));
+                    .Send(new GetCraftsmenBySpecializationQuery(specialization), cancellationToken);
 
                 return craftsmen.Any()
                     ? Results.Ok(craftsmen)

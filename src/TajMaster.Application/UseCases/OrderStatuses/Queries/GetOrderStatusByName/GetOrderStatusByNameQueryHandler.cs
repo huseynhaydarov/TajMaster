@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.OrderStatuses.OrderStatusDtos;
 
 namespace TajMaster.Application.UseCases.OrderStatuses.Queries.GetOrderStatusByName;
@@ -15,8 +16,14 @@ public class GetOrderStatusByNameQueryHandler(
             .AsNoTracking()
             .FirstOrDefaultAsync(cs => cs.Name == request.Name, cancellationToken);
 
-        return (orderStatus == null
-            ? null
-            : new OrderStatusDto(orderStatus.Id, orderStatus.Name, orderStatus.Code))!;
+        if (orderStatus == null)
+        {
+            throw new NotFoundException("OrderStatus not found");
+        }
+        
+        return new OrderStatusDto(
+            StatusId: orderStatus.Id,
+            Name: orderStatus.Name,
+            Code: orderStatus.Code);
     }
 }

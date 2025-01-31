@@ -9,7 +9,8 @@ public class GetCartItemByCartEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/cartItems/cart/{cartId:guid}", async (Guid cartId, ISender sender) =>
+        app.MapGet("/api/cartItems/cart/{cartId:guid}", async (Guid cartId, ISender sender, 
+                CancellationToken cancellationToken) =>
             {
                 if (cartId == Guid.Empty)
                 {
@@ -18,7 +19,7 @@ public class GetCartItemByCartEndpoint : ICarterModule
 
                 var query = new GetCartItemsByCartIdQuery(cartId);
 
-                var carts = await sender.Send(query);
+                var carts = await sender.Send(query, cancellationToken);
 
                 var cartItemDto = carts as CartItemDto[] ?? carts.ToArray();
 

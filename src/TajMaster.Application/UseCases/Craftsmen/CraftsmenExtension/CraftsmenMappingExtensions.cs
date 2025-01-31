@@ -1,4 +1,4 @@
-using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmanDtos;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;

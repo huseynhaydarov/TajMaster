@@ -11,9 +11,9 @@ public class LoginAuthEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/api/auth/login", async (ISender mediator, HttpContext context,
-                [FromBody] LoginCommand command) =>
+                [FromBody] LoginCommand command, CancellationToken cancellationToken) =>
             {
-                var result = await mediator.Send(command);
+                var result = await mediator.Send(command, cancellationToken);
 
                 if (!result.Success)
                 {

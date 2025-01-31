@@ -21,7 +21,9 @@ public class GetReviewsByCraftsmanIdQueryHandler(
             .ToListAsync(cancellationToken);
 
         if (!reviews.Any())
+        {
             throw new NotFoundException($"No reviews found for craftsman with ID: {request.CraftsmanId}");
+        }
 
         return reviews.ToReviewDtoList();
     }

@@ -9,9 +9,10 @@ public class AddCartItemEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/carts/items", async (ISender mediator, [FromBody] AddCartItemCommand command) =>
+        app.MapPost("/api/carts/items", async (ISender mediator, [FromBody] AddCartItemCommand command, 
+                CancellationToken cancellationToken) =>
             {
-                var cartItemId = await mediator.Send(command);
+                var cartItemId = await mediator.Send(command, cancellationToken);
 
                 return Results.Created($"/api/carts/items/{cartItemId}", new { Id = cartItemId });
             })

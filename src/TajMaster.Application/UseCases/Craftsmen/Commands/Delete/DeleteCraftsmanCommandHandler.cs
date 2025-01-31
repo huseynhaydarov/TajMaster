@@ -15,7 +15,10 @@ public class DeleteCraftsmanCommandHandler(
         var craftsman = await context.Craftsmen.FirstOrDefaultAsync(cr => cr.Id == command.CraftsmanId,
             cancellationToken);
 
-        if (craftsman == null) throw new NotFoundException($"Craftsmen with ID {command.CraftsmanId} not found.");
+        if (craftsman == null)
+        {
+            throw new NotFoundException($"Craftsmen with ID {command.CraftsmanId} not found.");
+        }
 
         context.Craftsmen.Remove(craftsman);
 

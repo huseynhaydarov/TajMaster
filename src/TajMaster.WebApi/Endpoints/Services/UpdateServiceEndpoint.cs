@@ -10,14 +10,14 @@ public class UpdateServiceEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/api/services/{id}", async (Guid id, [FromBody] UpdateServiceCommand command, 
-                ISender mediator) =>
+                ISender mediator, CancellationToken cancellationToken) =>
             {
                 if (id != command.ServiceId)
                 {
                     return Results.BadRequest();
                 }
                 
-                await mediator.Send(command);
+                await mediator.Send(command, cancellationToken);
 
                 return Results.NoContent();
             })

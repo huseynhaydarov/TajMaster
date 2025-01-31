@@ -10,9 +10,9 @@ public class CreateCategoryEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/api/categories", async ([FromBody] CreateCategoryCommand command, 
-                ISender mediator) =>
+                ISender mediator, CancellationToken cancellationToken) =>
             {
-                var newCategory = await mediator.Send(command);
+                var newCategory = await mediator.Send(command, cancellationToken);
 
                 return Results.Created($"/api/categories/{newCategory}", new { Id = newCategory });
             })

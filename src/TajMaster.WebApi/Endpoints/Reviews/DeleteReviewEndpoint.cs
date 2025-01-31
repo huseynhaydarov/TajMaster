@@ -9,9 +9,10 @@ public class DeleteReviewEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/api/reviews/{id:guid}", async (ISender mediator, [FromRoute] Guid id) =>
+        app.MapDelete("/api/reviews/{id:guid}", async (ISender mediator, [FromRoute] Guid id, 
+                CancellationToken cancellationToken) =>
             {
-                await mediator.Send(new DeleteReviewCommand(id));
+                await mediator.Send(new DeleteReviewCommand(id), cancellationToken);
 
                 return Results.NoContent();
             })

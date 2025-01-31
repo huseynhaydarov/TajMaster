@@ -14,7 +14,8 @@ public static class ServiceMappingExtensions
             service.Description,
             service.BasePrice,
             service.CategoryServices
-                ?.Select(c => new CategoryDto(c.Category.Id, c.Category.Name, c.Category.Description)).ToList() ??
+                ?.Select(c => new CategoryDto(
+                    c.Category.Id, c.Category.Name, c.Category.Description)).ToList() ??
             new List<CategoryDto>()
         );
     }

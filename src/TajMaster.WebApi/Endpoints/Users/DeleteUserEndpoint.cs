@@ -9,9 +9,9 @@ public class DeleteUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/api/users/{id:guid}", async ([FromRoute] Guid id, ISender mediator) =>
+        app.MapDelete("/api/users/{id:guid}", async ([FromRoute] Guid id, ISender mediator, CancellationToken cancellationToken) =>
             {
-                await mediator.Send(new DeleteUserCommand(id));
+                await mediator.Send(new DeleteUserCommand(id), cancellationToken);
 
                 return Results.NoContent();
             })

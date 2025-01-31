@@ -30,16 +30,19 @@ public class CreateServiceCommandHandler(
         }
         
         var service = mapper.Map<Service>(command);
+       
         service.CategoryServices = categories.Select(category => new CategoryService
         {
             CategoryId = category.Id,
         }).ToList();
 
         context.Services.Add(service);
+       
         await context.SaveChangesAsync(cancellationToken);
 
-        var cacheKey = "services";
+        const string cacheKey = "services";
         logger.LogInformation("Invalidating cache for key: {CacheKey}", cacheKey);
+      
         await cache.RemoveAsync(cacheKey, cancellationToken);
 
         return service.Id;

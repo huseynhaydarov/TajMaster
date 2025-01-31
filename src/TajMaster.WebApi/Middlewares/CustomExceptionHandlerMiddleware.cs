@@ -1,13 +1,9 @@
 using System.Text.Json;
 using FluentValidation;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using TajMaster.Application.Exceptions;
 
-namespace TajMaster.Infrastructure.Middlewares;
+namespace TajMaster.WebApi.Middlewares;
 
 public class CustomExceptionHandlerMiddleware(
     RequestDelegate next,

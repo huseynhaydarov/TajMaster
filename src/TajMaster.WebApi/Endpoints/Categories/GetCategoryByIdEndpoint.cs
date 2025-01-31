@@ -9,9 +9,10 @@ public class GetCategoryByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/categories/{id:guid}", async (Guid id, ISender mediator) =>
+        app.MapGet("/api/categories/{id:guid}", async (Guid id, ISender mediator, 
+                CancellationToken cancellationToken) =>
             {
-                var category = await mediator.Send(new GetCategoryByIdQuery(id));
+                var category = await mediator.Send(new GetCategoryByIdQuery(id), cancellationToken);
 
                 if (category == null!)
                 {

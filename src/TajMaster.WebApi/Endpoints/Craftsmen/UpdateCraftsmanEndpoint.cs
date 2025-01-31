@@ -11,14 +11,14 @@ public class UpdateCraftsmanEndpoint : ICarterModule
     {
         app.MapPut("/api/craftsman/{id:guid}", async (Guid id,
                 ISender mediator,
-                [FromBody] UpdateCraftsmanCommand command) =>
+                [FromBody] UpdateCraftsmanCommand command, CancellationToken cancellationToken) =>
             {
                 if (id != command.CraftsmanId)
                 {
                     return Results.BadRequest();
                 } 
                 
-                await mediator.Send(command);
+                await mediator.Send(command, cancellationToken);
 
                 return Results.NoContent();
             })

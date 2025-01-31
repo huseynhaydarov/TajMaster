@@ -20,7 +20,10 @@ public class GetReviewsByUserQueryHandler(
             .Where(r => r.UserId == request.UserId)
             .ToListAsync(cancellationToken);
 
-        if (!reviews.Any()) throw new NotFoundException($"No reviews found for user with ID: {request.UserId}");
+        if (!reviews.Any())
+        {
+            throw new NotFoundException($"No reviews found for user with ID: {request.UserId}");
+        }
 
         return reviews.ToReviewDtoList();
     }

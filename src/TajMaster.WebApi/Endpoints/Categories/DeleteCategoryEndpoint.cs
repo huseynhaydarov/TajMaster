@@ -10,9 +10,9 @@ public class DeleteCategoryEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapDelete("/api/category/{id:guid}", async ([FromRoute] Guid id, 
-                ISender mediator) =>
+                ISender mediator, CancellationToken cancellationToken) =>
             {
-                await mediator.Send(new DeleteCategoryCommand(id));
+                await mediator.Send(new DeleteCategoryCommand(id), cancellationToken);
 
                 return Results.NoContent();
             })

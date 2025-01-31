@@ -22,7 +22,7 @@ public class CreateCategoryCommandHandler(
 
         await context.SaveChangesAsync(cancellationToken);
         
-        var cacheKey = "Categories";
+        const string cacheKey = "Categories";
         logger.LogInformation("invalidating cache for key: {CacheKey} from cache.", cacheKey);
         await cache.RemoveAsync(cacheKey, cancellationToken);
 

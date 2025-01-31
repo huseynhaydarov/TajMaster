@@ -1,9 +1,8 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
 using TajMaster.Application.Exceptions;
-using TajMaster.Application.UseCases.Craftsmen.CraftsmanDTos;
+using TajMaster.Application.UseCases.Craftsmen.CraftsmanDtos;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmenExtension;
 
 namespace TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsman;
@@ -16,6 +15,7 @@ public class GetCraftsmanByIdQueryHandler(
     {
         var craftsman = await context.Craftsmen
             .Include(cr => cr.Specialization)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(cr => cr.Id == query.CraftsmanId, cancellationToken);
 
         if (craftsman == null)

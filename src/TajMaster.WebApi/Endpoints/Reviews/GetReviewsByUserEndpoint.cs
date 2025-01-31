@@ -10,7 +10,7 @@ public class GetReviewsByUserEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/api/reviews/user/{Id:guid}", async (Guid userId, 
-                ISender sender) =>
+                ISender sender, CancellationToken cancellationToken) =>
             {
                 if (userId == Guid.Empty)
                 {
@@ -19,7 +19,7 @@ public class GetReviewsByUserEndpoint : ICarterModule
 
                 var query = new GetReviewsByCustomerIdQuery(userId);
 
-                var reviews = await sender.Send(query);
+                var reviews = await sender.Send(query, cancellationToken);
 
                 var reviewDto = reviews as ReviewDto[] ?? reviews.ToArray();
 
