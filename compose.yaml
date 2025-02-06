@@ -1,6 +1,83 @@
 ﻿services:
   tajmaster:
-    image: tajmaster
+    image: tajmasterwebapi:latest
     build:
       context: .
-      dockerfile: TajMaster/Dockerfile
+      dockerfile: src/TajMaster.WebApi/Dockerfile
+    container_name: tajmaster
+    depends_on:
+      - postgres
+      - redis
+      - azurite
+      - seq
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=postgres-db;Port=5432;Database=tajmaster;Username=postgres;Password=7878_Postgresql;"
+      ConnectionStrings__StorageAccount: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;"
+      ConnectionStrings__RedisConnectionString: "redis:6379"
+      JwtSettings__SecretKey: "z4Tg8/k4ezgNchUg+/dTEQheVNssVS8/c0x4RH0v18w="
+      JwtSettings__Issuer: "tajmaster:8090"
+      JwtSettings__Audience: "tajmaster:8090"
+      JwtSettings__ExpirationMinutes: 60
+      JwtSettings__RefreshTokenExpirationDays: 14
+      Serilog__WriteTo__0__Args__serverUrl: "http://seq:5341"
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 7878_Postgresql
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  redis:
+    image: redis
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: azurite
+    hostname: azurite
+    restart: always
+    ports:
+      - "10000:10000"  # Blob service
+      - "10001:10001"  # Queue service
+      - "10002:10002"  # Table service
+    volumes:
+      - azurite_data:/data
+    networks:
+      - app-network
+
+  seq:
+    image: datalust/seq
+    container_name: seq
+    environment:
+      ACCEPT_EULA: Y
+    ports:
+      - "5341:80"
+    networks:
+      - app-network
+    volumes:
+      - seq_data:/data
+
+volumes:
+  postgres_data:
+  azurite_data:
+  seq_data:
+
+networks:
+  app-network:
+    driver: bridge

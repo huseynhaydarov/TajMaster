@@ -4,3 +4,12 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .idea/
+
+# Ignore JetBrains user-specific settings files
+*.DotSettings.user
+
+# JetBrains IDEs (Rider, IntelliJ IDEA, PhpStorm)
+.idea/
+
+# Visual Studio
+.vs/
