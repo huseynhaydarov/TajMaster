@@ -27,7 +27,8 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     
     services.AddLogging(loggingBuilder =>
     {
-        loggingBuilder.AddSeq();
+        loggingBuilder.AddSeq(builder.Configuration.GetConnectionString("Seq")
+                              ?? throw new ArgumentNullException("Seq"));
     });
 }
 

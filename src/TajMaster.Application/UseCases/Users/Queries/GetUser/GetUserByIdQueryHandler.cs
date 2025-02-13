@@ -1,4 +1,3 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
@@ -20,7 +19,7 @@ public class GetUserByIdQueryHandler(
             .Include(u => u.Reviews)
             .AsSplitQuery()
             .FirstOrDefaultAsync(u => u.Id == query.UserId, cancellationToken);
-
+        
         if (user == null)
         {
             throw new NullReferenceException();
