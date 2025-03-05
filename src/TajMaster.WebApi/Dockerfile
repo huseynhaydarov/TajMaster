@@ -10,17 +10,17 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copy project files with paths relative to the Docker build context
-COPY ["../TajMaster.Application/TajMaster.Application.csproj", "TajMaster.Application/"]
-COPY ["../TajMaster.Domain/TajMaster.Domain.csproj", "TajMaster.Domain/"]
-COPY ["../TajMaster.Infrastructure/TajMaster.Infrastructure.csproj", "TajMaster.Infrastructure/"]
-COPY ["../TajMaster.WebApi/TajMaster.WebApi.csproj", "TajMaster.WebApi/"]
+# Corrected paths inside the 'src' directory
+COPY ["TajMaster.Application/TajMaster.Application.csproj", "TajMaster.Application/"]
+COPY ["TajMaster.Domain/TajMaster.Domain.csproj", "TajMaster.Domain/"]
+COPY ["TajMaster.Infrastructure/TajMaster.Infrastructure.csproj", "TajMaster.Infrastructure/"]
+COPY ["TajMaster.WebApi/TajMaster.WebApi.csproj", "TajMaster.WebApi/"]
 
 # Restore project dependencies
 RUN dotnet restore "TajMaster.WebApi/TajMaster.WebApi.csproj"
 
 # Copy the entire source code
-COPY ../ .
+COPY . .
 
 # Build the application
 WORKDIR "/src/TajMaster.WebApi"
