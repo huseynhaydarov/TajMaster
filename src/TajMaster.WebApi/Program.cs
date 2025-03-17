@@ -41,7 +41,7 @@ void ConfigureMiddleware(WebApplication app)
     else
     {
         app.UseExceptionHandler("/Home/Error");
-        app.UseHsts();
+        //app.UseHsts();
     }
 
     app.UseSwagger();
