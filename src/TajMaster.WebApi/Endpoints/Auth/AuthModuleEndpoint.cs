@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Carter;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
-using TajMaster.Application.Common.Interfaces.IdentityService;
+using TajMaster.Application.Common.Interfaces.TokenService;
 using TajMaster.Application.Exceptions;
 
 namespace TajMaster.WebApi.Endpoints.Auth;

@@ -7,9 +7,6 @@ public class CompleteCraftsmanProfileCommandValidator : AbstractValidator<Comple
 {
     public CompleteCraftsmanProfileCommandValidator()
     {
-        RuleFor(x => x.UserId)
-            .NotEqual(Guid.Empty).WithMessage("User ID cannot be an empty GUID.");
-
         RuleFor(x => x.Specialization)
             .MaximumLength(150)
             .WithMessage("Specialization must be a valid value.");

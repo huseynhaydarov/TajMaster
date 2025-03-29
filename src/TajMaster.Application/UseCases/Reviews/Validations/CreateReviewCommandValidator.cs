@@ -10,9 +10,6 @@ public class CreateReviewCommandValidator : AbstractValidator<CreateReviewComman
         RuleFor(x => x.OrderId)
             .NotEqual(Guid.Empty).WithMessage("Order ID cannot be empty");
 
-        RuleFor(x => x.UserId)
-            .NotEqual(Guid.Empty).WithMessage("UserId cannot be empty");
-
         RuleFor(x => x.CraftsmanId)
             .NotEqual(Guid.Empty).WithMessage("CraftsmanId cannot be empty");
 

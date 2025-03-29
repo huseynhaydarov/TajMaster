@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
 using TajMaster.Domain.Enumerations;
@@ -8,7 +9,8 @@ using TajMaster.Domain.Enumerations;
 namespace TajMaster.Application.UseCases.Orders.Commands.Create;
 
 public class CreateOrderCommandHandler(
-    IApplicationDbContext context)
+    IApplicationDbContext context,
+    IAuthenticatedUserService authenticatedUserService)
     : ICommandHandler<CreateOrderCommand, Guid>
 {
     public async Task<Guid> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
@@ -18,7 +20,7 @@ public class CreateOrderCommandHandler(
             .ThenInclude(s => s.Service)
             .Include(c => c.CartStatus)
             .AsSplitQuery()
-            .FirstOrDefaultAsync(c => c.UserId == command.UserId, cancellationToken);
+            .FirstOrDefaultAsync(c => c.UserId == authenticatedUserService.UserId, cancellationToken);
         
         
         var craftsmanId = cart!.CartItems.FirstOrDefault()?.Service?.CraftsmanId;
@@ -46,7 +48,7 @@ public class CreateOrderCommandHandler(
 
         var order = new Order
         {
-            UserId = command.UserId,
+            UserId = authenticatedUserService.UserId!.Value,
             CraftsmanId = (Guid)craftsmanId!,
             Address = command.Address,
             AppointmentDate = command.AppointmentDate,

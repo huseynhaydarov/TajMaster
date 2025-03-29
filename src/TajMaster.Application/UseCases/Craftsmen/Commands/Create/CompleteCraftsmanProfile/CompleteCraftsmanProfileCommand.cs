@@ -4,7 +4,6 @@ using TajMaster.Application.Common.Interfaces.CQRS;
 namespace TajMaster.Application.UseCases.Craftsmen.Commands.Create.CompleteCraftsmanProfile;
 
 public record CompleteCraftsmanProfileCommand(
-    Guid UserId,
     string Specialization,
     int Experience,
     string? About,

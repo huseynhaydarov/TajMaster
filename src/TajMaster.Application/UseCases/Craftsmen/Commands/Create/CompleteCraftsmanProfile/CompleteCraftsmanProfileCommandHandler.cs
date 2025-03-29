@@ -1,10 +1,12 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TajMaster.Application.Common.Interfaces.BlobStorage;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Application.Exceptions;
 using TajMaster.Domain.Entities;
 using TajMaster.Domain.Enumerations;
@@ -15,20 +17,21 @@ public class CompleteCraftsmanProfileCommandHandler(
     IApplicationDbContext context,
     IMapper mapper,
     IBlobService blobService,
+    IAuthenticatedUserService authenticatedUserService,
     ILogger<CompleteCraftsmanProfileCommandHandler> logger)
     : ICommandHandler<CompleteCraftsmanProfileCommand, Guid>
 {
     public async Task<Guid> Handle(CompleteCraftsmanProfileCommand profileCommand, CancellationToken cancellationToken)
     {
         logger.LogInformation($"Starting to process CreateCraftsmanCommand for UserId: " +
-                              "{UserId}", profileCommand.UserId);
+                              "{UserId}", authenticatedUserService.UserId);
 
         var user = await context.Users
-            .FirstOrDefaultAsync(u => u.Id == profileCommand.UserId, cancellationToken);
+            .FirstOrDefaultAsync(u => u.Id == authenticatedUserService.UserId, cancellationToken);
         
         if (user == null)
         {
-            throw new NotFoundException($"User with Id {profileCommand.UserId} not found.");
+            throw new NotFoundException($"User with Id {authenticatedUserService.UserId} not found.");
         }
 
         if (user.UserRoleId != UserRoleEnum.Craftsman.Id)
@@ -53,13 +56,13 @@ public class CompleteCraftsmanProfileCommandHandler(
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to upload profile picture for user {UserId}", profileCommand.UserId);
+                logger.LogError(ex, "Failed to upload profile picture for user {UserId}", authenticatedUserService.UserId);
                 throw;
             }
         }
         else
         {
-            logger.LogWarning("No profile picture provided for user {UserId}", profileCommand.UserId);
+            logger.LogWarning("No profile picture provided for user {UserId}", authenticatedUserService.UserId);
         }
 
         var specialization = await context.Specializations
@@ -77,7 +80,10 @@ public class CompleteCraftsmanProfileCommandHandler(
 
         craftsman.SpecializationId = specialization.Id;
 
-        craftsman.UserId = profileCommand.UserId;
+        if (authenticatedUserService.UserId != null)
+        {
+            craftsman.UserId = authenticatedUserService.UserId.Value;
+        }
         craftsman.ProfilePicture = profilePictureUrl;
         craftsman.ProfileVerified = true;
 

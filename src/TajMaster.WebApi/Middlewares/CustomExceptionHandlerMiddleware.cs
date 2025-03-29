@@ -58,6 +58,11 @@ public class CustomExceptionHandlerMiddleware(
                     "Conflict",
                     StatusCodes.Status409Conflict
                 ),
+                ForbiddenException => (
+                    exception.Message,
+                    "Forbidden",
+                    StatusCodes.Status403Forbidden
+                ),
                 _ => (
                     env.IsDevelopment() ? exception.ToString() : "An unexpected error occurred.",
                     "Internal Server Error",

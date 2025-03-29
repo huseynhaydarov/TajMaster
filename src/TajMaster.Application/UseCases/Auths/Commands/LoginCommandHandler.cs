@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TajMaster.Application.Common.Interfaces.Data;
-using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Application.Common.Interfaces.PasswordHasher;
+using TajMaster.Application.Common.Interfaces.TokenService;
 using TajMaster.Application.UseCases.Auths.AuthDtos;
 
 namespace TajMaster.Application.UseCases.Auths.Commands;
@@ -44,7 +44,7 @@ public class LoginCommandHandler(
             user.FullName,
             user.Email,
             user.UserRole.Name);
-    }
+     }
 
     private static AuthResponse UnauthorizedResponse(string errorMessage)
     {

@@ -19,6 +19,5 @@ public class CreateSpecializationEndpoint : ICarterModule
             .RequireAuthorization("AdminPolicy")
             .WithName("CreateSpecializationEndpoint")
             .WithTags("Specializations");
-        ;
     }
 }

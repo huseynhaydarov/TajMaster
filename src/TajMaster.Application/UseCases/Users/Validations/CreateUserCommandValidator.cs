@@ -25,6 +25,6 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 
         RuleFor(x => x.Phone)
             .NotEmpty().WithMessage("Phone number is required.")
-            .Matches(@"^\+?[1-9]\d{1,14}$").WithMessage("Invalid phone number format.");
+            .Matches(@"^\+?\d{10,14}$").WithMessage("Invalid phone number format.");
     }
 }

@@ -25,6 +25,8 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
         .AddInfrastructureServices(configuration)
         .AddApiServices(configuration);
     
+    services.AddHttpContextAccessor();
+    
     services.AddLogging(loggingBuilder =>
     {
         loggingBuilder.AddSeq(builder.Configuration.GetConnectionString("Seq")

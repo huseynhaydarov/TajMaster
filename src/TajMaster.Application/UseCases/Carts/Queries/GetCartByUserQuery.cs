@@ -3,4 +3,4 @@ using TajMaster.Application.UseCases.Carts.CartDtos;
 
 namespace TajMaster.Application.UseCases.Carts.Queries;
 
-public record GetCartByUserIdQuery(Guid UserId) : IQuery<CartDto>;
+public record GetCartByUserQuery : IQuery<CartDto>;

@@ -5,7 +5,7 @@ namespace TajMaster.Application.UseCases.Users.Commands.Update;
 
 public record UpdateUserCommand(
     Guid UserId,
-    string FullName,
+    string? FullName,
     string? Email,
-    string Phone,
+    string? Phone,
     string? Address) : ICommand<Unit>;

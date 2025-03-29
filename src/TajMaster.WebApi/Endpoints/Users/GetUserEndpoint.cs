@@ -5,13 +5,13 @@ using TajMaster.Application.UseCases.Users.UserDtos;
 
 namespace TajMaster.WebApi.Endpoints.Users;
 
-public class GetUserByIdEndpoint : ICarterModule
+public class GetUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/users/{id:guid}", async (Guid id, ISender mediator, CancellationToken cancellationToken) =>
+        app.MapGet("/api/user", async (ISender mediator, CancellationToken cancellationToken) =>
             {
-                var user = await mediator.Send(new GetUserByIdQuery(id), cancellationToken);
+                var user = await mediator.Send(new GetUserQuery(),cancellationToken);
 
                 return Results.Ok(user);
             })

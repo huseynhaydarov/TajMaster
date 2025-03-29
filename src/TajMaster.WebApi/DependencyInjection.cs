@@ -5,7 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TajMaster.Application.Common.Helpers;
 using TajMaster.Application.Common.Interfaces.IdentityService;
+using TajMaster.Application.Common.Interfaces.TokenService;
 using TajMaster.Infrastructure.AuthService;
+using TajMaster.WebApi.Services;
 
 namespace TajMaster.WebApi;
 
@@ -111,6 +113,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
 
         return services;
     }

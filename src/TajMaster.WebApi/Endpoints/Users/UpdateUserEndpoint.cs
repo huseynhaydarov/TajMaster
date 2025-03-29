@@ -1,6 +1,6 @@
 using Carter;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Application.UseCases.Users.Commands.Update;
 
 namespace TajMaster.WebApi.Endpoints.Users;
@@ -9,20 +9,25 @@ public class UpdateUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/users/{id}", async (Guid id, [FromBody] UpdateUserCommand command, 
-                ISender mediator, CancellationToken cancellationToken) =>
+        app.MapPut("/api/user", async (
+                UpdateUserCommand command, 
+                ISender mediator, 
+                IAuthenticatedUserService authenticatedUserService, 
+                CancellationToken cancellationToken) =>
             {
-                if (id != command.UserId)
+                if (authenticatedUserService.UserId != null)
                 {
-                    return Results.BadRequest();
-                }
+                    var userId = authenticatedUserService.UserId.Value;
 
-                await mediator.Send(command, cancellationToken);
+                    var updateCommand = command with { UserId = userId };
+                    await mediator.Send(updateCommand, cancellationToken);
+                }
 
                 return Results.NoContent();
             })
             .RequireAuthorization("AdminOrCustomerPolicy")
-            .WithName("UpdateUserEndpoint")
+            .WithName("UpdateUser")
             .WithTags("Users");
+
     }
 }

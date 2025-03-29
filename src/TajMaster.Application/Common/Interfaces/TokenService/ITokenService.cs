@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using TajMaster.Domain.Entities;
 
-namespace TajMaster.Application.Common.Interfaces.IdentityService;
+namespace TajMaster.Application.Common.Interfaces.TokenService;
 
 public interface ITokenService
 {

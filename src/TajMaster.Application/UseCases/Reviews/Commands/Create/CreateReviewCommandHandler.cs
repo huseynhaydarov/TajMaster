@@ -2,6 +2,7 @@ using AutoMapper;
 using MediatR;
 using TajMaster.Application.Common.Interfaces.CQRS;
 using TajMaster.Application.Common.Interfaces.Data;
+using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Application.UseCases.Reviews.Commands.Create;

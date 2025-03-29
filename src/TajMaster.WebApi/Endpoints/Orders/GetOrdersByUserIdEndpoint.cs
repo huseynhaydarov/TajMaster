@@ -17,7 +17,7 @@ public class GetOrdersByUserIdEndpoint : ICarterModule
                     return Results.BadRequest();
                 }
                 
-                var query = new GetOrdersByUserIdQuery(userId);
+                var query = new GetOrdersByUserQuery();
                 
                 var orders = await sender.Send(query, cancellationToken);
                 

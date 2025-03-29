@@ -2,6 +2,7 @@ using Carter;
 using MediatR;
 using TajMaster.Application.UseCases.Craftsmen.CraftsmanDtos;
 using TajMaster.Application.UseCases.Craftsmen.Queries.GetCraftsmanByUser;
+using TajMaster.Application.Exceptions;
 
 namespace TajMaster.WebApi.Endpoints.Craftsmen;
 
@@ -9,23 +10,25 @@ public class GetCraftsmenByUserEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/craftsmen/user/{userId:guid}", async (Guid userId, 
-                ISender sender, CancellationToken cancellationToken) =>
-            {
-                if (userId == Guid.Empty)
+        app.MapGet("/api/craftsmen/user", 
+                async (ISender sender, CancellationToken cancellationToken) =>
                 {
-                    return Results.BadRequest();
-                }
+                    try
+                    {
+                        var query = new GetCraftsmanByUserQuery();
+                        var craftsman = await sender.Send(query, cancellationToken);
 
-                var query = new GetCraftsmanByUserIdQuery(userId);
-
-                var craftsmen = await sender.Send(query, cancellationToken);
-
-                return Results.Ok(craftsmen );
-            })
+                        return Results.Ok(craftsman);
+                    }
+                    catch (NotFoundException ex)
+                    {
+                        return Results.NotFound(ex.Message);
+                    }
+                })
             .RequireAuthorization("AdminOrCraftsmanPolicy")
-            .WithName("GetCraftsmenByUserEndpoint")
-            .Produces<IEnumerable<CraftsmanDto>>()
+            .WithName("GetCraftsmanByUserEndpoint")
+            .Produces<CraftsmanDto>()
+            .Produces(StatusCodes.Status404NotFound)
             .WithTags("Craftsmen");
     }
 }

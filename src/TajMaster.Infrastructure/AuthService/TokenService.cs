@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TajMaster.Application.Common.Helpers;
-using TajMaster.Application.Common.Interfaces.IdentityService;
+using TajMaster.Application.Common.Interfaces.TokenService;
 using TajMaster.Domain.Entities;
 
 namespace TajMaster.Infrastructure.AuthService;

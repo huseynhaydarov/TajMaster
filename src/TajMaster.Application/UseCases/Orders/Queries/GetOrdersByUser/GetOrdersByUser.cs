@@ -3,4 +3,4 @@ using TajMaster.Application.UseCases.Orders.OrderDtos;
 
 namespace TajMaster.Application.UseCases.Orders.Queries.GetOrdersByUser;
 
-public record GetOrdersByUserIdQuery(Guid UserId) : IQuery<IEnumerable<OrderDetailDto>>;
+public record GetOrdersByUserQuery : IQuery<IEnumerable<OrderDetailDto>>;

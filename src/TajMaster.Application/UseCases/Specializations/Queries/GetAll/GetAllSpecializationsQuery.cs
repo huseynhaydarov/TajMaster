@@ -4,5 +4,4 @@ using TajMaster.Application.UseCases.Specializations.SpecializationDtos;
 
 namespace TajMaster.Application.UseCases.Specializations.Queries.GetAll;
 
-public record GetAllSpecializationsQuery(PagingParameters PagingParameters)
-    : IQuery<PaginatedResult<SpecializationDto>>;
+public record GetAllSpecializationsQuery(PagingParameters PagingParameters) : IQuery<PaginatedResult<SpecializationDto>>;

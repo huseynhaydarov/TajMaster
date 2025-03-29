@@ -14,7 +14,6 @@ public class CompleteCraftsmanProfileEndpoint : ICarterModule
                 var form = await context.Request.ReadFormAsync(cancellationToken);
 
                 var command = new CompleteCraftsmanProfileCommand(
-                    Guid.Parse(form["userId"]!),
                     form["specialization"].ToString(),
                     int.Parse(form["experience"]!),
                     form["about"].ToString(),

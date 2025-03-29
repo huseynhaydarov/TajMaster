@@ -16,14 +16,16 @@ public class CreateSpecializationCommandHandler(
 {
     public async Task<Guid> Handle(CreateSpecializationCommand command, CancellationToken cancellationToken)
     {
+        const string cacheKey = "Specializations";
+        
         var specialization = mapper.Map<Specialization>(command);
         
         context.Specializations.Add(specialization);
         
         await context.SaveChangesAsync(cancellationToken);
-
-        const string cacheKey = "Specializations";
+        
         logger.LogInformation("Invalidating cache for key: {CacheKey} from cache.", cacheKey);
+        
         await cache.RemoveAsync(cacheKey, cancellationToken);
 
         return specialization.Id;
