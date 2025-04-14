@@ -10,7 +10,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Corrected paths inside the 'src' directory
 COPY ["TajMaster.Application/TajMaster.Application.csproj", "TajMaster.Application/"]
 COPY ["TajMaster.Domain/TajMaster.Domain.csproj", "TajMaster.Domain/"]
 COPY ["TajMaster.Infrastructure/TajMaster.Infrastructure.csproj", "TajMaster.Infrastructure/"]

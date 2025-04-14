@@ -11,7 +11,7 @@
       - azurite
       - seq
     environment:
-      ConnectionStrings__DefaultConnection: "Host=localhost;Port=5433;Database=tajmaster;Username=postgres;Password=7878_Postgresql;"
+      ConnectionStrings__DefaultConnection: "Host=postgres-db;Port=5432;Database=tajmaster;Username=postgres;Password=7878_Postgresql"
       ConnectionStrings__StorageAccount: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;"
       ConnectionStrings__RedisConnectionString: "redis:6379"
       JwtSettings__SecretKey: "z4Tg8/k4ezgNchUg+/dTEQheVNssVS8/c0x4RH0v18w="
