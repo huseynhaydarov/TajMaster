@@ -21,7 +21,7 @@ public class GetCraftsmenBySpecializationEndpoint : ICarterModule
                     ? Results.Ok(craftsmen)
                     : Results.NotFound(new { Message = "No craftsmen found for this specialization." });
             })
-            .RequireAuthorization("AdminOrCraftsmanOrCustomerPolicy")
+            .AllowAnonymous()
             .WithName("GetCraftsmenBySpecialization")
             .WithTags("Craftsmen")
             .Produces<List<CraftsmanDto>>()

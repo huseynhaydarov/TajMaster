@@ -15,25 +15,19 @@ public class AddCartItemCommandHandler(
     public async Task<Guid> Handle(AddCartItemCommand request, CancellationToken cancellationToken)
     {
         var cart = await context.Carts
-            .Include(c => c.CartStatus)
             .Include(c => c.CartItems)
-            .AsNoTracking()
-            .AsNoTracking()
             .FirstOrDefaultAsync(c => c.Id == request.CartId, cancellationToken);
-        
+
         if (cart == null)
         {
             throw new NotFoundException("Cart not found.");
         }
-       
-        var activeStatus = await context.CartStatuses
-            .FirstOrDefaultAsync(cs => cs.Id == CartStatusEnum.Active.Id, cancellationToken);
-        
-        if (cart.CartStatus.Id == CartStatusEnum.Archived.Id)
+
+        if (cart.CartStatusId == CartStatusEnum.Archived.Id)
         {
-            cart.CartStatus = activeStatus ?? throw new NullReferenceException();
+            cart.CartStatusId = CartStatusEnum.Active.Id;
         }
-        
+
         var service = await context.Services
             .FirstOrDefaultAsync(s => s.Id == request.ServiceId, cancellationToken);
 
@@ -41,15 +35,13 @@ public class AddCartItemCommandHandler(
         {
             throw new NotFoundException("Service not found.");
         }
-        
-        var existingItem = cart.CartItems
-            .FirstOrDefault(ci => ci.ServiceId == request.ServiceId);
+
+        var existingItem = cart.CartItems.FirstOrDefault(ci => ci.ServiceId == request.ServiceId);
 
         if (existingItem != null)
         {
             existingItem.Quantity += 1;
             existingItem.Price = service.BasePrice * existingItem.Quantity;
-
             context.CartItems.Update(existingItem);
         }
         else
@@ -64,16 +56,9 @@ public class AddCartItemCommandHandler(
 
             await context.CartItems.AddAsync(newCartItem, cancellationToken);
         }
-        
-        if (cart.CartStatus.Id  != CartStatusEnum.Active.Id)
-        {
-            cart.CartStatus = activeStatus ?? throw new NullReferenceException();
-        }
-        
-        context.Carts.Update(cart); 
-        
+
         await context.SaveChangesAsync(cancellationToken);
-        
+
         return cart.Id;
     }
 }

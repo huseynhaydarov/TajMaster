@@ -30,7 +30,7 @@ public class SearchCraftsmenEndpoint : ICarterModule
                 var craftsmen = await mediator.Send(query, cancellationToken);
                 return Results.Ok(craftsmen);
             })
-            .RequireAuthorization("AdminOrCustomerPolicy")
+            .AllowAnonymous()
             .WithName("SearchCraftsmen")
             .WithTags("Craftsmen");
     }
