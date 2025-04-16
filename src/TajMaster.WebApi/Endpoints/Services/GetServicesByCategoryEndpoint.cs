@@ -31,7 +31,7 @@ public class GetServicesByCategoryEndpoint : ICarterModule
 
                 return Results.Ok(serviceDtos);
             })
-            .RequireAuthorization("AdminPolicy")
+            .AllowAnonymous()
             .WithName("GetServicesByCategoryEndpoint")
             .WithTags("Services")
             .Produces<IEnumerable<ServiceSummaryDto>>();

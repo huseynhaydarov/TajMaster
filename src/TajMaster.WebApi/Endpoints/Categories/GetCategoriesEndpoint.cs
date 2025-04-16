@@ -18,7 +18,7 @@ public class GetCategoriesEndpoint : ICarterModule
 
                 return Results.Ok(results);
             })
-            .RequireAuthorization("AdminPolicy")
+            .AllowAnonymous()
             .WithName("GetCategoriesEndpoint")
             .WithTags("Categories")
             .Produces<PaginatedResult<CategoryDto>>();

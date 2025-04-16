@@ -17,7 +17,7 @@ public class GetAllSpecializationsEndpoint : ICarterModule
 
                 return Results.Ok(specializations);
             })
-            .RequireAuthorization("AdminPolicy")
+            .AllowAnonymous()
             .WithName("GetAllSpecializationsEndpoint")
             .WithTags("Specializations");
     }

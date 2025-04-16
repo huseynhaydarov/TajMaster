@@ -5,6 +5,7 @@ using TajMaster.Application.Common.Interfaces.IdentityService;
 using TajMaster.Application.Exceptions;
 using TajMaster.Application.UseCases.Users.UserDtos;
 using TajMaster.Application.UseCases.Users.UserExtensions;
+using TajMaster.Domain.Enumerations;
 
 namespace TajMaster.Application.UseCases.Users.Queries.GetUser;
 
@@ -23,7 +24,7 @@ public class GetUserQueryHandler(
             .Include(u => u.Reviews)
             .AsSplitQuery()
             .FirstOrDefaultAsync(u => u.Id == authenticatedUserService.UserId 
-                                      || authenticatedUserService.Roles.Contains("Admin"), cancellationToken);
+                                      || authenticatedUserService.Roles.Contains(UserRoleEnum.Admin.ToString()), cancellationToken);
         
         if (user == null)
         {

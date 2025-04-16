@@ -23,7 +23,7 @@ public class CompleteCraftsmanProfileCommandHandler(
 {
     public async Task<Guid> Handle(CompleteCraftsmanProfileCommand profileCommand, CancellationToken cancellationToken)
     {
-        logger.LogInformation($"Starting to process CreateCraftsmanCommand for UserId: " +
+        logger.LogInformation($"Starting to process CompleteCraftsmanProfileCommand for UserId: " +
                               "{UserId}", authenticatedUserService.UserId);
 
         var user = await context.Users
@@ -33,10 +33,10 @@ public class CompleteCraftsmanProfileCommandHandler(
         {
             throw new NotFoundException($"User with Id {authenticatedUserService.UserId} not found.");
         }
-
-        if (user.UserRoleId != UserRoleEnum.Craftsman.Id)
+        
+        if (user.UserRoleId != UserRoleEnum.Craftsman.Id && user.UserRoleId != UserRoleEnum.Admin.Id)
         {
-            throw new InvalidOperationException("The user is not eligible to become a craftsman.");
+            throw new InvalidOperationException("The user is not authorized to complete the craftsman profile.");
         }
 
         string? profilePictureUrl = null;
@@ -69,7 +69,6 @@ public class CompleteCraftsmanProfileCommandHandler(
             .AsNoTracking()
             .FirstOrDefaultAsync(sp => sp.Name.ToLower() == 
                                        profileCommand.Specialization.ToLower(), cancellationToken);
-
 
         if (specialization == null)
         {

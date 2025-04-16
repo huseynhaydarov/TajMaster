@@ -18,7 +18,7 @@ public class GetServicesEndpoint : ICarterModule
 
                 return Results.Ok(results);
             })
-            .RequireAuthorization("AdminPolicy")
+            .AllowAnonymous()
             .WithName("GetServicesEndpoint")
             .WithTags("Services")
             .Produces<PaginatedResult<ServiceDetailDto>>();
