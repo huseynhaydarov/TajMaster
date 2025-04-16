@@ -17,7 +17,15 @@ ConfigureMiddleware(app);
 ApplyMigrations(app);
 
 app.Run();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
     services
