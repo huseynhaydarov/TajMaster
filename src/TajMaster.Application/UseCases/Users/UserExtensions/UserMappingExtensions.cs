@@ -15,7 +15,6 @@ public static class UserMappingExtensions
     private static UserSummaryDto ToUserSummaryDto(this User user)
     {
         return new UserSummaryDto(
-            user.Id,
             user.FullName,
             user.Email,
             user.Phone,
