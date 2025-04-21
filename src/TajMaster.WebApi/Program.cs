@@ -20,6 +20,18 @@ app.Run();
 
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
+    
+    services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAll",
+            policy =>
+            {
+                policy
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+    });
     services
         .AddApplicationServices(configuration)
         .AddInfrastructureServices(configuration)
@@ -52,6 +64,8 @@ void ConfigureMiddleware(WebApplication app)
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "TajMaster API v1");
     });
     
+    
+    app.UseCors("AllowAll");
     app.UseRouting();
     app.UseAuthentication();
     app.UseAuthorization();
